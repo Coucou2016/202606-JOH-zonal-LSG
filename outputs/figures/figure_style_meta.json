@@ -1,0 +1,11 @@
+{
+  "serif_font": "Times New Roman",
+  "style": [
+    "science",
+    "ieee",
+    "no-latex"
+  ],
+  "dpi": 600,
+  "labels": "English",
+  "skipped": []
+}

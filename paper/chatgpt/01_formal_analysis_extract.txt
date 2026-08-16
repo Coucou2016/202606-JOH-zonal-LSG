@@ -1,0 +1,955 @@
+原因很明确：Carreau & Guinot 已经做过 PCA 空间模式下尺度；Zhou 系列已经做过 SRR/USRR 空间约简；更关键的是 Tan et al. 2025 已明确在 LSG 框架里采用 regionalized training 来降低局部 flow-velocity 的 dimensionality-reduction error。因此，“first zonal LSG”“f
+
+从当前证据包看，我会优先按 WRR 的 hypothesis → falsification → mechanism → boundary 写作逻辑组织全文，但如果不再增加可迁移的 zoning selector 或另一个明确正案例， Journal of Hydrology 是当前更稳妥的首投定位 。WRR 可以作为更机制化版本的目标。
+
+A. 文献地图：多保真洪泛代理、LSG/EOF-GP、DL、regionalization
+
+下面严格以一手研究论文为主体。你要求“primary sources only”，因此我没有把 review 论文混进核心证据表；review 可以用于 Introduction 扩展引用网络，但不作为下面 novelty 判断的主要依据。
+
+A1. LSG / 多保真 / EOF–GP 主谱系
+
+1. Carreau & Guinot — LSG 之前非常重要的直接前驱
+
+"Carreau, J.; Guinot, V. (2021). A PCA spatial pattern based artificial neural network downscaling model for urban flood hazard assessment. Advances in Water Resources , 147, 103821. DOI: 10.1016/j.adv"
+
+相关性：低分辨率洪水场 → PCA 空间模式 → ANN → 高分辨率洪水场；其第二种模型甚至直接预测高分辨率 PCA coefficients。它已经建立了“低保真水动力信息 + 空间降维 + 非线性映射 + 高分辨率重构”的基本思想，所以你的 novelty 不能写成“首次把空间降维用于 low-to-high flood surrogate”。
+
+2. Fraehr et al. — LSG 奠基论文
+
+FRAEHR, N.; WANG, Q. J.; WU, W.; NATHAN, R. (2022). Upskilling Low-Fidelity Hydrodynamic Models of Flood Inundation Through Spatial Analysis and Gaussian Process Learning. Water Resources Research , 5
+
+相关性：正式提出 LSG，将低分辨率 hydrodynamic model、EOF spatial analysis 和 Sparse GP 结合，利用 LF expansion coefficients 预测 HF coefficients，从而模拟动态洪泛。它是你的直接 methodological parent。
+
+3. Fraehr et al. — 从动态 extent 向更完整 floodplain inundation 扩展
+
+"FRAEHR, N.; WANG, Q. J.; WU, W.; NATHAN, R. (2023). Development of a Fast and Accurate Hybrid Model for Floodplain Inundation Simulations. Water Resources Research , 59, e2022WR033836. DOI: 10.1029/20"
+
+相关性：进一步发展 LSG floodplain surrogate，是你写 Methods 中 baseline LSG formulation 和 Discussion 中“global EOF assumption”的最直接参照。
+
+4. Fraehr et al. — LSG 的高层概括与广泛验证
+
+"FRAEHR, N.; WANG, Q. J.; WU, W.; NATHAN, R. (2023). Supercharging hydrodynamic inundation models for instant flood insight. Nature Water , 1, 835–843. DOI: 10.1038/s44221-023-00132-2 . Nature"
+
+相关性：把核心思想概括为利用极简/极粗 hydrodynamic model 所保留的时空洪水结构，经数学 transformation 获得高分辨率结果。它适合 Introduction 里说明 LSG 为什么不同于纯黑箱 DL，而不适合拿来支撑你的 zoning novelty。
+
+5. Donnelly et al. — 非 LSG 的 GP + dimensional reduction 重要对照
+
+"DONNELLY, J.; ABOLFATHI, S.; PEARSON, J.; CHATRABGOUN, O.; DANESHKHAH, A. (2022). Gaussian process emulation of spatio-temporal outputs of a 2D inland flood model. Water Research , 225, 119100. DOI: 1"
+
+相关性：将 dimensionality reduction 与 GP emulator 组合处理 LISFLOOD-FP 高维时空输出，并利用 GP 做 uncertainty quantification。它非常适合 Introduction 中建立“EOF/降维 + GP 并非 LSG 独有”的背景。
+
+6. Fraehr et al. — 与 ML surrogate 的正式 benchmark
+
+"FRAEHR, N.; WANG, Q. J.; WU, W.; NATHAN, R. (2024). Assessment of surrogate models for flood inundation: The physics-guided LSG model vs. state-of-the-art machine learning models. Water Research , 252"
+
+相关性：直接比较 LSG 与 1D-CNN、LSTM-SRR、GP-EOF、LSTM-EOF，并使用 Carlisle、Chowilla、Burnett 三个案例。其论文结构也是你很值得模仿的 benchmark 范式：models → metrics → cases → results → discussion → conclusions。 科学直达
+
+而且对应公开数据与代码确实是：
+
+"FRAEHR, N. (2024). Surrogate flood model comparison – Datasets and python code. Figshare DOI: 10.26188/24312658 . 数据明确包含 Carlisle、Chowilla、Burnett，以及 LSG、GP-EOF、训练测试划分和评价代码。 Figshare"
+
+这对你的 paper reproducibility/provenance 很重要。
+
+7. Fraehr et al. — training-event selection
+
+"FRAEHR, N.; WANG, Q. J.; WU, W.; NATHAN, R. (2025). Generation and selection of training events for surrogate flood inundation models. Journal of Environmental Management , 373, 123570. DOI: 10.1016/j"
+
+相关性：把 LSG 后续发展推进到 training-event selection 和 HF-data cost。这说明 LSG 后续论文越来越倾向于研究“LSG 的设计选择什么时候有效”，而不仅仅是再证明 LSG 快且准；你的 Track B 恰好可以沿这个方向继续推进。
+
+8. Lu et al. — LSG 内部设计选择：GP kernel
+
+"LU, J.; WANG, Q. J.; FRAEHR, N.; XIANG, X.; WU, X. (2025). Choice of Gaussian Process kernels used in LSG models for flood inundation predictions. Journal of Hydrology , 655, 132949. DOI: 10.1016/j.jh"
+
+相关性：非常重要的 Journal of Hydrology 写作模板 。它不是再发明 LSG，而是固定 LSG 框架，对内部 GP kernel 设计进行跨案例、cross-validation 比较。这与你的“固定总体 latent budget 后研究 global vs zonal representation”的文章定位很接近。
+
+9. Wang, Wang & Nathan — 目前最新且必须面对的 LSG/WRR 论文
+
+WANG, W.; WANG, Q. J.; NATHAN, R. (2026). Strategies for Predicting Flood Inundation in a Large and Complex Floodplain Based on Low-Fidelity Hydrodynamic Models. Water Resources Research , 62, e2025WR
+
+相关性：Lower Brisbane River 上系统讨论 LF resolution、LSG-TS、LSG-Max 和 training strategy，是当前最直接的 WRR 写作参照。论文明确把研究组织成若干“model-design strategy questions”，而不是简单“提出新模型”。 AGU Publications + 1
+
+这也意味着你给出的：
+
+Rule LSG-Max R² = 0.988 vs published LSG-TS = 0.990
+
+只能作为 published-context sanity check ，不能写成 head-to-head comparison，因为你当前没有真正运行其 Brisbane configuration，也没有 real LSG-TS/gpflow/SGPR。
+
+A2. Deep-learning inundation surrogate 主谱系
+
+10. Kabir et al.
+
+KABIR, S.; PATIDAR, S.; XIA, X.; LIANG, Q.; NEAL, J.; PENDER, G. (2020). A deep convolutional neural network model for rapid prediction of fluvial flood inundation. Journal of Hydrology , 590, 125481.
+
+相关性：1D-CNN 从 hydraulic simulations 学习高维 flood-depth output，是 Fraehr 2024 benchmark 中深度学习路线的重要基准。
+
+11. Xie et al.
+
+"XIE, S.; WU, W.; MOOSER, S.; WANG, Q. J.; NATHAN, R.; HUANG, Y. (2021). Artificial neural network based hybrid modeling approach for flood inundation modeling. Journal of Hydrology , 592, 125605. DOI:"
+
+相关性：研究 data-rich / data-sparse 区域下模型复杂度与性能，并通过 hybrid ANN 策略改善数据稀疏区域。与“局部条件决定模型结构是否有效”的论证方向有概念关联，但不是你的 zonal EOF–GP 设计。
+
+12. Zhou et al. — SRR
+
+ZHOU, Y.; WU, W.; NATHAN, R.; WANG, Q. J. (2021). A rapid flood inundation modelling framework using deep learning with spatial reduction and reconstruction. Environmental Modelling & Software , 143,
+
+相关性：不是对每个网格点训练独立模型，而是识别 representative locations，再由 DL 模拟并 spatially reconstruct 整个 inundation surface。这是与你“global representation 是否合适”最值得对话的 DL 文献之一。
+
+但它是 representative-location reduction/reconstruction ，不是把整个 floodplain 划为多个 hydrodynamic zones 后分别做 EOF–GP。
+
+13. Zhou et al. — USRR + 1D-CNN
+
+"ZHOU, Y.; WU, W.; NATHAN, R.; WANG, Q. J. (2022). Deep Learning-Based Rapid Flood Inundation Modeling for Flat Floodplains With Complex Flow Paths. Water Resources Research , 58, e2022WR033214. DOI: 1"
+
+相关性：针对 flat floodplain with complex flow paths，把 U-Net-based spatial reduction/reconstruction 与 1D-CNN 结合。它能帮你把 Introduction 中的问题说得更精确：
+
+高维 flood field 本身已经有人通过 spatially structured reduction 处理；你的问题不是“需不需要 spatial reduction”，而是 global EOF representation 在 spatially heterogeneous hydraulics 下是否应被条件化，以及如何公平判断这种条件化是否真的增加 surrogate skill。
+
+14. Liao et al.
+
+"LIAO, Y.; WANG, Z.; CHEN, X.; LAI, C. (2023). Fast simulation and prediction of urban pluvial floods using a deep convolutional neural network model. Journal of Hydrology , 624, 129945. DOI: 10.1016/j"
+
+相关性：先 cluster rainstorm–inundation database，再用 CNN 模拟空间–时间洪水演化。这里的 clustering 主要是 event/database organization，而不是你的 spatial zoning，因此可以用于明确“clustering ≠ zonal reduced-order model”。
+
+A3. Regionalized / zonal dimensional reduction：最关键的 novelty 边界
+
+15. Tan et al. 2025 —— 当前最重要的“不能忽略”的文献
+
+TAN, Z.; XU, D.; TARAPHDAR, S.; MA, J.; BISHT, G.; LEUNG, L. R. (2025). An efficient hybrid downscaling framework to estimate high-resolution river hydrodynamics. Hydrology and Earth System Sciences ,
+
+它明确使用 LSG 进行 coarse → fine hydrodynamic downscaling，而且论文明确报告：flow velocity 的主要误差源是 dimensionality-reduction error，并通过 regionalized training procedure 降低该误差。 HESS + 1
+
+这是你最大的 novelty constraint：
+
+不能写
+
+We introduce regionalization into LSG for the first time.
+
+也不宜写：
+
+Previous LSG studies have always assumed global dimensional reduction.
+
+至少 Tan 2025 已经使这个表述失真。
+
+但是，Tan 的问题与 Track B 仍明显不同：它用 regionalized training 改善 selected focus areas，尤其针对 flow velocity 的 DR error；从公开论文方法看，其主要 error decomposition 是 dimensional-reduction error 与 LSG error。 HESS
+
+你的 Track B 则进一步问：
+
+在严格相同总 EOF-mode budget 下，空间分区是否仍然有效？如果有效，是 EOF truncation、mapping locality，还是二者耦合造成？这种效果是否跨 floodplain 成立？
+
+这才是可以占住的位置。
+
+16. Chang, Liou & Chang 2022 —— PCA + clustering 的邻近工作
+
+"CHANG, L.-C.; LIOU, J.-Y.; CHANG, F.-J. (2022). Spatial-temporal flood inundation nowcasts by fusing machine learning methods and principal component analysis. Journal of Hydrology , 612, 128086. DOI:"
+
+相关性：PCA 做 inundation dimensionality reduction，SOM 再组织 spatial-temporal patterns，之后 NARX 预测。但仍不是“空间域分区 → zone-specific EOF → zone-specific mapping → equal-total-B comparison”。
+
+A4. 本轮检索后真正可守的 literature gap
+
+在我检索到的一手 flood-inundation 文献中， 尚未找到与你 Track B 完全等价的设计 ：
+
+spatial-domain zoning
+
+zone-conditioned EOF/GP pipeline
+
+zone-conditioned EOF/GP pipeline
+
+identical total retained-mode budget
+
+identical total retained-mode budget
+
+training-only zoning/EOF/GP fitting
+
+training-only zoning/EOF/GP fitting
+
+cross-site positive and negative cases
+
+cross-site positive and negative cases
+
+first-order diagnostic falsification
+
+first-order diagnostic falsification
+
+pure-EOF oracle
+
+pure-EOF oracle
+
+GG/ZZ/GZ/ZG stage-swap.
+
+GG/ZZ/GZ/ZG stage-swap.
+
+最接近的是 Carreau 2021 的 PCA downscaling、Zhou 2021/2022 的 SRR/USRR、Chang 2022 的 PCA-SOM，以及尤其 Tan 2025 的 regionalized LSG training。 HESS + 3 科学直达 + 3 科学直达 + 3
+
+这里应使用：
+
+“To our knowledge / In the studies examined here, ... has not been systematically evaluated.”
+
+而不要写：
+
+“No previous study has…”
+
+因为本轮检索不能证明绝对不存在。
+
+核心文献表中目前没有需要标 UNVERIFIED 的条目。
+
+B. 可执行写作框架：建议采用“WRR mechanism paper + JH controlled-method comparison”混合架构
+
+F Raehr 2022 的 WRR 结构本质是 method → case → results → discussion → conclusions ；F Raehr 2024 则非常明确地采用 surrogate models → metrics → case studies → results → discussion → conclusion ；Wang 2026 又把 Results 按
+
+你的文章不要写成普通的：
+
+“提出 zonal LSG → 三个案例 → 指标提高”
+
+而应写成：
+
+hypothesis → controlled comparison → conditional result → failed diagnostic → mechanism isolation → applicability boundary
+
+这比“新算法论文”强得多。
+
+1. Introduction：4 段足够
+
+Paragraph 1 — operational problem
+
+任务：解释为什么 flood-inundation surrogate 需要同时保持 hydraulic information 和 computational efficiency。
+
+不要长篇综述 DL。快速引到 physics-guided / reduced-order surrogate。
+
+Paragraph 2 — 方法谱系
+
+顺序建议：
+
+Carreau PCA–ANN → Fraehr LSG → Donnelly GP-dimensional reduction → Zhou SRR/USRR → Lu 的 kernel optimization → Wang 2026 的 LF-resolution/training strategy。
+
+目的不是罗列，而是建立：
+
+LSG performance depends not only on GP regression, but also on how a high-dimensional inundation field is represented before LF→HF mapping.
+
+F Raehr 的 LSG 本身明确以 EOF 提取空间模式和 EC，再由 Sparse GP 做 LF→HF coefficient transformation。 AGU Publications + 1
+
+Paragraph 3 — gap，必须写准
+
+这里引 Tan 2025：
+
+Regionalized training has already shown that locality can reduce dimensionality-reduction error in an LSG-based hydrodynamic downscaling application. However, this does not establish whether spatial r
+
+Tan 的 regionalized training 是事实，后半句是你要回答的问题。 HESS + 1
+
+接着指出两个 confounders：
+
+zonal method 很容易因为“总 modes 增多”而虚假获益；
+
+zonal method 很容易因为“总 modes 增多”而虚假获益；
+
+train/test 之前先分区或算 EOF 会带来 leakage 风险。
+
+train/test 之前先分区或算 EOF 会带来 leakage 风险。
+
+因此必须有 equal- 与 training-only protocol。
+
+Paragraph 4 — 三个 research questions
+
+不要列“我们提出三个创新”。
+
+直接问：
+
+RQ1 — When? Does zoning improve LSG accuracy when global and zonal models have the same total mode budget?
+
+RQ2 — Why? If an improvement occurs, is it explained by EOF truncation alone, by localized LF→HF mapping, or by structure distributed across the coupled EOF–GP pipeline?
+
+RQ3 — When not? Can a simple first-order heterogeneity indicator identify cases that benefit from zoning, and where does the approach fail?
+
+这三个问题直接对应你的整个 Results 和 Discussion。
+
+2. Methods
+
+2.1 Benchmark cases and data provenance
+
+只讲：
+
+Carlisle；
+
+Carlisle；
+
+Chowilla；
+
+Chowilla；
+
+Burnett；
+
+Burnett；
+
+HF/LF pair；
+
+HF/LF pair；
+
+public Fraehr benchmark；
+
+public Fraehr benchmark；
+
+common train/test provenance。
+
+common train/test provenance。
+
+引用 Figshare DOI 10.26188/24312658 。公开仓库确实包含三个案例及 common split infrastructure。 Figshare
+
+不要把 Brisbane 写成本文实验案例，因为没有跑。
+
+2.2 Baseline global LSG
+
+用非常紧凑的数学流程：
+
+Tan 2025 对这套 LSG workflow 有非常清楚的公式化描述，可以模仿其 Methods 表达方式。 HESS
+
+随后指出：
+
+baseline 使用 global spatial basis。
+
+先不批评它。
+
+2.3 Zonal representation under an equal total mode budget
+
+这是你的核心 Methods。
+
+必须明确写：
+
+关键措辞是：
+
+equal total retained-mode budget
+
+而不是：
+
+equal computational budget equal model complexity.
+
+因为你真正锁定的是 EOF-mode budget ，不等价于 GP 数量、训练时间和全部参数量严格相等。
+
+这里定义 Global、Rule，并解释 zone rule。
+
+2.4 Leakage-controlled evaluation protocol
+
+集中写：
+
+zoning on training only；
+
+zoning on training only；
+
+EOF on training only；
+
+EOF on training only；
+
+GP on training only；
+
+GP on training only；
+
+validation fold 完全 unseen；
+
+validation fold 完全 unseen；
+
+area-weighted RMSE；
+
+area-weighted RMSE；
+
+CSI；
+
+CSI；
+
+equal ；
+
+equal ；
+
+CLEAN_PASS audit。
+
+CLEAN_PASS audit。
+
+这一节的作用不是制造 novelty，而是把所有“你的 gain 是否来自不公平比较”的审稿攻击提前封住。
+
+2.5 Mechanism diagnostics
+
+建议按因果强度依次定义：
+
+2.5.1 First-order EOI
+
+只定义，不预告结果。
+
+2.5.2 Pure-EOF oracle
+
+问题：
+
+如果不涉及 learned LF→HF mapping，仅允许相同 的 zonal EOF representation，zoning 是否自身降低 reconstruction error？
+
+这是你的“pure truncation hypothesis test”。
+
+2.5.3 Stage-swap experiment
+
+四臂：
+
+这里务必把 G/Z 在每个 stage 的含义定义清楚。
+
+它不是额外 benchmark，而是 mechanism-identification experiment 。
+
+2.6 Statistical evaluation
+
+把两套不相同的证据明确分开：
+
+LOOCV fold-level comparison；
+
+LOOCV fold-level comparison；
+
+official 2-fold bootstrap robustness analysis。
+
+official 2-fold bootstrap robustness analysis。
+
+千万不要把两个 CI 混成同一种 inferential evidence。
+
+3. Results：顺序非常重要
+
+3.1 Does zoning help under equal capacity?
+
+Figure 2：equal- performance curves
+
+Global vs Rule，横轴 ，纵轴 area-weighted RMSE/CSI。
+
+如果你已有完整 B sweep，就画真实 sweep；如果没有，不要为了“曲线漂亮”补造中间值，直接以现有 matched- comparisons 呈现。
+
+B=4 用标记突出，而不是只报 B=4 后让审稿人怀疑 cherry-picking。
+
+本节末尾第一次提出：
+
+improvement is case dependent.
+
+不要一开始就解释 mechanism。
+
+"3.2 Carlisle: positive case under controlled comparison"
+
+Figure 3：9-fold LOOCV forest plot
+
+这里放你最强的主要证据：
+
+0.1464 → 0.0964 m；
+
+0.1464 → 0.0964 m；
+
+−34.2%；
+
+−34.2%；
+
+9/9 folds improved；
+
+9/9 folds improved；
+
+mean ΔRMSE = 0.0821 m；
+
+mean ΔRMSE = 0.0821 m；
+
+"95% CI [0.0155, 0.1987]。"
+
+"95% CI [0.0155, 0.1987]。"
+
+然后同一 subsection 最后一段主动写 official 2-fold：
+
+mean ΔRMSE = 0.0045 m；
+
+mean ΔRMSE = 0.0045 m；
+
+"CI [−0.0073, 0.0134]；"
+
+"CI [−0.0073, 0.0134]；"
+
+significant = false。
+
+significant = false。
+
+不要藏到 Supplement。
+
+可以把完整 bootstrap 图放 Supplement，但主文必须有一句。
+
+这样审稿人没有机会说你选择性报告显著性。
+
+3.3 Is the benefit transferable? Burnett and Chowilla as boundaries
+
+建议标题不要叫：
+
+Failure cases
+
+而用：
+
+Cross-case limits of the zoning benefit
+
+Burnett
+
+直接报告：
+
+Global 1.7479；
+
+Global 1.7479；
+
+Rule 1.8260；
+
+Rule 1.8260；
+
+ΔRMSE −0.0781；
+
+ΔRMSE −0.0781；
+
+6/30；
+
+6/30；
+
+significant=false。
+
+significant=false。
+
+这构成“zoning is conditional”的直接反例。
+
+Chowilla
+
+必须区别于 Burnett：
+
+Burnett = zoning non-benefit Chowilla = LSG applicability boundary
+
+因为 Chowilla 的：
+
+LSG ~2.5606 m；
+
+LSG ~2.5606 m；
+
+LF-only 0.3926 m
+
+LF-only 0.3926 m
+
+并不能单独证明“zoning 导致失败”。
+
+它证明的是更上游的一层：
+
+如果 LF→HF correction 本身进入失效区域，讨论 global vs zonal representation 已经不是首要问题。
+
+这是非常好的 Discussion boundary，但不要误标成 zoning failure。
+
+4. Diagnostic falsification
+
+3.4 Can EOI determine when to zone?
+
+Figure 5：EOI versus observed zoning outcome
+
+只用你锁定值：
+
+Carlisle 0.057；
+
+Carlisle 0.057；
+
+Chowilla 0.116；
+
+Chowilla 0.116；
+
+Burnett 0.957。
+
+Burnett 0.957。
+
+结果反而非常有论文价值：
+
+high EOI does not correspond to beneficial zoning, while the clearest zoning gain occurs at low EOI.
+
+所以结论不是“EOI 不好”。
+
+更学术的表述是：
+
+max-surface EOI is falsified as a first-order zoning switch.
+
+这是一个明确的 negative result，而且直接回答一个可检验假说。
+
+5. Mechanism
+
+3.5 Is the Carlisle gain simply an EOF truncation effect?
+
+先给 pure-EOF oracle：
+
+ZGG > 0, yet equal-budget pure-EOF oracle ΔRMSE < 0.
+
+因此：
+
+additional performance cannot be explained by reduced EOF truncation error alone.
+
+注意是“cannot be explained by … alone”，不要写“EOF has no role”。
+
+3.6 Where in the coupled pipeline does locality matter?
+
+Figure 6：stage-swap ablation
+
+直接画四根/四组：
+
+GG ≈ 0.180 m；
+
+GG ≈ 0.180 m；
+
+ZZ ≈ 0.098 m；
+
+ZZ ≈ 0.098 m；
+
+GZ ≈ 0.098 m；
+
+GZ ≈ 0.098 m；
+
+ZG ≈ 0.101 m。
+
+ZG ≈ 0.101 m。
+
+最重要的解释不是：
+
+GP localization is the sole mechanism.
+
+因为你的结果恰恰不支持这个唯一归因。
+
+现在最稳妥的机制句是：
+
+The gain is not attributable to EOF truncation alone. Instead, the stage-swap experiment indicates that zonal structure can recover most of the improvement when introduced at either side of the couple
+
+或者更简练：
+
+Zoning appears to act on the coupled representation–mapping pipeline rather than through a pure EOF-capacity effect.
+
+这是 Track B 最值得保留的机制结论。
+
+4. Discussion
+
+完全不要再按 case 写 Discussion。
+
+按“when / why / when-not”写，见 D。
+
+5. Conclusions
+
+只保留三个 conclusions：
+
+zoning can help under equal total mode budget；
+
+zoning can help under equal total mode budget；
+
+the benefit is conditional rather than universal；
+
+the benefit is conditional rather than universal；
+
+neither first-order EOI nor pure EOF truncation explains a general zoning decision rule.
+
+neither first-order EOI nor pure EOF truncation explains a general zoning decision rule.
+
+不要在 Conclusions 引入新的数字。
+
+建议的主文图序
+
+这套顺序实际上就是：
+
+比“方法—三个 case 分别报结果”强很多。
+
+C. Track B 能安全成立的 novelty
+
+以下 novelty 只基于你给出的 Track B ，没有借外部论文结果替你扩大结论。
+
+Novelty 1 — Conditional zoning under a genuinely matched latent budget
+
+最推荐：
+
+We demonstrate that spatial zoning can materially alter LSG performance even when global and zonal formulations are constrained to the same total EOF-mode budget, while showing that the benefit is str
+
+然后 Results 才给：
+
+Carlisle B=4：
+
+而 Burnett：
+
+这比“zoning improves LSG”强，也更难被反例推翻。
+
+Novelty 2 — Global EOF is not a hydrodynamically neutral modelling choice
+
+推荐：
+
+"The experiments show that use of a single global EOF basis is not a hydrodynamically neutral implementation choice: under an identical total latent-mode budget, changing the spatial organization of th"
+
+这个论点的关键不是“global EOF mathematically wrong”，而是：
+
+它不是一个不会影响最终 surrogate skill 的中性 preprocessing step。
+
+这一层是可以守住的。
+
+Novelty 3 — A simple heterogeneity metric is explicitly falsified as a zoning selector
+
+推荐：
+
+A max-surface EOI does not provide a reliable first-order switch for deciding whether zoning is beneficial.
+
+证据正好形成反直觉排列：
+
+Carlisle EOI 0.057，却是明确 positive case；
+
+Carlisle EOI 0.057，却是明确 positive case；
+
+Burnett EOI 0.957，却没有 zoning gain；
+
+Burnett EOI 0.957，却没有 zoning gain；
+
+Chowilla 0.116，又处在 LSG 本身的 failure boundary。
+
+Chowilla 0.116，又处在 LSG 本身的 failure boundary。
+
+所以这不是“没找到相关性”的弱结论，而是：
+
+a candidate decision rule was tested and falsified.
+
+这个叙事很 WRR。
+
+Novelty 4 — Mechanism is not pure EOF truncation
+
+推荐：
+
+"The gain cannot be attributed to improved EOF truncation alone: the equal-budget pure-EOF oracle does not reproduce the downstream improvement."
+
+然后 stage-swap 再进一步：
+
+Stage swapping indicates that the recoverable gain is associated with how zonal structure enters the coupled representation–mapping pipeline, rather than uniquely with either EOF truncation or a singl
+
+我认为这是目前最准确的机制表述。
+
+Novelty 5 — Controlled evaluation protocol
+
+可以作为 methodological contribution，但不要当第一 novelty：
+
+The study introduces a capacity-controlled evaluation protocol in which the total retained mode budget is fixed, zoning/EOF/GP estimation is performed strictly within training data, and performance is
+
+其中一定写 capacity-controlled / equal latent-mode budget 。
+
+不要写：
+
+computationally equal complexity matched
+
+因为你只证明了 相等。
+
+Statistical claim 要主动降一级
+
+Carlisle 可以写：
+
+"All 9 LOOCV comparisons favored Rule zoning, with a mean ΔRMSE of 0.0821 m and a 95% CI of [0.0155, 0.1987]."
+
+但随后必须写：
+
+"The official two-fold bootstrap did not establish statistical significance (mean ΔRMSE 0.0045 m, 95% CI [−0.0073, 0.0134])."
+
+这两句话并存反而增加可信度。
+
+因此 Abstract 不应写：
+
+zoning significantly improves LSG performance.
+
+更适合：
+
+zoning produced a consistent improvement in the Carlisle LOOCV experiment, but this evidence did not extend to the separate two-fold bootstrap or to Burnett.
+
+Novelty traps：这些建议明确避开
+
+1. ❌ “First regionalized/zonal LSG”
+
+不能写。Tan et al. 2025 已有 regionalized LSG training。 HESS + 1
+
+2. ❌ “Zoning improves LSG”
+
+太宽。Burnett 直接反驳。
+
+应写：
+
+zoning can improve LSG under specific spatial/hydrodynamic conditions.
+
+3. ❌ “Higher EOI indicates when zoning is needed”
+
+Track B 已证伪。
+
+4. ❌ “The gain comes from lower EOF truncation error”
+
+你的 pure-EOF oracle 正在反驳它。
+
+5. ❌ “The GP stage is the source of the gain”
+
+GG/ZZ/GZ/ZG：
+
+并没有唯一锁定一个 stage。
+
+最稳妥仍是：
+
+coupled EOF-coordinate / mapping locality effect .
+
+6. ❌ “Statistically significant improvement across cases”
+
+不成立：
+
+official Carlisle 2-fold bootstrap n.s.；
+
+official Carlisle 2-fold bootstrap n.s.；
+
+Burnett n.s.
+
+Burnett n.s.
+
+7. ❌ “Equal computational complexity”
+
+只能说：
+
+equal total EOF-mode budget .
+
+8. ❌ 把 Chowilla 写成“zoning failure”
+
+当前数字只支持：
+
+LSG failure/applicability boundary relative to LF-only.
+
+9. ❌ “Rule LSG-Max matches/outperforms LSG-TS”
+
+0.988 vs published 0.990 不是 controlled head-to-head。
+
+因为你明确：
+
+没有 real LSG-TS；
+
+没有 real LSG-TS；
+
+没有 Brisbane；
+
+没有 Brisbane；
+
+实现也没有 gpflow/SGPR。
+
+实现也没有 gpflow/SGPR。
+
+最多写：
+
+contextual consistency with published LSG performance levels
+
+甚至这句话我也建议只放 Discussion/Supplement，不放 Abstract。
+
+Wang 2026 确实区分并比较 LSG-TS 和 LSG-Max，但这是其自己的 Brisbane experiment。 AGU Publications + 1
+
+10. ❌ 把 CLEAN_PASS 当 novelty
+
+这是 methodological rigor，不是 scientific discovery。
+
+它的任务是让 reviewer 无法用 leakage 否掉你的 discovery。
+
+D. Discussion 最适合的“三问式”结构
+
+这是我最建议锁死的 Discussion architecture。
+
+4.1 When does spatial zoning help?
+
+开头直接回答：
+
+Spatial zoning is beneficial in some, but not all, LSG configurations.
+
+证据顺序：
+
+Carlisle positive → 9/9 LOOCV → equal 排除 latent-capacity advantage → official 2-fold bootstrap n.s. → Burnett negative/non-beneficial.
+
+本节最终落点不是：
+
+Carlisle proves zoning.
+
+而是：
+
+Carlisle proves that a global representation can be materially suboptimal even when zoning is not given additional latent capacity; Burnett proves that this is not a universal property.
+
+这是“when”。
+
+4.2 Why can zoning help?
+
+这是全文最有价值的一节。
+
+按照三个逐级排除的 hypotheses 写：
+
+"H1: because the domain is heterogeneous?"
+
+用 EOI 检验。
+
+结果：
+
+不够。
+
+所以：
+
+"H2: because zonal EOF simply reconstructs the field better?"
+
+用 pure-EOF oracle。
+
+结果：
+
+不支持。
+
+因此：
+
+simple truncation reduction is insufficient.
+
+"H3: because locality changes the coupled LF→HF representation/mapping problem?"
+
+用 stage-swap。
+
+而：
+
+因此最稳妥的解释：
+
+the useful information is associated with zonal structure in the coupled pipeline, and the stage-swap does not isolate one unique stage as solely responsible.
+
+这一段正好把文章从“benchmark paper”抬升为“mechanism paper”。
+
+4.3 When should zoning NOT be used?
+
+这里不要只写 limitations，要真正回答 operational question。
+
+三个层次：
+
+第一层：global model already works adequately
+
+Burnett 表明高 heterogeneity indicator 不代表 localization 自动获益。
+
+因此不能：
+
+第二层：LSG correction itself is unreliable
+
+Chowilla：
+
+而：
+
+此时主要问题已经不是：
+
+global or zonal?
+
+而是：
+
+should LF→HF statistical correction be trusted at all?
+
+这个 distinction 很重要。
+
+第三层：目前还没有可靠的 operational zoning switch
+
+因此 Discussion 应承认：
+
+EOI has been ruled out as a sufficient first-order selector, but the present experiments do not yet establish a transferable pre-training criterion for choosing between global and zonal LSG.
+
+这句话非常重要。
+
+它把“我们没找到 selector”变成：
+
+已经排除一个貌似合理但实际无效的 selector，同时明确下一步需要什么。
+
+而不是装作已有 operational decision rule。
+
+最后：Journal of Hydrology 还是 WRR？
+
+结合检索到的实际 lineage，我会这样判断。
+
+Journal of Hydrology：当前证据包更稳。 Lu et al. 2025 本身就是很直接的先例：在成熟 LSG 架构上研究一个具体设计选择——GP kernel——通过多个案例和 CV 评价其影响。 科学直达 你的论文可以对应成为“spatial representation / regionalization choice in LSG under controlled late
+
+WRR：科学叙事实际上更漂亮，但门槛更高。 Fraehr 2022/2023 以及 Wang 2026 都不仅在比较模型，而是在回答“为什么这种 physics-guided surrogate strategy 有效、在什么复杂 floodplain 条件下应如何设计”。 AGU Publications + 2 AGU Publications + 2 你的 EOI falsification
+
+所以以 现有 Track B，不额外假定未来结果 ，我的排序是：
+
+首投 Journal of Hydrology：较稳。 若按 WRR 写，则核心标题级命题必须是 conditionality/mechanism，而不是 zonal model performance。
+
+我甚至建议全文从现在开始统一使用这一条总论点：
+
+Spatial zoning is not universally advantageous, but neither is global EOF representation hydrodynamically neutral. Under a fixed total latent-mode budget, the value of zoning is conditional on how spa
+
+这句话基本可以作为你后续 Introduction 最后一段 → Discussion 主线 → Conclusions 第一段 的统一骨架。它既避开了 Tan 2025 的 prior-art，又完整容纳 Carlisle、Burnett、Chowilla、EOI 证伪、pure-EOF oracle 和 stage-swap，而没有超出 Track B 目前真正证明的范围。
+
+网页搜索

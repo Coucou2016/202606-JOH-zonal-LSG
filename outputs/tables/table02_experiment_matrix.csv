@@ -1,0 +1,9 @@
+ID,Model,Zoning,EOF budget,Purpose
+E0,LF-only,N/A,N/A,LF baseline
+E1,Global LSG-Max,Global (1),B=4/6/8 forced,Equal-budget baseline
+E2,Rule zLSG-Max,Rule (depth+freq),B=4/6/8,Physical zones
+E3,KMeans zLSG-Max,KMeans (K=4),B=4/6/8,Data-driven zones
+E4,Carlisle 9-fold LOOCV,Rule vs Global,B=4 and B=6,Event-level significance
+E5,Official 2-fold bootstrap,Rule vs Global,official splits,Not significant (cite honestly)
+E6,Chowilla boundary,Global/Rule/KMeans,B=4/8/12,LSG degrades
+E7,BurnettRV validation,Global/Rule/KMeans,B=4/8,Diffuse residuals

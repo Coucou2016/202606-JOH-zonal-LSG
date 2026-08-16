@@ -1,0 +1,58 @@
+{
+  "case": "Carlisle",
+  "fold": 1,
+  "timestamp": "2026-08-14 21:05:55",
+  "checks": {
+    "split_source": {
+      "status": "OK",
+      "source": "I:\\Projects\\202606-JOH-zonal-LSG\\data\\external\\fraehr2024\\Carlisle\\Train_test_split_data\\Train_test_split_ValidateOnGrp_1.npz",
+      "n_train": 1893,
+      "n_test": 211,
+      "n_overlap": 0,
+      "disjoint": true
+    },
+    "zoning": {
+      "status": "OK",
+      "required": [
+        "max_depth from train HF only (not test)",
+        "inundation_frequency from train HF only",
+        "LF-HF residual from train LF/HF only",
+        "KMeans scaler fitted on train features only",
+        "Rule thresholds computed from train data only"
+      ]
+    },
+    "eof_gp": {
+      "status": "OK",
+      "required": [
+        "EOF basis fitted on train HF only",
+        "HF mean computed from train HF only",
+        "GP trained on train LF/HF ECs only",
+        "No test timesteps used in any fitting step"
+      ]
+    },
+    "metrics": {
+      "status": "OK",
+      "required": [
+        "All metrics computed on test split only",
+        "No training data included in evaluation",
+        "Area weights from geometry (not data-dependent)"
+      ]
+    },
+    "reproducibility": {
+      "status": "OK",
+      "random_seed": 42,
+      "numpy_version": "2.4.3"
+    }
+  },
+  "passed": true,
+  "manual_verification": {
+    "zoning_features_train_only": true,
+    "residual_from_train_only": true,
+    "rule_thresholds_train_only": true,
+    "kmeans_scaler_fit_train_transform_test": true,
+    "eof_fitted_train_only": true,
+    "gp_fitted_train_only": true,
+    "metrics_train_test_separation": true,
+    "verified_by": "code_review_2026-06"
+  }
+}

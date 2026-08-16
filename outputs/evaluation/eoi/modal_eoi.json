@@ -1,0 +1,323 @@
+{
+  "config": {
+    "B": 4,
+    "protocol": "HF_oracle_EOF_plus_principal_angles"
+  },
+  "cases": {
+    "carlisle": {
+      "case": "carlisle",
+      "n_events": 9,
+      "n_cells": 581061,
+      "pooled": {
+        "n_train_events": 9,
+        "n_active": 239482,
+        "n_zones": 3,
+        "budget": 4,
+        "mean_zgg": 0.04785614338178704,
+        "zone_zgg": {
+          "0": 0.013990387311701213,
+          "1": 0.028281130519045572,
+          "2": 0.10129691231461435
+        },
+        "mean_principal_angle_deg": null,
+        "oracle_rmse_global": 0.044607965123293895,
+        "oracle_rmse_zonal": 0.12068525201511965,
+        "oracle_delta_rmse": -0.07607728689182575,
+        "interpretation": "ZGG_POSITIVE_ORACLE_LOSS",
+        "mode_allocation": {
+          "0": 2,
+          "1": 1,
+          "2": 1
+        }
+      },
+      "per_fold": [
+        {
+          "n_train_events": 8,
+          "n_active": 239482,
+          "n_zones": 3,
+          "budget": 4,
+          "mean_zgg": 0.04205208623876241,
+          "zone_zgg": {
+            "0": 0.013440109047865523,
+            "1": 0.027440532822720076,
+            "2": 0.08527561684570162
+          },
+          "mean_principal_angle_deg": null,
+          "oracle_rmse_global": 0.043100218144534734,
+          "oracle_rmse_zonal": 0.12318121158670892,
+          "oracle_delta_rmse": -0.08008099344217418,
+          "interpretation": "ZGG_POSITIVE_ORACLE_LOSS",
+          "mode_allocation": {
+            "0": 2,
+            "1": 1,
+            "2": 1
+          },
+          "fold": 0,
+          "test_event": 0,
+          "delta_rmse_rule_B4": 0.014869375104553773
+        },
+        {
+          "n_train_events": 8,
+          "n_active": 239482,
+          "n_zones": 3,
+          "budget": 4,
+          "mean_zgg": 0.0511263948470686,
+          "zone_zgg": {
+            "0": 0.004497012571183512,
+            "1": 0.03095566623243906,
+            "2": 0.11792650573758323
+          },
+          "mean_principal_angle_deg": null,
+          "oracle_rmse_global": 0.03297039954424797,
+          "oracle_rmse_zonal": 0.10608913254827217,
+          "oracle_delta_rmse": -0.07311873300402419,
+          "interpretation": "ZGG_POSITIVE_ORACLE_LOSS",
+          "mode_allocation": {
+            "0": 2,
+            "1": 1,
+            "2": 1
+          },
+          "fold": 1,
+          "test_event": 1,
+          "delta_rmse_rule_B4": 0.5284353104658223
+        },
+        {
+          "n_train_events": 8,
+          "n_active": 232002,
+          "n_zones": 3,
+          "budget": 4,
+          "mean_zgg": 0.041739837987257444,
+          "zone_zgg": {
+            "0": 0.01576477357887962,
+            "1": 0.03221260504830925,
+            "2": 0.07724213533458346
+          },
+          "mean_principal_angle_deg": null,
+          "oracle_rmse_global": 0.03393120307224829,
+          "oracle_rmse_zonal": 0.11975103108958339,
+          "oracle_delta_rmse": -0.08581982801733509,
+          "interpretation": "ZGG_POSITIVE_ORACLE_LOSS",
+          "mode_allocation": {
+            "0": 2,
+            "1": 1,
+            "2": 1
+          },
+          "fold": 2,
+          "test_event": 2,
+          "delta_rmse_rule_B4": 0.008522265143680638
+        },
+        {
+          "n_train_events": 8,
+          "n_active": 239482,
+          "n_zones": 3,
+          "budget": 4,
+          "mean_zgg": 0.05009261109573223,
+          "zone_zgg": {
+            "0": 0.009707477424673039,
+            "1": 0.02132544323469765,
+            "2": 0.119244912627826
+          },
+          "mean_principal_angle_deg": null,
+          "oracle_rmse_global": 0.03376828844846032,
+          "oracle_rmse_zonal": 0.1077682238561494,
+          "oracle_delta_rmse": -0.07399993540768908,
+          "interpretation": "ZGG_POSITIVE_ORACLE_LOSS",
+          "mode_allocation": {
+            "0": 2,
+            "1": 1,
+            "2": 1
+          },
+          "fold": 3,
+          "test_event": 3,
+          "delta_rmse_rule_B4": 0.022480326989063437
+        },
+        {
+          "n_train_events": 8,
+          "n_active": 239482,
+          "n_zones": 3,
+          "budget": 4,
+          "mean_zgg": 0.04738176633285688,
+          "zone_zgg": {
+            "0": 0.01506180615572994,
+            "1": 0.030912694595031875,
+            "2": 0.09617079824780883
+          },
+          "mean_principal_angle_deg": null,
+          "oracle_rmse_global": 0.043730516078417346,
+          "oracle_rmse_zonal": 0.12462062741005527,
+          "oracle_delta_rmse": -0.08089011133163793,
+          "interpretation": "ZGG_POSITIVE_ORACLE_LOSS",
+          "mode_allocation": {
+            "0": 2,
+            "1": 1,
+            "2": 1
+          },
+          "fold": 4,
+          "test_event": 4,
+          "delta_rmse_rule_B4": 0.010233215733058278
+        },
+        {
+          "n_train_events": 8,
+          "n_active": 239482,
+          "n_zones": 3,
+          "budget": 4,
+          "mean_zgg": 0.051603459173735176,
+          "zone_zgg": {
+            "0": 0.006071437339611241,
+            "1": 0.030336065587694194,
+            "2": 0.11840287459390009
+          },
+          "mean_principal_angle_deg": null,
+          "oracle_rmse_global": 0.032495950940639486,
+          "oracle_rmse_zonal": 0.11177364588972849,
+          "oracle_delta_rmse": -0.07927769494908901,
+          "interpretation": "ZGG_POSITIVE_ORACLE_LOSS",
+          "mode_allocation": {
+            "0": 2,
+            "1": 1,
+            "2": 1
+          },
+          "fold": 5,
+          "test_event": 5,
+          "delta_rmse_rule_B4": 0.07575952965246116
+        },
+        {
+          "n_train_events": 8,
+          "n_active": 239482,
+          "n_zones": 3,
+          "budget": 4,
+          "mean_zgg": 0.0434286655068454,
+          "zone_zgg": {
+            "0": 0.009359968418922282,
+            "1": 0.022167614362674004,
+            "2": 0.0987584137389399
+          },
+          "mean_principal_angle_deg": null,
+          "oracle_rmse_global": 0.03987277743477208,
+          "oracle_rmse_zonal": 0.11274137600065195,
+          "oracle_delta_rmse": -0.07286859856587988,
+          "interpretation": "ZGG_POSITIVE_ORACLE_LOSS",
+          "mode_allocation": {
+            "0": 2,
+            "1": 1,
+            "2": 1
+          },
+          "fold": 6,
+          "test_event": 6,
+          "delta_rmse_rule_B4": 0.05478958570853071
+        },
+        {
+          "n_train_events": 8,
+          "n_active": 239482,
+          "n_zones": 3,
+          "budget": 4,
+          "mean_zgg": 0.04245782407906392,
+          "zone_zgg": {
+            "0": 0.014204907790509425,
+            "1": 0.02827470014848643,
+            "2": 0.0848938642981959
+          },
+          "mean_principal_angle_deg": null,
+          "oracle_rmse_global": 0.044178710320453486,
+          "oracle_rmse_zonal": 0.12378780937401523,
+          "oracle_delta_rmse": -0.07960909905356175,
+          "interpretation": "ZGG_POSITIVE_ORACLE_LOSS",
+          "mode_allocation": {
+            "0": 2,
+            "1": 1,
+            "2": 1
+          },
+          "fold": 7,
+          "test_event": 7,
+          "delta_rmse_rule_B4": 0.008917880807623318
+        },
+        {
+          "n_train_events": 8,
+          "n_active": 238946,
+          "n_zones": 3,
+          "budget": 4,
+          "mean_zgg": 0.05374098547485784,
+          "zone_zgg": {
+            "0": 0.016759278280379486,
+            "1": 0.03122231566243927,
+            "2": 0.11324136248175476
+          },
+          "mean_principal_angle_deg": null,
+          "oracle_rmse_global": 0.04156739364059416,
+          "oracle_rmse_zonal": 0.12154370526936563,
+          "oracle_delta_rmse": -0.07997631162877147,
+          "interpretation": "ZGG_POSITIVE_ORACLE_LOSS",
+          "mode_allocation": {
+            "0": 2,
+            "1": 1,
+            "2": 1
+          },
+          "fold": 8,
+          "test_event": 8,
+          "delta_rmse_rule_B4": 0.015081186135438213
+        }
+      ],
+      "per_fold_zgg_mean": 0.04706929230401999,
+      "per_fold_oracle_delta_mean": -0.07840458948890695,
+      "corr_zgg_delta_rmse": 0.35954703018506456
+    },
+    "burnettrv": {
+      "case": "burnettrv",
+      "n_events": 30,
+      "n_cells": 780785,
+      "pooled": {
+        "n_train_events": 30,
+        "n_active": 769702,
+        "n_zones": 4,
+        "budget": 4,
+        "mean_zgg": 0.028725981707578896,
+        "zone_zgg": {
+          "0": 0.010866904061770932,
+          "1": 0.0260225044471063,
+          "2": 0.07788784983101427,
+          "3": 0.00012666849042408668
+        },
+        "mean_principal_angle_deg": null,
+        "oracle_rmse_global": 0.13446743041507886,
+        "oracle_rmse_zonal": 0.3327339627001643,
+        "oracle_delta_rmse": -0.19826653228508545,
+        "interpretation": "ZGG_POSITIVE_ORACLE_LOSS",
+        "mode_allocation": {
+          "0": 1,
+          "1": 1,
+          "2": 1,
+          "3": 1
+        }
+      }
+    },
+    "chowilla": {
+      "case": "chowilla",
+      "n_events": 29,
+      "n_cells": 109914,
+      "pooled": {
+        "n_train_events": 29,
+        "n_active": 36124,
+        "n_zones": 4,
+        "budget": 4,
+        "mean_zgg": 0.10706097464191594,
+        "zone_zgg": {
+          "0": 0.04421479839911435,
+          "1": 0.04464166031562178,
+          "2": 0.07091570276043357,
+          "3": 0.26847173709249406
+        },
+        "mean_principal_angle_deg": null,
+        "oracle_rmse_global": 0.031904776278297665,
+        "oracle_rmse_zonal": 0.09759260082349612,
+        "oracle_delta_rmse": -0.06568782454519845,
+        "interpretation": "ZGG_POSITIVE_ORACLE_LOSS",
+        "mode_allocation": {
+          "0": 1,
+          "1": 1,
+          "2": 1,
+          "3": 1
+        }
+      }
+    }
+  }
+}

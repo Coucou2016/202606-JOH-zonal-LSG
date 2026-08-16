@@ -1,0 +1,19 @@
+# Chowilla floodplain case study — Fraehr 2024 benchmark
+study_area:
+  name: Chowilla floodplain
+  country: Australia
+  hydrodynamic_model: MIKE 21
+  crs: EPSG:28354
+  notes: >
+    Large natural floodplain on the Murray River. Original LSG benchmark case
+    from Fraehr et al. (2022). Complex floodplain with anabranching channels.
+
+paths:
+  raw_dir: data/external/fraehr2024/Chowilla
+  processed_dir: data/processed/chowilla
+
+hydrodynamic:
+  depth_threshold_m: 0.03
+  hf_cell_size_m: null
+  lf_cell_size_m: null
+  main_hydraulic_complexity: high

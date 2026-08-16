@@ -1,0 +1,4 @@
+case,n_events,n_zones,budget,mean_zgg,oracle_rmse_global,oracle_rmse_zonal,oracle_delta_rmse,interpretation,per_fold_status,corr_zgg_delta_rmse
+carlisle,9,3,4,0.047856,0.044608,0.120685,-0.076077,ZGG_POSITIVE_ORACLE_LOSS,complete,0.3595
+burnettrv,30,4,4,0.028726,0.134467,0.332734,-0.198267,ZGG_POSITIVE_ORACLE_LOSS,pooled_only,
+chowilla,29,4,4,0.107061,0.031905,0.097593,-0.065688,ZGG_POSITIVE_ORACLE_LOSS,pooled_only,

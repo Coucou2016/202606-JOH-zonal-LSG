@@ -1,0 +1,10 @@
+case,fold,model,B_requested,B_actual,n_zones,min_per_zone,status
+Carlisle,fold_a,Global,4,4,N/A,N/A,OK
+Carlisle,fold_a,KMeans,4,4,4,1,OK
+Carlisle,fold_a,Rule,4,4,4,1,OK
+Carlisle,fold_a,Global,6,6,N/A,N/A,OK
+Carlisle,fold_a,KMeans,6,6,4,1,OK
+Carlisle,fold_a,Rule,6,6,4,1,OK
+Carlisle,fold_a,Global,8,7,N/A,N/A,MISMATCH
+Carlisle,fold_a,KMeans,8,8,4,1,OK
+Carlisle,fold_a,Rule,8,8,4,1,OK

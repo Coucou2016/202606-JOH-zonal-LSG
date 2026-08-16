@@ -1,0 +1,25 @@
+# Carlisle case study — Fraehr 2024 benchmark
+study_area:
+  name: Carlisle floodplain
+  country: UK
+  hydrodynamic_model: LISFLOOD-FP
+  crs: EPSG:27700
+  notes: >
+    Small case for initial testing. Urban flooding in Carlisle, UK.
+    Recommended as first test case per Fraehr (2024).
+
+paths:
+  raw_dir: data/external/fraehr2024/Carlisle
+  processed_dir: data/processed/carlisle
+
+hydrodynamic:
+  depth_threshold_m: 0.03
+  hf_cell_size_m: null  # determined from data
+  lf_cell_size_m: null
+  main_hydraulic_complexity: moderate
+
+io:
+  n_hf_cells: null
+  n_lf_cells: null
+  n_events: null
+  n_timesteps: null

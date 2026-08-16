@@ -1,0 +1,48 @@
+{
+  "n_folds": 2,
+  "n_test_events": 4,
+  "per_event": [
+    {
+      "fold": 1,
+      "event": 7,
+      "global_rmse": 0.0609454732607885,
+      "global_csi": 0.9088521544535225,
+      "zonal_rmse": 0.05089747725081895,
+      "zonal_csi": 0.9120465130076236,
+      "delta_rmse": 0.01004799600996955
+    },
+    {
+      "fold": 1,
+      "event": 8,
+      "global_rmse": 0.08782536584389843,
+      "global_csi": 0.9579020100502512,
+      "zonal_rmse": 0.07151523592196907,
+      "zonal_csi": 0.9577042433773034,
+      "delta_rmse": 0.01631012992192936
+    },
+    {
+      "fold": 2,
+      "event": 2,
+      "global_rmse": 0.10062400526563563,
+      "global_csi": 0.95921624998433,
+      "zonal_rmse": 0.1136600054245932,
+      "zonal_csi": 0.9622629677937192,
+      "delta_rmse": -0.013036000158957575
+    },
+    {
+      "fold": 2,
+      "event": 3,
+      "global_rmse": 0.14411390886360104,
+      "global_csi": 0.8740080780451328,
+      "zonal_rmse": 0.13927208450055337,
+      "zonal_csi": 0.8977926238869629,
+      "delta_rmse": 0.00484182436304767
+    }
+  ],
+  "mean_delta_rmse": 0.004540987533997251,
+  "median_delta_rmse": 0.00744491018650861,
+  "ci_95_lower": -0.007265001116725794,
+  "ci_95_upper": 0.013443053532208937,
+  "improved_fraction": 0.75,
+  "significant": false
+}

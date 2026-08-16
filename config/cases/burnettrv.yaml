@@ -1,0 +1,18 @@
+# Burnett River case study — Fraehr 2024 benchmark
+study_area:
+  name: Burnett River floodplain
+  country: Australia
+  hydrodynamic_model: TUFLOW
+  crs: EPSG:28356
+  notes: >
+    Riverine floodplain in Queensland. Third benchmark case from Fraehr (2024).
+
+paths:
+  raw_dir: data/external/fraehr2024/BurnettRV
+  processed_dir: data/processed/burnettrv
+
+hydrodynamic:
+  depth_threshold_m: 0.03
+  hf_cell_size_m: null
+  lf_cell_size_m: null
+  main_hydraulic_complexity: moderate

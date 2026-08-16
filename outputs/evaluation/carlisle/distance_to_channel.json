@@ -1,0 +1,185 @@
+{
+  "config": {
+    "case": "Carlisle",
+    "split": "random_7_2_seed42",
+    "train_idx": [
+      3,
+      0,
+      7,
+      2,
+      4,
+      6,
+      1
+    ],
+    "test_idx": [
+      5,
+      8
+    ],
+    "B": 4,
+    "mcl": "Geometry_data/Carlisle_MCL.shp",
+    "distance_m": {
+      "min": 0.06265717455128555,
+      "p50": 261.10512162424595,
+      "p90": 738.9835866485671,
+      "max": 1829.6426730101955
+    }
+  },
+  "models": {
+    "global": {
+      "rmse_area": 0.14640496092385225,
+      "mae_area": 0.060161001611754084,
+      "bias_area": 0.046657671385796476,
+      "csi_area": 0.8840040280012682,
+      "pod_area": 0.9974495236354299,
+      "far_area": 0.1136313511287305,
+      "n_modes": 4,
+      "time_s": 0.8028397001326084,
+      "method": "global",
+      "use_channel_distance": 0
+    },
+    "rule": {
+      "rmse_area": 0.09636639953928464,
+      "mae_area": 0.0350406955021548,
+      "bias_area": 0.0009722170404381258,
+      "csi_area": 0.8831608420804516,
+      "pod_area": 0.9981650095594956,
+      "far_area": 0.1151806357810106,
+      "n_modes": 4,
+      "time_s": 1.8452197997830808,
+      "method": "rule",
+      "use_channel_distance": 0,
+      "zone_stats": {
+        "0": {
+          "n_cells": 36918,
+          "n_modes": 1,
+          "explained_variance": 0.9936112077599577
+        },
+        "1": {
+          "n_cells": 109796,
+          "n_modes": 1,
+          "explained_variance": 0.9884554823054129
+        },
+        "2": {
+          "n_cells": 44441,
+          "n_modes": 1,
+          "explained_variance": 0.9136816879847137
+        },
+        "4": {
+          "n_cells": 47791,
+          "n_modes": 1,
+          "explained_variance": 0.9256165374798185
+        }
+      }
+    },
+    "rule_channel": {
+      "rmse_area": 0.09370813009229995,
+      "mae_area": 0.03437269784710484,
+      "bias_area": -0.003829972545847909,
+      "csi_area": 0.8974250678117298,
+      "pod_area": 0.9972731915916281,
+      "far_area": 0.10026865202329839,
+      "n_modes": 4,
+      "time_s": 1.7964624003507197,
+      "method": "rule",
+      "use_channel_distance": 1,
+      "zone_stats": {
+        "0": {
+          "n_cells": 53389,
+          "n_modes": 1,
+          "explained_variance": 0.9841462959228878
+        },
+        "1": {
+          "n_cells": 98496,
+          "n_modes": 1,
+          "explained_variance": 0.9902215664647792
+        },
+        "2": {
+          "n_cells": 39270,
+          "n_modes": 1,
+          "explained_variance": 0.9202969560982749
+        },
+        "4": {
+          "n_cells": 47791,
+          "n_modes": 1,
+          "explained_variance": 0.9256165374798185
+        }
+      }
+    },
+    "channel": {
+      "rmse_area": 0.11176300549352762,
+      "mae_area": 0.04346085579365658,
+      "bias_area": -0.0028023479396662105,
+      "csi_area": 0.8885278162509569,
+      "pod_area": 0.9975183185712875,
+      "far_area": 0.10918717202269876,
+      "n_modes": 4,
+      "time_s": 1.5376834003254771,
+      "method": "channel",
+      "use_channel_distance": 0,
+      "zone_stats": {
+        "0": {
+          "n_cells": 59737,
+          "n_modes": 1,
+          "explained_variance": 0.9635903605731403
+        },
+        "1": {
+          "n_cells": 59736,
+          "n_modes": 1,
+          "explained_variance": 0.953935729891684
+        },
+        "2": {
+          "n_cells": 59736,
+          "n_modes": 1,
+          "explained_variance": 0.948377094291296
+        },
+        "3": {
+          "n_cells": 59737,
+          "n_modes": 1,
+          "explained_variance": 0.9585136242959231
+        }
+      }
+    },
+    "kmeans": {
+      "rmse_area": 0.1026631146942534,
+      "mae_area": 0.03769823004831132,
+      "bias_area": 0.0027358532825150442,
+      "csi_area": 0.8808182915979755,
+      "pod_area": 0.9982732075656413,
+      "far_area": 0.11759591626983194,
+      "n_modes": 4,
+      "time_s": 11.563609899953008,
+      "method": "kmeans",
+      "use_channel_distance": 0,
+      "zone_stats": {
+        "0": {
+          "n_cells": 55384,
+          "n_modes": 1,
+          "explained_variance": 0.8770010993162917
+        },
+        "1": {
+          "n_cells": 97399,
+          "n_modes": 1,
+          "explained_variance": 0.9888231415699159
+        },
+        "2": {
+          "n_cells": 64385,
+          "n_modes": 1,
+          "explained_variance": 0.9582137451748642
+        },
+        "3": {
+          "n_cells": 21778,
+          "n_modes": 1,
+          "explained_variance": 0.9749089058047163
+        }
+      }
+    }
+  },
+  "lf_only": {
+    "rmse_area": 0.16023386669462636,
+    "mae_area": 0.05022230232692795,
+    "bias_area": 0.03924079461798135,
+    "csi_area": 0.9144267485994713,
+    "pod_area": 0.9987269495734079,
+    "far_area": 0.08439753664082389
+  }
+}

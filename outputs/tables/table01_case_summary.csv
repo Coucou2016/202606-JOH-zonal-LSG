@@ -1,0 +1,4 @@
+Case,Country,Hydro model,n_events_used,n_events_available,n_hf_cells,n_lf_cells,Complexity,Paper role
+Carlisle,UK,LISFLOOD-FP,9,9,581061,5681,Moderate,Full 9-fold LOOCV (Track B)
+Chowilla,Australia,MIKE 21,12,31,109914,1434,High,Boundary case: LSG degrades vs LF-only
+BurnettRV,Australia,TUFLOW,12,74,780785,15256,Moderate,Global ~ zonal; both improve over LF

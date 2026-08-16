@@ -1,0 +1,43 @@
+# Ablation study configuration
+experiment:
+  name: joh_ablation
+  description: >
+    Ablation experiments: vary K, remove features, compare zoning methods.
+
+cases:
+  - carlisle
+  - chowilla
+  - burnettrv
+
+variants:
+  - lsg_ts
+
+ablation:
+  n_zones_range: [2, 4, 6, 8, 12]
+  feature_sets:
+    full:
+      - x_scaled
+      - y_scaled
+      - max_depth
+      - std_depth
+      - inundation_frequency
+      - lf_hf_abs_residual
+    no_residual:
+      - x_scaled
+      - y_scaled
+      - max_depth
+      - std_depth
+      - inundation_frequency
+    no_spatial:
+      - max_depth
+      - std_depth
+      - inundation_frequency
+      - lf_hf_abs_residual
+  zoning_methods:
+    - kmeans
+    - rule
+  mode_budget: ["free", "global_equal"]
+
+evaluation:
+  bootstrap_iterations: 1000
+  confidence_level: 0.95

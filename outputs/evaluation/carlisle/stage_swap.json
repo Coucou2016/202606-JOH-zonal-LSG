@@ -1,0 +1,1429 @@
+{
+  "config": {
+    "case": "Carlisle",
+    "B": 4,
+    "stages": [
+      "GG",
+      "ZZ",
+      "GZ",
+      "ZG"
+    ],
+    "stage_defs": {
+      "GG": "global EOF + global GP",
+      "ZZ": "zonal EOF + zonal GP (rule)",
+      "GZ": "global EOF + zonal GP (approx)",
+      "ZG": "zonal EOF + global GP (approx)"
+    },
+    "limitations": "GZ: each zone uses the leading n_z global EOF modes restricted to the zone and QR-orthonormalized (not native zone EOFs); n_z follows variance-share budget like ZZ. This is a strong approximation \u2014 sliced global modes can be near-null on fringe zones. ZG: zonal EOF ECs are concatenated in zone order into one length-B vector; a single Global-style GP stack maps that vector.",
+    "hypothesis": "If gain ONLY in GP mapping: GZ\u2248ZZ<<GG and ZG\u2248GG. Observed: GZ\u2248ZZ<<GG AND ZG\u2248ZZ<<GG \u2014 either stage being zoned recovers most gain."
+  },
+  "split_7_2": {
+    "train_idx": [
+      3,
+      0,
+      7,
+      2,
+      4,
+      6,
+      1
+    ],
+    "test_idx": [
+      5,
+      8
+    ],
+    "lf_only": {
+      "rmse_area": 0.16023386669462636,
+      "mae_area": 0.05022230232692795,
+      "bias_area": 0.03924079461798135,
+      "csi_area": 0.9144267485994713,
+      "pod_area": 0.9987269495734079,
+      "far_area": 0.08439753664082389
+    },
+    "GG": {
+      "rmse_area": 0.14640496097035616,
+      "mae_area": 0.060161001645152576,
+      "bias_area": 0.04665767139896664,
+      "csi_area": 0.8840040280012682,
+      "pod_area": 0.9974495236354299,
+      "far_area": 0.1136313511287305,
+      "stage": "GG",
+      "n_modes": 4,
+      "time_s": 0.6176479002460837,
+      "per_event": [
+        {
+          "rmse_area": 0.22856608922393606,
+          "mae_area": 0.09517900014787369,
+          "bias_area": 0.09517900014787369,
+          "csi_area": 0.809953260678203,
+          "pod_area": 1.0,
+          "far_area": 0.1900467393217971
+        },
+        {
+          "rmse_area": 0.06424383271677626,
+          "mae_area": 0.025143003142431467,
+          "bias_area": -0.001863657349940397,
+          "csi_area": 0.9580547953243335,
+          "pod_area": 0.9948990472708598,
+          "far_area": 0.03721596293566389
+        }
+      ]
+    },
+    "ZZ": {
+      "rmse_area": 0.09390456747920703,
+      "mae_area": 0.034170604783155575,
+      "bias_area": -0.003419130728615896,
+      "csi_area": 0.8964343482193926,
+      "pod_area": 0.9973306186298158,
+      "far_area": 0.10131698537706015,
+      "stage": "ZZ",
+      "n_modes": 4,
+      "time_s": 1.2083796998485923,
+      "zone_stats": {
+        "0": {
+          "n_cells": 36918,
+          "n_modes": 1,
+          "explained_variance": 0.9936112077599577
+        },
+        "1": {
+          "n_cells": 109796,
+          "n_modes": 1,
+          "explained_variance": 0.9884554823054129
+        },
+        "2": {
+          "n_cells": 44441,
+          "n_modes": 1,
+          "explained_variance": 0.9136816879847137
+        },
+        "4": {
+          "n_cells": 47791,
+          "n_modes": 1,
+          "explained_variance": 0.9256165374798185
+        }
+      },
+      "per_event": [
+        {
+          "rmse_area": 0.11681809448261299,
+          "mae_area": 0.03782965872714369,
+          "bias_area": -0.005762813402735862,
+          "csi_area": 0.8351501994836893,
+          "pod_area": 0.9980647739782217,
+          "far_area": 0.1634952163794927
+        },
+        {
+          "rmse_area": 0.07099104047580106,
+          "mae_area": 0.03051155083916746,
+          "bias_area": -0.0010754480544959296,
+          "csi_area": 0.957718496955096,
+          "pod_area": 0.9965964632814098,
+          "far_area": 0.03913875437462758
+        }
+      ]
+    },
+    "GZ": {
+      "rmse_area": 0.09410539479898708,
+      "mae_area": 0.034391284389978724,
+      "bias_area": -0.004205318450424436,
+      "csi_area": 0.9083270858314847,
+      "pod_area": 0.9969481028265033,
+      "far_area": 0.08905139928013706,
+      "stage": "GZ",
+      "n_modes": 4,
+      "time_s": 0.8360223001800478,
+      "limitations": "GZ: each zone uses the leading n_z global EOF modes restricted to the zone and QR-orthonormalized (not native zone EOFs); n_z follows variance-share budget like ZZ. This is a strong approximation \u2014 sliced global modes can be near-null on fringe zones. ZG: zonal EOF ECs are concatenated in zone order into one length-B vector; a single Global-style GP stack maps that vector.",
+      "n_zones": 4,
+      "per_event": [
+        {
+          "rmse_area": 0.11804723259103828,
+          "mae_area": 0.037846475188818125,
+          "bias_area": -0.006249289370709112,
+          "csi_area": 0.8589129975556025,
+          "pod_area": 0.9978263765697417,
+          "far_area": 0.1394769463340892
+        },
+        {
+          "rmse_area": 0.07016355700693587,
+          "mae_area": 0.030936093591139316,
+          "bias_area": -0.0021613475301397603,
+          "csi_area": 0.957741174107367,
+          "pod_area": 0.9960698290832648,
+          "far_area": 0.03862585222618493
+        }
+      ]
+    },
+    "ZG": {
+      "rmse_area": 0.10083485698498587,
+      "mae_area": 0.035408521878150835,
+      "bias_area": 0.0020002933845165837,
+      "csi_area": 0.8823573981136997,
+      "pod_area": 0.9982807024194931,
+      "far_area": 0.1160598110448374,
+      "stage": "ZG",
+      "n_modes": 4,
+      "time_s": 0.785472400020808,
+      "limitations": "GZ: each zone uses the leading n_z global EOF modes restricted to the zone and QR-orthonormalized (not native zone EOFs); n_z follows variance-share budget like ZZ. This is a strong approximation \u2014 sliced global modes can be near-null on fringe zones. ZG: zonal EOF ECs are concatenated in zone order into one length-B vector; a single Global-style GP stack maps that vector.",
+      "n_zones": 4,
+      "per_event": [
+        {
+          "rmse_area": 0.1291580378966163,
+          "mae_area": 0.039175238470219066,
+          "bias_area": 0.01297809785878391,
+          "csi_area": 0.8069962992723034,
+          "pod_area": 0.9999649415575764,
+          "far_area": 0.19298086771504722
+        },
+        {
+          "rmse_area": 0.07251167607335543,
+          "mae_area": 0.031641805286082604,
+          "bias_area": -0.008977511089750742,
+          "csi_area": 0.957718496955096,
+          "pod_area": 0.9965964632814098,
+          "far_area": 0.03913875437462758
+        }
+      ]
+    },
+    "deltas_vs_GG": {
+      "GG": 0.0,
+      "ZZ": 0.05250039349114913,
+      "GZ": 0.05229956617136908,
+      "ZG": 0.045570103985370286
+    },
+    "deltas_vs_ZZ": {
+      "GG": -0.05250039349114913,
+      "ZZ": 0.0,
+      "GZ": -0.0002008273197800503,
+      "ZG": -0.006930289505778842
+    }
+  },
+  "loocv": {
+    "per_fold": [
+      {
+        "fold": 0,
+        "lf_only": {
+          "rmse_area": 0.07382344175614891,
+          "mae_area": 0.02310063197836011,
+          "bias_area": 0.006934554157764789,
+          "csi_area": 0.9601989367489018,
+          "pod_area": 0.9946586862641109,
+          "far_area": 0.03482436189032095
+        },
+        "GG": {
+          "rmse_area": 0.07225079469262384,
+          "mae_area": 0.031008827546148268,
+          "bias_area": 0.02552414846031523,
+          "csi_area": 0.8927819536157872,
+          "pod_area": 1.0,
+          "far_area": 0.1072180463842128,
+          "stage": "GG",
+          "n_modes": 4,
+          "time_s": 0.6283681001514196,
+          "per_event": [
+            {
+              "rmse_area": 0.07225079469262384,
+              "mae_area": 0.031008827546148268,
+              "bias_area": 0.02552414846031523,
+              "csi_area": 0.8927819536157872,
+              "pod_area": 1.0,
+              "far_area": 0.1072180463842128
+            }
+          ]
+        },
+        "ZZ": {
+          "rmse_area": 0.05712543224580347,
+          "mae_area": 0.025191676617255732,
+          "bias_area": 0.005876158088526376,
+          "csi_area": 0.9050678209441361,
+          "pod_area": 1.0,
+          "far_area": 0.09493217905586389,
+          "stage": "ZZ",
+          "n_modes": 4,
+          "time_s": 1.3797272997908294,
+          "zone_stats": {
+            "0": {
+              "n_cells": 36882,
+              "n_modes": 1,
+              "explained_variance": 0.9960507622535435
+            },
+            "1": {
+              "n_cells": 102175,
+              "n_modes": 1,
+              "explained_variance": 0.9897697799874337
+            },
+            "2": {
+              "n_cells": 52528,
+              "n_modes": 1,
+              "explained_variance": 0.9357461530327075
+            },
+            "4": {
+              "n_cells": 47897,
+              "n_modes": 1,
+              "explained_variance": 0.94541356371077
+            }
+          },
+          "per_event": [
+            {
+              "rmse_area": 0.05712543224580347,
+              "mae_area": 0.025191676617255732,
+              "bias_area": 0.005876158088526376,
+              "csi_area": 0.9050678209441361,
+              "pod_area": 1.0,
+              "far_area": 0.09493217905586389
+            }
+          ]
+        },
+        "GZ": {
+          "rmse_area": 0.058409047530348826,
+          "mae_area": 0.025667960589519718,
+          "bias_area": 0.006703502014076019,
+          "csi_area": 0.9040488360345551,
+          "pod_area": 1.0,
+          "far_area": 0.09595116396544491,
+          "stage": "GZ",
+          "n_modes": 4,
+          "time_s": 0.9373939000070095,
+          "limitations": "GZ: each zone uses the leading n_z global EOF modes restricted to the zone and QR-orthonormalized (not native zone EOFs); n_z follows variance-share budget like ZZ. This is a strong approximation \u2014 sliced global modes can be near-null on fringe zones. ZG: zonal EOF ECs are concatenated in zone order into one length-B vector; a single Global-style GP stack maps that vector.",
+          "n_zones": 4,
+          "per_event": [
+            {
+              "rmse_area": 0.058409047530348826,
+              "mae_area": 0.025667960589519718,
+              "bias_area": 0.006703502014076019,
+              "csi_area": 0.9040488360345551,
+              "pod_area": 1.0,
+              "far_area": 0.09595116396544491
+            }
+          ]
+        },
+        "ZG": {
+          "rmse_area": 0.05733072634895819,
+          "mae_area": 0.02529253764127509,
+          "bias_area": 0.004958492824643811,
+          "csi_area": 0.905145404281765,
+          "pod_area": 1.0,
+          "far_area": 0.094854595718235,
+          "stage": "ZG",
+          "n_modes": 4,
+          "time_s": 0.8973527997732162,
+          "limitations": "GZ: each zone uses the leading n_z global EOF modes restricted to the zone and QR-orthonormalized (not native zone EOFs); n_z follows variance-share budget like ZZ. This is a strong approximation \u2014 sliced global modes can be near-null on fringe zones. ZG: zonal EOF ECs are concatenated in zone order into one length-B vector; a single Global-style GP stack maps that vector.",
+          "n_zones": 4,
+          "per_event": [
+            {
+              "rmse_area": 0.05733072634895819,
+              "mae_area": 0.02529253764127509,
+              "bias_area": 0.004958492824643811,
+              "csi_area": 0.905145404281765,
+              "pod_area": 1.0,
+              "far_area": 0.094854595718235
+            }
+          ]
+        },
+        "deltas_vs_GG": {
+          "GG": 0.0,
+          "ZZ": 0.015125362446820369,
+          "GZ": 0.013841747162275014,
+          "ZG": 0.014920068343665653
+        },
+        "deltas_vs_ZZ": {
+          "GG": -0.015125362446820369,
+          "ZZ": 0.0,
+          "GZ": -0.0012836152845453544,
+          "ZG": -0.00020529410315471563
+        }
+      },
+      {
+        "fold": 1,
+        "lf_only": {
+          "rmse_area": 0.23303176113364996,
+          "mae_area": 0.07665048409765837,
+          "bias_area": 0.07480089235773464,
+          "csi_area": 0.815371727748691,
+          "pod_area": 0.9962422230832779,
+          "far_area": 0.18211282568377837
+        },
+        "GG": {
+          "rmse_area": 0.6944544071710955,
+          "mae_area": 0.3881572405945874,
+          "bias_area": 0.3865999917507032,
+          "csi_area": 0.5911617253003717,
+          "pod_area": 1.0,
+          "far_area": 0.4088382746996283,
+          "stage": "GG",
+          "n_modes": 4,
+          "time_s": 0.5822320999577641,
+          "per_event": [
+            {
+              "rmse_area": 0.6944544071710955,
+              "mae_area": 0.3881572405945874,
+              "bias_area": 0.3865999917507032,
+              "csi_area": 0.5911617253003717,
+              "pod_area": 1.0,
+              "far_area": 0.4088382746996283
+            }
+          ]
+        },
+        "ZZ": {
+          "rmse_area": 0.16624884591579217,
+          "mae_area": 0.060018135405151156,
+          "bias_area": 0.03979325890501123,
+          "csi_area": 0.8163521778966397,
+          "pod_area": 0.9640598612400664,
+          "far_area": 0.15802344588036982,
+          "stage": "ZZ",
+          "n_modes": 4,
+          "time_s": 1.3811770998872817,
+          "zone_stats": {
+            "0": {
+              "n_cells": 38811,
+              "n_modes": 1,
+              "explained_variance": 0.9960000870851834
+            },
+            "1": {
+              "n_cells": 108357,
+              "n_modes": 1,
+              "explained_variance": 0.9894645467314235
+            },
+            "2": {
+              "n_cells": 44415,
+              "n_modes": 1,
+              "explained_variance": 0.9186155420142569
+            },
+            "4": {
+              "n_cells": 47899,
+              "n_modes": 1,
+              "explained_variance": 0.9404303641177638
+            }
+          },
+          "per_event": [
+            {
+              "rmse_area": 0.16624884591579217,
+              "mae_area": 0.060018135405151156,
+              "bias_area": 0.03979325890501123,
+              "csi_area": 0.8163521778966397,
+              "pod_area": 0.9640598612400664,
+              "far_area": 0.15802344588036982
+            }
+          ]
+        },
+        "GZ": {
+          "rmse_area": 0.16645411475921584,
+          "mae_area": 0.059721923571124394,
+          "bias_area": 0.03972086475637583,
+          "csi_area": 0.8358198549916341,
+          "pod_area": 0.9641475914404568,
+          "far_area": 0.137369178440607,
+          "stage": "GZ",
+          "n_modes": 4,
+          "time_s": 0.8790305000729859,
+          "limitations": "GZ: each zone uses the leading n_z global EOF modes restricted to the zone and QR-orthonormalized (not native zone EOFs); n_z follows variance-share budget like ZZ. This is a strong approximation \u2014 sliced global modes can be near-null on fringe zones. ZG: zonal EOF ECs are concatenated in zone order into one length-B vector; a single Global-style GP stack maps that vector.",
+          "n_zones": 4,
+          "per_event": [
+            {
+              "rmse_area": 0.16645411475921584,
+              "mae_area": 0.059721923571124394,
+              "bias_area": 0.03972086475637583,
+              "csi_area": 0.8358198549916341,
+              "pod_area": 0.9641475914404568,
+              "far_area": 0.137369178440607
+            }
+          ]
+        },
+        "ZG": {
+          "rmse_area": 0.16840770989980974,
+          "mae_area": 0.05895099807358269,
+          "bias_area": 0.03890578489745644,
+          "csi_area": 0.7828200203902601,
+          "pod_area": 0.9655293420966056,
+          "far_area": 0.19467294335733842,
+          "stage": "ZG",
+          "n_modes": 4,
+          "time_s": 0.8473447002470493,
+          "limitations": "GZ: each zone uses the leading n_z global EOF modes restricted to the zone and QR-orthonormalized (not native zone EOFs); n_z follows variance-share budget like ZZ. This is a strong approximation \u2014 sliced global modes can be near-null on fringe zones. ZG: zonal EOF ECs are concatenated in zone order into one length-B vector; a single Global-style GP stack maps that vector.",
+          "n_zones": 4,
+          "per_event": [
+            {
+              "rmse_area": 0.16840770989980974,
+              "mae_area": 0.05895099807358269,
+              "bias_area": 0.03890578489745644,
+              "csi_area": 0.7828200203902601,
+              "pod_area": 0.9655293420966056,
+              "far_area": 0.19467294335733842
+            }
+          ]
+        },
+        "deltas_vs_GG": {
+          "GG": 0.0,
+          "ZZ": 0.5282055612553034,
+          "GZ": 0.5280002924118796,
+          "ZG": 0.5260466972712858
+        },
+        "deltas_vs_ZZ": {
+          "GG": -0.5282055612553034,
+          "ZZ": 0.0,
+          "GZ": -0.0002052688434236727,
+          "ZG": -0.0021588639840175727
+        }
+      },
+      {
+        "fold": 2,
+        "lf_only": {
+          "rmse_area": 0.0808722259156253,
+          "mae_area": 0.02788016711098705,
+          "bias_area": 0.0016934904256771233,
+          "csi_area": 0.9743007381440245,
+          "pod_area": 0.9910021511136408,
+          "far_area": 0.01700347043488368
+        },
+        "GG": {
+          "rmse_area": 0.12304922313297773,
+          "mae_area": 0.04292016826945593,
+          "bias_area": -0.030709671539549312,
+          "csi_area": 0.9616023289567797,
+          "pod_area": 0.9621295188034117,
+          "far_area": 0.0005694958874571791,
+          "stage": "GG",
+          "n_modes": 4,
+          "time_s": 0.6331111001782119,
+          "per_event": [
+            {
+              "rmse_area": 0.12304922313297773,
+              "mae_area": 0.04292016826945593,
+              "bias_area": -0.030709671539549312,
+              "csi_area": 0.9616023289567797,
+              "pod_area": 0.9621295188034117,
+              "far_area": 0.0005694958874571791
+            }
+          ]
+        },
+        "ZZ": {
+          "rmse_area": 0.11455585908135536,
+          "mae_area": 0.036767190545988065,
+          "bias_area": -0.021138065677567607,
+          "csi_area": 0.9624852625153646,
+          "pod_area": 0.9634519933374068,
+          "far_area": 0.0010414271022724808,
+          "stage": "ZZ",
+          "n_modes": 4,
+          "time_s": 1.3268905002623796,
+          "zone_stats": {
+            "0": {
+              "n_cells": 36427,
+              "n_modes": 1,
+              "explained_variance": 0.9936614892885959
+            },
+            "1": {
+              "n_cells": 104136,
+              "n_modes": 1,
+              "explained_variance": 0.9877701356843412
+            },
+            "2": {
+              "n_cells": 45038,
+              "n_modes": 1,
+              "explained_variance": 0.9473054504039431
+            },
+            "4": {
+              "n_cells": 46401,
+              "n_modes": 1,
+              "explained_variance": 0.9444068657363425
+            }
+          },
+          "per_event": [
+            {
+              "rmse_area": 0.11455585908135536,
+              "mae_area": 0.036767190545988065,
+              "bias_area": -0.021138065677567607,
+              "csi_area": 0.9624852625153646,
+              "pod_area": 0.9634519933374068,
+              "far_area": 0.0010414271022724808
+            }
+          ]
+        },
+        "GZ": {
+          "rmse_area": 0.11430575536171013,
+          "mae_area": 0.037363387476235174,
+          "bias_area": -0.021673056897724613,
+          "csi_area": 0.9630058673714761,
+          "pod_area": 0.9637030960970261,
+          "far_area": 0.0007507181725870703,
+          "stage": "GZ",
+          "n_modes": 4,
+          "time_s": 0.9217391000129282,
+          "limitations": "GZ: each zone uses the leading n_z global EOF modes restricted to the zone and QR-orthonormalized (not native zone EOFs); n_z follows variance-share budget like ZZ. This is a strong approximation \u2014 sliced global modes can be near-null on fringe zones. ZG: zonal EOF ECs are concatenated in zone order into one length-B vector; a single Global-style GP stack maps that vector.",
+          "n_zones": 4,
+          "per_event": [
+            {
+              "rmse_area": 0.11430575536171013,
+              "mae_area": 0.037363387476235174,
+              "bias_area": -0.021673056897724613,
+              "csi_area": 0.9630058673714761,
+              "pod_area": 0.9637030960970261,
+              "far_area": 0.0007507181725870703
+            }
+          ]
+        },
+        "ZG": {
+          "rmse_area": 0.11536226459374341,
+          "mae_area": 0.03803921226500482,
+          "bias_area": -0.019329380337071374,
+          "csi_area": 0.9624559965884291,
+          "pod_area": 0.9634226980154512,
+          "far_area": 0.001041458736536976,
+          "stage": "ZG",
+          "n_modes": 4,
+          "time_s": 0.7930318997241557,
+          "limitations": "GZ: each zone uses the leading n_z global EOF modes restricted to the zone and QR-orthonormalized (not native zone EOFs); n_z follows variance-share budget like ZZ. This is a strong approximation \u2014 sliced global modes can be near-null on fringe zones. ZG: zonal EOF ECs are concatenated in zone order into one length-B vector; a single Global-style GP stack maps that vector.",
+          "n_zones": 4,
+          "per_event": [
+            {
+              "rmse_area": 0.11536226459374341,
+              "mae_area": 0.03803921226500482,
+              "bias_area": -0.019329380337071374,
+              "csi_area": 0.9624559965884291,
+              "pod_area": 0.9634226980154512,
+              "far_area": 0.001041458736536976
+            }
+          ]
+        },
+        "deltas_vs_GG": {
+          "GG": 0.0,
+          "ZZ": 0.008493364051622362,
+          "GZ": 0.008743467771267596,
+          "ZG": 0.007686958539234318
+        },
+        "deltas_vs_ZZ": {
+          "GG": -0.008493364051622362,
+          "ZZ": 0.0,
+          "GZ": 0.0002501037196452338,
+          "ZG": -0.0008064055123880448
+        }
+      },
+      {
+        "fold": 3,
+        "lf_only": {
+          "rmse_area": 0.1592650642310806,
+          "mae_area": 0.04813919403086886,
+          "bias_area": 0.046255139285619695,
+          "csi_area": 0.9485427587720943,
+          "pod_area": 0.9971292997179959,
+          "far_area": 0.0488598474069381
+        },
+        "GG": {
+          "rmse_area": 0.16326623677227775,
+          "mae_area": 0.07194981951294127,
+          "bias_area": -0.04795268945440744,
+          "csi_area": 0.8234086337470685,
+          "pod_area": 1.0,
+          "far_area": 0.17659136625293154,
+          "stage": "GG",
+          "n_modes": 4,
+          "time_s": 0.5950889000669122,
+          "per_event": [
+            {
+              "rmse_area": 0.16326623677227775,
+              "mae_area": 0.07194981951294127,
+              "bias_area": -0.04795268945440744,
+              "csi_area": 0.8234086337470685,
+              "pod_area": 1.0,
+              "far_area": 0.17659136625293154
+            }
+          ]
+        },
+        "ZZ": {
+          "rmse_area": 0.14057677688984152,
+          "mae_area": 0.044306963186902956,
+          "bias_area": 0.01875327716398223,
+          "csi_area": 0.8762583540901132,
+          "pod_area": 1.0,
+          "far_area": 0.1237416459098868,
+          "stage": "ZZ",
+          "n_modes": 4,
+          "time_s": 1.3841495998203754,
+          "zone_stats": {
+            "0": {
+              "n_cells": 37016,
+              "n_modes": 1,
+              "explained_variance": 0.9903062936827822
+            },
+            "1": {
+              "n_cells": 108655,
+              "n_modes": 1,
+              "explained_variance": 0.988874323982072
+            },
+            "2": {
+              "n_cells": 45913,
+              "n_modes": 1,
+              "explained_variance": 0.9165921593471957
+            },
+            "4": {
+              "n_cells": 47898,
+              "n_modes": 1,
+              "explained_variance": 0.96561810186579
+            }
+          },
+          "per_event": [
+            {
+              "rmse_area": 0.14057677688984152,
+              "mae_area": 0.044306963186902956,
+              "bias_area": 0.01875327716398223,
+              "csi_area": 0.8762583540901132,
+              "pod_area": 1.0,
+              "far_area": 0.1237416459098868
+            }
+          ]
+        },
+        "GZ": {
+          "rmse_area": 0.1396653634733225,
+          "mae_area": 0.04357032534789551,
+          "bias_area": 0.01797955565130971,
+          "csi_area": 0.8861316999690751,
+          "pod_area": 1.0,
+          "far_area": 0.11386830003092485,
+          "stage": "GZ",
+          "n_modes": 4,
+          "time_s": 0.9046416999772191,
+          "limitations": "GZ: each zone uses the leading n_z global EOF modes restricted to the zone and QR-orthonormalized (not native zone EOFs); n_z follows variance-share budget like ZZ. This is a strong approximation \u2014 sliced global modes can be near-null on fringe zones. ZG: zonal EOF ECs are concatenated in zone order into one length-B vector; a single Global-style GP stack maps that vector.",
+          "n_zones": 4,
+          "per_event": [
+            {
+              "rmse_area": 0.1396653634733225,
+              "mae_area": 0.04357032534789551,
+              "bias_area": 0.01797955565130971,
+              "csi_area": 0.8861316999690751,
+              "pod_area": 1.0,
+              "far_area": 0.11386830003092485
+            }
+          ]
+        },
+        "ZG": {
+          "rmse_area": 0.14352911029092813,
+          "mae_area": 0.046742771044991374,
+          "bias_area": 0.01933483377913834,
+          "csi_area": 0.8817030864595793,
+          "pod_area": 1.0,
+          "far_area": 0.11829691354042075,
+          "stage": "ZG",
+          "n_modes": 4,
+          "time_s": 0.8395132999867201,
+          "limitations": "GZ: each zone uses the leading n_z global EOF modes restricted to the zone and QR-orthonormalized (not native zone EOFs); n_z follows variance-share budget like ZZ. This is a strong approximation \u2014 sliced global modes can be near-null on fringe zones. ZG: zonal EOF ECs are concatenated in zone order into one length-B vector; a single Global-style GP stack maps that vector.",
+          "n_zones": 4,
+          "per_event": [
+            {
+              "rmse_area": 0.14352911029092813,
+              "mae_area": 0.046742771044991374,
+              "bias_area": 0.01933483377913834,
+              "csi_area": 0.8817030864595793,
+              "pod_area": 1.0,
+              "far_area": 0.11829691354042075
+            }
+          ]
+        },
+        "deltas_vs_GG": {
+          "GG": 0.0,
+          "ZZ": 0.02268945988243623,
+          "GZ": 0.023600873298955244,
+          "ZG": 0.01973712648134962
+        },
+        "deltas_vs_ZZ": {
+          "GG": -0.02268945988243623,
+          "ZZ": 0.0,
+          "GZ": 0.0009114134165190135,
+          "ZG": -0.00295233340108661
+        }
+      },
+      {
+        "fold": 4,
+        "lf_only": {
+          "rmse_area": 0.07000230863811223,
+          "mae_area": 0.024323321544489768,
+          "bias_area": 0.0034399384036565696,
+          "csi_area": 0.970289202661455,
+          "pod_area": 0.9951846629939775,
+          "far_area": 0.025133921085841872
+        },
+        "GG": {
+          "rmse_area": 0.06984658965553167,
+          "mae_area": 0.03665982063004126,
+          "bias_area": -0.01957902487034708,
+          "csi_area": 0.9340679684771678,
+          "pod_area": 1.0,
+          "far_area": 0.06593203152283217,
+          "stage": "GG",
+          "n_modes": 4,
+          "time_s": 0.6147039998322725,
+          "per_event": [
+            {
+              "rmse_area": 0.06984658965553167,
+              "mae_area": 0.03665982063004126,
+              "bias_area": -0.01957902487034708,
+              "csi_area": 0.9340679684771678,
+              "pod_area": 1.0,
+              "far_area": 0.06593203152283217
+            }
+          ]
+        },
+        "ZZ": {
+          "rmse_area": 0.05801897339101961,
+          "mae_area": 0.019295854471757353,
+          "bias_area": 0.00827843936869487,
+          "csi_area": 0.9324711436684084,
+          "pod_area": 1.0,
+          "far_area": 0.06752885633159159,
+          "stage": "ZZ",
+          "n_modes": 4,
+          "time_s": 1.1976318000815809,
+          "zone_stats": {
+            "0": {
+              "n_cells": 37224,
+              "n_modes": 1,
+              "explained_variance": 0.9951142303535341
+            },
+            "1": {
+              "n_cells": 102559,
+              "n_modes": 1,
+              "explained_variance": 0.9883785936404083
+            },
+            "2": {
+              "n_cells": 51802,
+              "n_modes": 1,
+              "explained_variance": 0.9317295067092414
+            },
+            "4": {
+              "n_cells": 47897,
+              "n_modes": 1,
+              "explained_variance": 0.9405115088178909
+            }
+          },
+          "per_event": [
+            {
+              "rmse_area": 0.05801897339101961,
+              "mae_area": 0.019295854471757353,
+              "bias_area": 0.00827843936869487,
+              "csi_area": 0.9324711436684084,
+              "pod_area": 1.0,
+              "far_area": 0.06752885633159159
+            }
+          ]
+        },
+        "GZ": {
+          "rmse_area": 0.056806668451352495,
+          "mae_area": 0.018780941261908116,
+          "bias_area": 0.008143562548262618,
+          "csi_area": 0.9329570669714901,
+          "pod_area": 1.0,
+          "far_area": 0.06704293302850996,
+          "stage": "GZ",
+          "n_modes": 4,
+          "time_s": 0.8400145000778139,
+          "limitations": "GZ: each zone uses the leading n_z global EOF modes restricted to the zone and QR-orthonormalized (not native zone EOFs); n_z follows variance-share budget like ZZ. This is a strong approximation \u2014 sliced global modes can be near-null on fringe zones. ZG: zonal EOF ECs are concatenated in zone order into one length-B vector; a single Global-style GP stack maps that vector.",
+          "n_zones": 4,
+          "per_event": [
+            {
+              "rmse_area": 0.056806668451352495,
+              "mae_area": 0.018780941261908116,
+              "bias_area": 0.008143562548262618,
+              "csi_area": 0.9329570669714901,
+              "pod_area": 1.0,
+              "far_area": 0.06704293302850996
+            }
+          ]
+        },
+        "ZG": {
+          "rmse_area": 0.05837651820764406,
+          "mae_area": 0.019120186900016958,
+          "bias_area": 0.012420523302945075,
+          "csi_area": 0.9324711436684084,
+          "pod_area": 1.0,
+          "far_area": 0.06752885633159159,
+          "stage": "ZG",
+          "n_modes": 4,
+          "time_s": 0.8453546999953687,
+          "limitations": "GZ: each zone uses the leading n_z global EOF modes restricted to the zone and QR-orthonormalized (not native zone EOFs); n_z follows variance-share budget like ZZ. This is a strong approximation \u2014 sliced global modes can be near-null on fringe zones. ZG: zonal EOF ECs are concatenated in zone order into one length-B vector; a single Global-style GP stack maps that vector.",
+          "n_zones": 4,
+          "per_event": [
+            {
+              "rmse_area": 0.05837651820764406,
+              "mae_area": 0.019120186900016958,
+              "bias_area": 0.012420523302945075,
+              "csi_area": 0.9324711436684084,
+              "pod_area": 1.0,
+              "far_area": 0.06752885633159159
+            }
+          ]
+        },
+        "deltas_vs_GG": {
+          "GG": 0.0,
+          "ZZ": 0.011827616264512064,
+          "GZ": 0.013039921204179176,
+          "ZG": 0.011470071447887614
+        },
+        "deltas_vs_ZZ": {
+          "GG": -0.011827616264512064,
+          "ZZ": 0.0,
+          "GZ": 0.0012123049396671123,
+          "ZG": -0.0003575448166244499
+        }
+      },
+      {
+        "fold": 5,
+        "lf_only": {
+          "rmse_area": 0.24384914522401183,
+          "mae_area": 0.07334990085023418,
+          "bias_area": 0.07271033220099553,
+          "csi_area": 0.8522231388161592,
+          "pod_area": 0.999621368821826,
+          "far_area": 0.14750167432070418
+        },
+        "GG": {
+          "rmse_area": 0.20148590835315763,
+          "mae_area": 0.07857752365973437,
+          "bias_area": 0.07857633663369629,
+          "csi_area": 0.8210886899450186,
+          "pod_area": 1.0,
+          "far_area": 0.17891131005498143,
+          "stage": "GG",
+          "n_modes": 4,
+          "time_s": 0.6190149998292327,
+          "per_event": [
+            {
+              "rmse_area": 0.20148590835315763,
+              "mae_area": 0.07857752365973437,
+              "bias_area": 0.07857633663369629,
+              "csi_area": 0.8210886899450186,
+              "pod_area": 1.0,
+              "far_area": 0.17891131005498143
+            }
+          ]
+        },
+        "ZZ": {
+          "rmse_area": 0.12577951795320405,
+          "mae_area": 0.041295617209009226,
+          "bias_area": 0.004601268852091971,
+          "csi_area": 0.8110989736237227,
+          "pod_area": 0.9996003337563719,
+          "far_area": 0.1886379028723955,
+          "stage": "ZZ",
+          "n_modes": 4,
+          "time_s": 1.3030644999817014,
+          "zone_stats": {
+            "0": {
+              "n_cells": 37295,
+              "n_modes": 1,
+              "explained_variance": 0.9924500136240986
+            },
+            "1": {
+              "n_cells": 109158,
+              "n_modes": 1,
+              "explained_variance": 0.9887604440839143
+            },
+            "2": {
+              "n_cells": 45096,
+              "n_modes": 1,
+              "explained_variance": 0.9169426869476087
+            },
+            "4": {
+              "n_cells": 47933,
+              "n_modes": 1,
+              "explained_variance": 0.9327316939581234
+            }
+          },
+          "per_event": [
+            {
+              "rmse_area": 0.12577951795320405,
+              "mae_area": 0.041295617209009226,
+              "bias_area": 0.004601268852091971,
+              "csi_area": 0.8110989736237227,
+              "pod_area": 0.9996003337563719,
+              "far_area": 0.1886379028723955
+            }
+          ]
+        },
+        "GZ": {
+          "rmse_area": 0.12722149903068106,
+          "mae_area": 0.04087010362096598,
+          "bias_area": -0.011904497558843532,
+          "csi_area": 0.863017945725124,
+          "pod_area": 0.9954003323540341,
+          "far_area": 0.133526611328125,
+          "stage": "GZ",
+          "n_modes": 4,
+          "time_s": 0.9054698003455997,
+          "limitations": "GZ: each zone uses the leading n_z global EOF modes restricted to the zone and QR-orthonormalized (not native zone EOFs); n_z follows variance-share budget like ZZ. This is a strong approximation \u2014 sliced global modes can be near-null on fringe zones. ZG: zonal EOF ECs are concatenated in zone order into one length-B vector; a single Global-style GP stack maps that vector.",
+          "n_zones": 4,
+          "per_event": [
+            {
+              "rmse_area": 0.12722149903068106,
+              "mae_area": 0.04087010362096598,
+              "bias_area": -0.011904497558843532,
+              "csi_area": 0.863017945725124,
+              "pod_area": 0.9954003323540341,
+              "far_area": 0.133526611328125
+            }
+          ]
+        },
+        "ZG": {
+          "rmse_area": 0.12939688434031746,
+          "mae_area": 0.04135467802040413,
+          "bias_area": 0.007920804976693925,
+          "csi_area": 0.815762825317093,
+          "pod_area": 0.9997826376569742,
+          "far_area": 0.184092469672694,
+          "stage": "ZG",
+          "n_modes": 4,
+          "time_s": 0.827074599917978,
+          "limitations": "GZ: each zone uses the leading n_z global EOF modes restricted to the zone and QR-orthonormalized (not native zone EOFs); n_z follows variance-share budget like ZZ. This is a strong approximation \u2014 sliced global modes can be near-null on fringe zones. ZG: zonal EOF ECs are concatenated in zone order into one length-B vector; a single Global-style GP stack maps that vector.",
+          "n_zones": 4,
+          "per_event": [
+            {
+              "rmse_area": 0.12939688434031746,
+              "mae_area": 0.04135467802040413,
+              "bias_area": 0.007920804976693925,
+              "csi_area": 0.815762825317093,
+              "pod_area": 0.9997826376569742,
+              "far_area": 0.184092469672694
+            }
+          ]
+        },
+        "deltas_vs_GG": {
+          "GG": 0.0,
+          "ZZ": 0.07570639039995358,
+          "GZ": 0.07426440932247658,
+          "ZG": 0.07208902401284017
+        },
+        "deltas_vs_ZZ": {
+          "GG": -0.07570639039995358,
+          "ZZ": 0.0,
+          "GZ": -0.0014419810774770059,
+          "ZG": -0.0036173663871134076
+        }
+      },
+      {
+        "fold": 6,
+        "lf_only": {
+          "rmse_area": 0.08235384309142628,
+          "mae_area": 0.03260720176191071,
+          "bias_area": 0.027400579258861947,
+          "csi_area": 0.9508964037586718,
+          "pod_area": 0.992851557546811,
+          "far_area": 0.042548530086105874
+        },
+        "GG": {
+          "rmse_area": 0.14434479293122227,
+          "mae_area": 0.05771008294308974,
+          "bias_area": -0.03918772638857816,
+          "csi_area": 0.8953645140994649,
+          "pod_area": 1.0,
+          "far_area": 0.10463548590053502,
+          "stage": "GG",
+          "n_modes": 4,
+          "time_s": 0.5894819996319711,
+          "per_event": [
+            {
+              "rmse_area": 0.14434479293122227,
+              "mae_area": 0.05771008294308974,
+              "bias_area": -0.03918772638857816,
+              "csi_area": 0.8953645140994649,
+              "pod_area": 1.0,
+              "far_area": 0.10463548590053502
+            }
+          ]
+        },
+        "ZZ": {
+          "rmse_area": 0.08925677818481781,
+          "mae_area": 0.03734240704116856,
+          "bias_area": -0.0032652785283481633,
+          "csi_area": 0.9116589153283119,
+          "pod_area": 0.9963069022359355,
+          "far_area": 0.08524984598369124,
+          "stage": "ZZ",
+          "n_modes": 4,
+          "time_s": 1.3212363002821803,
+          "zone_stats": {
+            "0": {
+              "n_cells": 36745,
+              "n_modes": 1,
+              "explained_variance": 0.9933180993450156
+            },
+            "1": {
+              "n_cells": 102675,
+              "n_modes": 1,
+              "explained_variance": 0.9900290398485148
+            },
+            "2": {
+              "n_cells": 52165,
+              "n_modes": 1,
+              "explained_variance": 0.9272512755230714
+            },
+            "4": {
+              "n_cells": 47897,
+              "n_modes": 1,
+              "explained_variance": 0.9521454442234739
+            }
+          },
+          "per_event": [
+            {
+              "rmse_area": 0.08925677818481781,
+              "mae_area": 0.03734240704116856,
+              "bias_area": -0.0032652785283481633,
+              "csi_area": 0.9116589153283119,
+              "pod_area": 0.9963069022359355,
+              "far_area": 0.08524984598369124
+            }
+          ]
+        },
+        "GZ": {
+          "rmse_area": 0.08917604138223927,
+          "mae_area": 0.03730411175148591,
+          "bias_area": -0.003618035679667456,
+          "csi_area": 0.9055627301401364,
+          "pod_area": 0.996586922524198,
+          "far_area": 0.09162007406658287,
+          "stage": "GZ",
+          "n_modes": 4,
+          "time_s": 0.8943985998630524,
+          "limitations": "GZ: each zone uses the leading n_z global EOF modes restricted to the zone and QR-orthonormalized (not native zone EOFs); n_z follows variance-share budget like ZZ. This is a strong approximation \u2014 sliced global modes can be near-null on fringe zones. ZG: zonal EOF ECs are concatenated in zone order into one length-B vector; a single Global-style GP stack maps that vector.",
+          "n_zones": 4,
+          "per_event": [
+            {
+              "rmse_area": 0.08917604138223927,
+              "mae_area": 0.03730411175148591,
+              "bias_area": -0.003618035679667456,
+              "csi_area": 0.9055627301401364,
+              "pod_area": 0.996586922524198,
+              "far_area": 0.09162007406658287
+            }
+          ]
+        },
+        "ZG": {
+          "rmse_area": 0.10553773928081465,
+          "mae_area": 0.04120913788043178,
+          "bias_area": -0.008413390619910465,
+          "csi_area": 0.9148230840168907,
+          "pod_area": 0.9958208292827254,
+          "far_area": 0.08165114817359274,
+          "stage": "ZG",
+          "n_modes": 4,
+          "time_s": 0.9525657999329269,
+          "limitations": "GZ: each zone uses the leading n_z global EOF modes restricted to the zone and QR-orthonormalized (not native zone EOFs); n_z follows variance-share budget like ZZ. This is a strong approximation \u2014 sliced global modes can be near-null on fringe zones. ZG: zonal EOF ECs are concatenated in zone order into one length-B vector; a single Global-style GP stack maps that vector.",
+          "n_zones": 4,
+          "per_event": [
+            {
+              "rmse_area": 0.10553773928081465,
+              "mae_area": 0.04120913788043178,
+              "bias_area": -0.008413390619910465,
+              "csi_area": 0.9148230840168907,
+              "pod_area": 0.9958208292827254,
+              "far_area": 0.08165114817359274
+            }
+          ]
+        },
+        "deltas_vs_GG": {
+          "GG": 0.0,
+          "ZZ": 0.05508801474640446,
+          "GZ": 0.055168751548983,
+          "ZG": 0.03880705365040761
+        },
+        "deltas_vs_ZZ": {
+          "GG": -0.05508801474640446,
+          "ZZ": 0.0,
+          "GZ": 8.073680257854321e-05,
+          "ZG": -0.016280961095996846
+        }
+      },
+      {
+        "fold": 7,
+        "lf_only": {
+          "rmse_area": 0.07140890559079005,
+          "mae_area": 0.022392425458722623,
+          "bias_area": 0.00407918415396093,
+          "csi_area": 0.9611694570827414,
+          "pod_area": 0.9932218350754937,
+          "far_area": 0.032484194615534305
+        },
+        "GG": {
+          "rmse_area": 0.063844029415789,
+          "mae_area": 0.026282340192761457,
+          "bias_area": 0.003349315067749166,
+          "csi_area": 0.9088386589970352,
+          "pod_area": 0.9997351916376307,
+          "far_area": 0.09094250193265489,
+          "stage": "GG",
+          "n_modes": 4,
+          "time_s": 0.6370919002220035,
+          "per_event": [
+            {
+              "rmse_area": 0.063844029415789,
+              "mae_area": 0.026282340192761457,
+              "bias_area": 0.003349315067749166,
+              "csi_area": 0.9088386589970352,
+              "pod_area": 0.9997351916376307,
+              "far_area": 0.09094250193265489
+            }
+          ]
+        },
+        "ZZ": {
+          "rmse_area": 0.05499301963085663,
+          "mae_area": 0.02180526633876352,
+          "bias_area": 0.005027401308338306,
+          "csi_area": 0.9128330942214148,
+          "pod_area": 0.9991080139372822,
+          "far_area": 0.08642237534090619,
+          "stage": "ZZ",
+          "n_modes": 4,
+          "time_s": 1.2003546999767423,
+          "zone_stats": {
+            "0": {
+              "n_cells": 36970,
+              "n_modes": 1,
+              "explained_variance": 0.9957598158375027
+            },
+            "1": {
+              "n_cells": 102253,
+              "n_modes": 1,
+              "explained_variance": 0.9894526210769157
+            },
+            "2": {
+              "n_cells": 52362,
+              "n_modes": 1,
+              "explained_variance": 0.9396005574459916
+            },
+            "4": {
+              "n_cells": 47897,
+              "n_modes": 1,
+              "explained_variance": 0.9436780903450112
+            }
+          },
+          "per_event": [
+            {
+              "rmse_area": 0.05499301963085663,
+              "mae_area": 0.02180526633876352,
+              "bias_area": 0.005027401308338306,
+              "csi_area": 0.9128330942214148,
+              "pod_area": 0.9991080139372822,
+              "far_area": 0.08642237534090619
+            }
+          ]
+        },
+        "GZ": {
+          "rmse_area": 0.0553046964826623,
+          "mae_area": 0.021896423851454485,
+          "bias_area": 0.005360089934625576,
+          "csi_area": 0.9128622427105751,
+          "pod_area": 0.9990847851335656,
+          "far_area": 0.08637375522550386,
+          "stage": "GZ",
+          "n_modes": 4,
+          "time_s": 0.8933601998724043,
+          "limitations": "GZ: each zone uses the leading n_z global EOF modes restricted to the zone and QR-orthonormalized (not native zone EOFs); n_z follows variance-share budget like ZZ. This is a strong approximation \u2014 sliced global modes can be near-null on fringe zones. ZG: zonal EOF ECs are concatenated in zone order into one length-B vector; a single Global-style GP stack maps that vector.",
+          "n_zones": 4,
+          "per_event": [
+            {
+              "rmse_area": 0.0553046964826623,
+              "mae_area": 0.021896423851454485,
+              "bias_area": 0.005360089934625576,
+              "csi_area": 0.9128622427105751,
+              "pod_area": 0.9990847851335656,
+              "far_area": 0.08637375522550386
+            }
+          ]
+        },
+        "ZG": {
+          "rmse_area": 0.05500279069576216,
+          "mae_area": 0.02181387621519314,
+          "bias_area": 0.005067045985565906,
+          "csi_area": 0.9127947199762314,
+          "pod_area": 0.9991126596980255,
+          "far_area": 0.08646469623726712,
+          "stage": "ZG",
+          "n_modes": 4,
+          "time_s": 0.8901578998193145,
+          "limitations": "GZ: each zone uses the leading n_z global EOF modes restricted to the zone and QR-orthonormalized (not native zone EOFs); n_z follows variance-share budget like ZZ. This is a strong approximation \u2014 sliced global modes can be near-null on fringe zones. ZG: zonal EOF ECs are concatenated in zone order into one length-B vector; a single Global-style GP stack maps that vector.",
+          "n_zones": 4,
+          "per_event": [
+            {
+              "rmse_area": 0.05500279069576216,
+              "mae_area": 0.02181387621519314,
+              "bias_area": 0.005067045985565906,
+              "csi_area": 0.9127947199762314,
+              "pod_area": 0.9991126596980255,
+              "far_area": 0.08646469623726712
+            }
+          ]
+        },
+        "deltas_vs_GG": {
+          "GG": 0.0,
+          "ZZ": 0.008851009784932369,
+          "GZ": 0.008539332933126698,
+          "ZG": 0.008841238720026838
+        },
+        "deltas_vs_ZZ": {
+          "GG": -0.008851009784932369,
+          "ZZ": 0.0,
+          "GZ": -0.00031167685180567145,
+          "ZG": -9.771064905531035e-06
+        }
+      },
+      {
+        "fold": 8,
+        "lf_only": {
+          "rmse_area": 0.07661858816524092,
+          "mae_area": 0.027094703803621722,
+          "bias_area": 0.005771257034967166,
+          "csi_area": 0.9766303583827833,
+          "pod_area": 0.9978325303249899,
+          "far_area": 0.021293398960943604
+        },
+        "GG": {
+          "rmse_area": 0.08950414908767994,
+          "mae_area": 0.04078322067399337,
+          "bias_area": -0.00020005444227193773,
+          "csi_area": 0.9580540006033587,
+          "pod_area": 0.9951775975905397,
+          "far_area": 0.03747747899442658,
+          "stage": "GG",
+          "n_modes": 4,
+          "time_s": 0.539695099927485,
+          "per_event": [
+            {
+              "rmse_area": 0.08950414908767994,
+              "mae_area": 0.04078322067399337,
+              "bias_area": -0.00020005444227193773,
+              "csi_area": 0.9580540006033587,
+              "pod_area": 0.9951775975905397,
+              "far_area": 0.03747747899442658
+            }
+          ]
+        },
+        "ZZ": {
+          "rmse_area": 0.0744161655135644,
+          "mae_area": 0.03186108357771507,
+          "bias_area": -0.0029955881945426485,
+          "csi_area": 0.9578015118998314,
+          "pod_area": 0.9964702451678048,
+          "far_area": 0.038937815351808784,
+          "stage": "ZZ",
+          "n_modes": 4,
+          "time_s": 1.347433099988848,
+          "zone_stats": {
+            "0": {
+              "n_cells": 36819,
+              "n_modes": 1,
+              "explained_variance": 0.9952444116361601
+            },
+            "1": {
+              "n_cells": 102845,
+              "n_modes": 1,
+              "explained_variance": 0.9887803787230032
+            },
+            "2": {
+              "n_cells": 51431,
+              "n_modes": 1,
+              "explained_variance": 0.9218722435577908
+            },
+            "4": {
+              "n_cells": 47851,
+              "n_modes": 1,
+              "explained_variance": 0.9373079981900552
+            }
+          },
+          "per_event": [
+            {
+              "rmse_area": 0.0744161655135644,
+              "mae_area": 0.03186108357771507,
+              "bias_area": -0.0029955881945426485,
+              "csi_area": 0.9578015118998314,
+              "pod_area": 0.9964702451678048,
+              "far_area": 0.038937815351808784
+            }
+          ]
+        },
+        "GZ": {
+          "rmse_area": 0.07446836914248098,
+          "mae_area": 0.032245687397043414,
+          "bias_area": -0.004219710956760825,
+          "csi_area": 0.9578543740528955,
+          "pod_area": 0.9958957351334647,
+          "far_area": 0.03834952068352505,
+          "stage": "GZ",
+          "n_modes": 4,
+          "time_s": 0.9532754998654127,
+          "limitations": "GZ: each zone uses the leading n_z global EOF modes restricted to the zone and QR-orthonormalized (not native zone EOFs); n_z follows variance-share budget like ZZ. This is a strong approximation \u2014 sliced global modes can be near-null on fringe zones. ZG: zonal EOF ECs are concatenated in zone order into one length-B vector; a single Global-style GP stack maps that vector.",
+          "n_zones": 4,
+          "per_event": [
+            {
+              "rmse_area": 0.07446836914248098,
+              "mae_area": 0.032245687397043414,
+              "bias_area": -0.004219710956760825,
+              "csi_area": 0.9578543740528955,
+              "pod_area": 0.9958957351334647,
+              "far_area": 0.03834952068352505
+            }
+          ]
+        },
+        "ZG": {
+          "rmse_area": 0.0756760322102662,
+          "mae_area": 0.03263203102461393,
+          "bias_area": -0.007992825003833194,
+          "csi_area": 0.9578015118998314,
+          "pod_area": 0.9964702451678048,
+          "far_area": 0.038937815351808784,
+          "stage": "ZG",
+          "n_modes": 4,
+          "time_s": 0.9490779996849597,
+          "limitations": "GZ: each zone uses the leading n_z global EOF modes restricted to the zone and QR-orthonormalized (not native zone EOFs); n_z follows variance-share budget like ZZ. This is a strong approximation \u2014 sliced global modes can be near-null on fringe zones. ZG: zonal EOF ECs are concatenated in zone order into one length-B vector; a single Global-style GP stack maps that vector.",
+          "n_zones": 4,
+          "per_event": [
+            {
+              "rmse_area": 0.0756760322102662,
+              "mae_area": 0.03263203102461393,
+              "bias_area": -0.007992825003833194,
+              "csi_area": 0.9578015118998314,
+              "pod_area": 0.9964702451678048,
+              "far_area": 0.038937815351808784
+            }
+          ]
+        },
+        "deltas_vs_GG": {
+          "GG": 0.0,
+          "ZZ": 0.015087983574115532,
+          "GZ": 0.01503577994519896,
+          "ZG": 0.01382811687741374
+        },
+        "deltas_vs_ZZ": {
+          "GG": -0.015087983574115532,
+          "ZZ": 0.0,
+          "GZ": -5.2203628916572264e-05,
+          "ZG": -0.0012598666967017919
+        }
+      }
+    ],
+    "summary": {
+      "GG": {
+        "mean_rmse": 0.18022734791248393,
+        "std_rmse": 0.1871851707475464
+      },
+      "ZZ": {
+        "mean_rmse": 0.09788570764513944,
+        "std_rmse": 0.03839534366616015
+      },
+      "GZ": {
+        "mean_rmse": 0.09797906173489038,
+        "std_rmse": 0.03838483638556673
+      },
+      "ZG": {
+        "mean_rmse": 0.10095775287424934,
+        "std_rmse": 0.039252134470883736
+      },
+      "n_folds_ZZ_beats_GG": 9,
+      "mean_delta_ZZ": 0.08234164026734449,
+      "n_folds_GZ_beats_GG": 9,
+      "mean_delta_GZ": 0.08224828617759355,
+      "n_folds_ZG_beats_GG": 9,
+      "mean_delta_ZG": 0.0792695950382346
+    }
+  },
+  "interpretation": {
+    "split_7_2": "GG\u22480.146 ZZ\u22480.094\u20130.096 GZ\u2248ZZ ZG\u22480.101; both cross-arms recover nearly full zonal gain",
+    "loocv_means": "GG 0.180 ZZ 0.098 GZ 0.098 ZG 0.101; 9/9 all three beat GG",
+    "vs_mapping_only_hypothesis": "NOT confirmed as unique: GZ\u2248ZZ and ZG\u2248ZZ, so zoning either EOF or GP stage suffices under these approximations",
+    "with_oracle": "Equal-budget pure-EOF oracle still has DeltaRMSE<0; therefore LSG gain is not pure HF truncation, but stage-swap does not uniquely pin zone-private GPs",
+    "recommended_wording": "Zone structure in the coupled LF-to-HF pipeline (EOF coordinates and/or mapping locality) recovers the Carlisle LSG gain; not uniquely the GP stage."
+  }
+}

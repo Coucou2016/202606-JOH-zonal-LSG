@@ -1,0 +1,46 @@
+case,events_used,events_available,split_type,fold_id,model,zoning,B_requested,modes_actual,area_weighted,leakage_audit,gp_backend,lf_data_type,rmse_area,csi_area,status,notes
+Carlisle,9,9,random_7_2,fold_a,global,none,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5,0.1464,0.8841,complete,TRUE equal budget: force_n_modes for Global
+Carlisle,9,9,random_7_2,fold_a,kmeans,kmeans,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5,0.1015,0.8814,complete,TRUE equal budget: force_n_modes for Global
+Carlisle,9,9,random_7_2,fold_a,rule,rule,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5,0.0964,0.8838,complete,TRUE equal budget: force_n_modes for Global
+Carlisle,9,9,random_7_2,fold_a,global,none,6,6,True,CLEAN_PASS,sklearn_GPR,real_HDF5,0.2588,0.8633,complete,TRUE equal budget: force_n_modes for Global
+Carlisle,9,9,random_7_2,fold_a,kmeans,kmeans,6,6,True,CLEAN_PASS,sklearn_GPR,real_HDF5,0.1367,0.8882,complete,TRUE equal budget: force_n_modes for Global
+Carlisle,9,9,random_7_2,fold_a,rule,rule,6,6,True,CLEAN_PASS,sklearn_GPR,real_HDF5,0.1256,0.8795,complete,TRUE equal budget: force_n_modes for Global
+Carlisle,9,9,random_7_2,fold_a,global,none,8,7,True,CLEAN_PASS,sklearn_GPR,real_HDF5,0.3527,0.8732,complete,TRUE equal budget: force_n_modes for Global
+Carlisle,9,9,random_7_2,fold_a,kmeans,kmeans,8,8,True,CLEAN_PASS,sklearn_GPR,real_HDF5,0.298,0.8736,complete,TRUE equal budget: force_n_modes for Global
+Carlisle,9,9,random_7_2,fold_a,rule,rule,8,8,True,CLEAN_PASS,sklearn_GPR,real_HDF5,0.179,0.8746,complete,TRUE equal budget: force_n_modes for Global
+Chowilla,12,31,random_10_2,fold_a,global,none,4,unknown,True,PENDING,sklearn_GPR,real_HDF5,2.5606,0.2689,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real; LF quality boundary."
+Chowilla,12,31,random_10_2,fold_a,kmeans,kmeans,4,unknown,True,PENDING,sklearn_GPR,real_HDF5,2.5619,0.2638,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real; LF quality boundary."
+Chowilla,12,31,random_10_2,fold_a,rule,rule,4,unknown,True,PENDING,sklearn_GPR,real_HDF5,2.5614,0.262,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real; LF quality boundary."
+Chowilla,12,31,random_10_2,fold_a,global,none,8,unknown,True,PENDING,sklearn_GPR,real_HDF5,2.5607,0.2678,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real; LF quality boundary."
+Chowilla,12,31,random_10_2,fold_a,kmeans,kmeans,8,unknown,True,PENDING,sklearn_GPR,real_HDF5,2.5636,0.2637,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real; LF quality boundary."
+Chowilla,12,31,random_10_2,fold_a,rule,rule,8,unknown,True,PENDING,sklearn_GPR,real_HDF5,2.5616,0.2629,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real; LF quality boundary."
+Chowilla,12,31,random_10_2,fold_a,global,none,12,unknown,True,PENDING,sklearn_GPR,real_HDF5,2.5607,0.2678,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real; LF quality boundary."
+Chowilla,12,31,random_10_2,fold_a,kmeans,kmeans,12,unknown,True,PENDING,sklearn_GPR,real_HDF5,2.5642,0.2649,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real; LF quality boundary."
+Chowilla,12,31,random_10_2,fold_a,rule,rule,12,unknown,True,PENDING,sklearn_GPR,real_HDF5,2.5622,0.2619,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real; LF quality boundary."
+BurnettRV,12,74,random_10_2,fold_a,global,none,auto,3,True,PENDING,sklearn_GPR,real_HDF5,1.612,0.6312,partial_12of74,RMSE from validation_std.json (12-event single split). Event LOOCV: scripts/32_burnettrv_loocv.py.
+BurnettRV,12,74,random_10_2,fold_a,KMeans_B4,KMeans,4,4,True,PENDING,sklearn_GPR,real_HDF5,1.6122,0.6307,partial_12of74,RMSE from validation_std.json (12-event single split). Event LOOCV: scripts/32_burnettrv_loocv.py.
+BurnettRV,12,74,random_10_2,fold_a,Rule_B4,Rule,4,4,True,PENDING,sklearn_GPR,real_HDF5,1.6122,0.6307,partial_12of74,RMSE from validation_std.json (12-event single split). Event LOOCV: scripts/32_burnettrv_loocv.py.
+BurnettRV,12,74,random_10_2,fold_a,Rule_B8,Rule,8,8,True,PENDING,sklearn_GPR,real_HDF5,1.6158,0.6263,partial_12of74,RMSE from validation_std.json (12-event single split). Event LOOCV: scripts/32_burnettrv_loocv.py.
+BurnettRV,30,74,loocv_event,loocv,global_loocv,none,4,4,True,PENDING,sklearn_GPR,real_HDF5,1.7479,,loocv_30,Mean over 30 LOOCV folds. Rule dRMSE=-0.0781; improved 6/30; significant=False.
+BurnettRV,30,74,loocv_event,loocv,rule_loocv,rule,4,4,True,PENDING,sklearn_GPR,real_HDF5,1.826,,loocv_30,Mean Rule RMSE over 30 folds from burnettrv_30events.npz.
+Carlisle,9,9,official_loocv_event,official,global_official,none,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5,0.1802,0.8688,complete,Official 9-fold LSG-Max. MaxWD_R2=0.9149.
+Carlisle,9,9,official_loocv_event,official,rule_official,rule,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5,0.0982,0.9054,complete,Official 9-fold LSG-Max. MaxWD_R2=0.9883.
+Carlisle,9,9,official_loocv_event,official,kmeans_official,kmeans,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5,0.1233,0.8923,complete,Official 9-fold LSG-Max. MaxWD_R2=0.9761.
+Carlisle,9,9,random_7_2,lf_factor_1,global_degraded_x1,none,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5_coarsened,0.1464,0.884,complete,"B5 LF coarsen factor=1, n_lf=5681."
+Carlisle,9,9,random_7_2,lf_factor_1,rule_degraded_x1,rule,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5_coarsened,0.0939,0.8964,complete,"B5 LF coarsen factor=1, n_lf=5681."
+Carlisle,9,9,random_7_2,lf_factor_2,global_degraded_x2,none,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5_coarsened,0.148,0.8827,complete,"B5 LF coarsen factor=2, n_lf=1487."
+Carlisle,9,9,random_7_2,lf_factor_2,rule_degraded_x2,rule,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5_coarsened,0.0942,0.8975,complete,"B5 LF coarsen factor=2, n_lf=1487."
+Carlisle,9,9,random_7_2,lf_factor_4,global_degraded_x4,none,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5_coarsened,0.1528,0.8809,complete,"B5 LF coarsen factor=4, n_lf=384."
+Carlisle,9,9,random_7_2,lf_factor_4,rule_degraded_x4,rule,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5_coarsened,0.1029,0.8909,complete,"B5 LF coarsen factor=4, n_lf=384."
+Carlisle,9,9,random_7_2,mcl_distance,global,global,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5,0.1464,0.884,complete,B6 distance-to-Carlisle_MCL zoning.
+Carlisle,9,9,random_7_2,mcl_distance,rule,rule,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5,0.0964,0.8832,complete,B6 distance-to-Carlisle_MCL zoning.
+Carlisle,9,9,random_7_2,mcl_distance,rule_channel,rule,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5,0.0937,0.8974,complete,B6 distance-to-Carlisle_MCL zoning.
+Carlisle,9,9,random_7_2,mcl_distance,channel,channel,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5,0.1118,0.8885,complete,B6 distance-to-Carlisle_MCL zoning.
+Carlisle,9,9,random_7_2,mcl_distance,kmeans,kmeans,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5,0.1027,0.8808,complete,B6 distance-to-Carlisle_MCL zoning.
+Carlisle,9,9,extrapolation,p10,global,none,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5,1.0847,0.8674,complete,"A4 extrap; HF truth from raw NPZ not stored MaxWD[:,0]."
+Carlisle,9,9,extrapolation,p10,rule,rule,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5,0.6089,0.8771,complete,"A4 extrap; HF truth from raw NPZ not stored MaxWD[:,0]."
+Carlisle,9,9,extrapolation,p11,global,none,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5,1.6329,0.8077,complete,"A4 extrap; HF truth from raw NPZ not stored MaxWD[:,0]."
+Carlisle,9,9,extrapolation,p11,rule,rule,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5,1.1238,0.8178,complete,"A4 extrap; HF truth from raw NPZ not stored MaxWD[:,0]."
+Carlisle,9,9,random,N/A,LF-only,none,0,0,True,N/A,N/A,real_HDF5,0.1602,0.9145,complete,Baseline from budget_sweep_true_equal.json
+Chowilla,12,31,random,N/A,LF-only,none,0,0,True,N/A,N/A,real_HDF5,0.3926,0.8767,valid_boundary_case,LF-only is best on Chowilla; LSG degrades.
+BurnettRV,12,74,random,N/A,LF-only,none,0,0,True,N/A,N/A,real_HDF5,2.2323,0.6911,partial_12of74,Baseline from validation_std.json

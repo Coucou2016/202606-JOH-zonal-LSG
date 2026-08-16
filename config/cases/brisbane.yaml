@@ -1,0 +1,20 @@
+# Lower Brisbane River floodplain — for enhanced version with licensed data
+study_area:
+  name: Lower Brisbane River floodplain
+  country: Australia
+  hydrodynamic_model: TUFLOW (URBS hydrology)
+  crs: EPSG:28356
+  notes: >
+    Urbanized floodplain with tidal influences, dam regulation (Wivenhoe/Somerset),
+    multiple tributaries, and backwater effects. Data requires Queensland Government
+    licence. Apply via Business Queensland website.
+
+paths:
+  raw_dir: data/external/brisbane_requested
+  processed_dir: data/processed/brisbane
+
+hydrodynamic:
+  depth_threshold_m: 0.03
+  hf_cell_size_m: null
+  lf_cell_size_m: null
+  main_hydraulic_complexity: very_high

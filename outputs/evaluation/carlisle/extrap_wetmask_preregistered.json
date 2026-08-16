@@ -1,0 +1,233 @@
+{
+  "protocol": "pre_registered_wet_masks",
+  "source": "I:/Projects/202606-JOH-zonal-LSG/outputs/evaluation/carlisle/extrap_zonal.json",
+  "n_wet_counts": {
+    "train_only": 239482,
+    "official_interp": 239482,
+    "official_extrap": 290458,
+    "all_cells": 581061
+  },
+  "note": "Masks are pre-registered: train_wet / official_interp / official_extrap / all_cells. Do not post-select the mask that maximises R2. LF-only remains the fair extrap baseline.",
+  "rows": [
+    {
+      "event": "p10",
+      "model": "lf_only",
+      "mask": "train_wet",
+      "n_wet": 239482,
+      "rmse_wet": 0.10711172386760767,
+      "maxwd_r2": 0.9962959764855649,
+      "csi": 0.9981084173340793,
+      "peak_diff": 0.018033395058166476,
+      "rmse_area_full": 0.0994117041451374
+    },
+    {
+      "event": "p10",
+      "model": "lf_only",
+      "mask": "official_extrap_wet",
+      "n_wet": 290458,
+      "rmse_wet": 0.11613917529670162,
+      "maxwd_r2": 0.9967973762260046,
+      "csi": 0.9858050302919038,
+      "peak_diff": 0.01968394498682773,
+      "rmse_area_full": 0.0994117041451374
+    },
+    {
+      "event": "p10",
+      "model": "global",
+      "mask": "train_wet",
+      "n_wet": 239482,
+      "rmse_wet": 1.6663356686503965,
+      "maxwd_r2": 0.10355283410902083,
+      "csi": 0.9843620814925548,
+      "peak_diff": 1.6475143883809067,
+      "rmse_area_full": 1.0846648396022012
+    },
+    {
+      "event": "p10",
+      "model": "global",
+      "mask": "official_interp_wet",
+      "n_wet": 239482,
+      "rmse_wet": 1.6663356686503965,
+      "maxwd_r2": 0.10355283410902094,
+      "csi": 0.9843620814925548,
+      "peak_diff": 1.647514388380907,
+      "rmse_area_full": 1.0846648396022012
+    },
+    {
+      "event": "p10",
+      "model": "global",
+      "mask": "official_extrap_wet",
+      "n_wet": 290458,
+      "rmse_wet": 1.5340662082632852,
+      "maxwd_r2": 0.4412254019409986,
+      "csi": 0.8694739715114006,
+      "peak_diff": 1.428203356114605,
+      "rmse_area_full": 1.0846648396022012
+    },
+    {
+      "event": "p10",
+      "model": "global",
+      "mask": "all_cells",
+      "n_wet": 581061,
+      "rmse_wet": 1.0846648396022012,
+      "maxwd_r2": 0.7441167117005048,
+      "csi": 0.8673753228690642,
+      "peak_diff": 0.7142002978157924,
+      "rmse_area_full": 1.0846648396022012
+    },
+    {
+      "event": "p10",
+      "model": "rule",
+      "mask": "train_wet",
+      "n_wet": 239482,
+      "rmse_wet": 0.9065015298591513,
+      "maxwd_r2": 0.73470027493578,
+      "csi": 0.9953733474749669,
+      "peak_diff": 0.7567442287070492,
+      "rmse_area_full": 0.6089181504762178
+    },
+    {
+      "event": "p10",
+      "model": "rule",
+      "mask": "official_interp_wet",
+      "n_wet": 239482,
+      "rmse_wet": 0.9065015298591513,
+      "maxwd_r2": 0.73470027493578,
+      "csi": 0.9953733474749669,
+      "peak_diff": 0.7567442287070492,
+      "rmse_area_full": 0.6089181504762178
+    },
+    {
+      "event": "p10",
+      "model": "rule",
+      "mask": "official_extrap_wet",
+      "n_wet": 290458,
+      "rmse_wet": 0.8611178245399032,
+      "maxwd_r2": 0.8239347671242819,
+      "csi": 0.8792000767170984,
+      "peak_diff": 0.6937652639325519,
+      "rmse_area_full": 0.6089181504762178
+    },
+    {
+      "event": "p10",
+      "model": "rule",
+      "mask": "all_cells",
+      "n_wet": 581061,
+      "rmse_wet": 0.6089181504762178,
+      "maxwd_r2": 0.9193566356772371,
+      "csi": 0.8770779521822637,
+      "peak_diff": 0.34707288885354093,
+      "rmse_area_full": 0.6089181504762178
+    },
+    {
+      "event": "p11",
+      "model": "lf_only",
+      "mask": "train_wet",
+      "n_wet": 239482,
+      "rmse_wet": 0.09232331993148496,
+      "maxwd_r2": 0.99744654390844,
+      "csi": 0.9992355219129498,
+      "peak_diff": 0.005527017991464227,
+      "rmse_area_full": 0.09634130618104873
+    },
+    {
+      "event": "p11",
+      "model": "lf_only",
+      "mask": "official_extrap_wet",
+      "n_wet": 290458,
+      "rmse_wet": 0.09426658802081914,
+      "maxwd_r2": 0.9980510523081276,
+      "csi": 0.995963561846705,
+      "peak_diff": 0.008507515543276082,
+      "rmse_area_full": 0.09634130618104873
+    },
+    {
+      "event": "p11",
+      "model": "global",
+      "mask": "train_wet",
+      "n_wet": 239482,
+      "rmse_wet": 2.4944896248987045,
+      "maxwd_r2": -0.8640989922785283,
+      "csi": 0.9796667808591172,
+      "peak_diff": 2.455350387166713,
+      "rmse_area_full": 1.6329250938548632
+    },
+    {
+      "event": "p11",
+      "model": "global",
+      "mask": "official_interp_wet",
+      "n_wet": 239482,
+      "rmse_wet": 2.4944896248987045,
+      "maxwd_r2": -0.8640989922785278,
+      "csi": 0.9796667808591172,
+      "peak_diff": 2.455350387166713,
+      "rmse_area_full": 1.6329250938548632
+    },
+    {
+      "event": "p11",
+      "model": "global",
+      "mask": "official_extrap_wet",
+      "n_wet": 290458,
+      "rmse_wet": 2.3095930040185486,
+      "maxwd_r2": -0.1699182553257117,
+      "csi": 0.8076621041682454,
+      "peak_diff": 2.1843240019312926,
+      "rmse_area_full": 1.6329250938548632
+    },
+    {
+      "event": "p11",
+      "model": "global",
+      "mask": "all_cells",
+      "n_wet": 581061,
+      "rmse_wet": 1.6329250938548632,
+      "maxwd_r2": 0.543949204280112,
+      "csi": 0.8076621041682454,
+      "peak_diff": 1.091889459029189,
+      "rmse_area_full": 1.6329250938548632
+    },
+    {
+      "event": "p11",
+      "model": "rule",
+      "mask": "train_wet",
+      "n_wet": 239482,
+      "rmse_wet": 1.6784077465613392,
+      "maxwd_r2": 0.15608147866899502,
+      "csi": 0.9919633757163625,
+      "peak_diff": 1.5182791998266163,
+      "rmse_area_full": 1.12379335061993
+    },
+    {
+      "event": "p11",
+      "model": "rule",
+      "mask": "official_interp_wet",
+      "n_wet": 239482,
+      "rmse_wet": 1.6784077465613392,
+      "maxwd_r2": 0.15608147866899502,
+      "csi": 0.9919633757163625,
+      "peak_diff": 1.5182791998266163,
+      "rmse_area_full": 1.12379335061993
+    },
+    {
+      "event": "p11",
+      "model": "rule",
+      "mask": "official_extrap_wet",
+      "n_wet": 290458,
+      "rmse_wet": 1.5894821325986963,
+      "maxwd_r2": 0.4458901022952345,
+      "csi": 0.8178249190715615,
+      "peak_diff": 1.4117108114301495,
+      "rmse_area_full": 1.12379335061993
+    },
+    {
+      "event": "p11",
+      "model": "rule",
+      "mask": "all_cells",
+      "n_wet": 581061,
+      "rmse_wet": 1.12379335061993,
+      "maxwd_r2": 0.7840000712749197,
+      "csi": 0.8178249190715615,
+      "peak_diff": 0.7056792640813587,
+      "rmse_area_full": 1.12379335061993
+    }
+  ]
+}

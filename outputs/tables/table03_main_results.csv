@@ -1,0 +1,30 @@
+Case,Model,B,RMSE_area (m),CSI_area,Status,Notes
+Carlisle,global,4,0.1464,0.8841,complete,TRUE equal budget: force_n_modes for Global
+Carlisle,kmeans,4,0.1015,0.8814,complete,TRUE equal budget: force_n_modes for Global
+Carlisle,rule,4,0.0964,0.8838,complete,TRUE equal budget: force_n_modes for Global
+Carlisle,global,6,0.2588,0.8633,complete,TRUE equal budget: force_n_modes for Global
+Carlisle,kmeans,6,0.1367,0.8882,complete,TRUE equal budget: force_n_modes for Global
+Carlisle,rule,6,0.1256,0.8795,complete,TRUE equal budget: force_n_modes for Global
+Carlisle,global,8,0.3527,0.8732,complete,TRUE equal budget: force_n_modes for Global
+Carlisle,kmeans,8,0.298,0.8736,complete,TRUE equal budget: force_n_modes for Global
+Carlisle,rule,8,0.179,0.8746,complete,TRUE equal budget: force_n_modes for Global
+Carlisle,LF-only,0,0.1602,0.9145,complete,Baseline from budget_sweep_true_equal.json
+,,,,,,
+Chowilla,global,4,2.5606,0.2689,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real"
+Chowilla,kmeans,4,2.5619,0.2638,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real"
+Chowilla,rule,4,2.5614,0.262,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real"
+Chowilla,global,8,2.5607,0.2678,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real"
+Chowilla,kmeans,8,2.5636,0.2637,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real"
+Chowilla,rule,8,2.5616,0.2629,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real"
+Chowilla,global,12,2.5607,0.2678,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real"
+Chowilla,kmeans,12,2.5642,0.2649,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real"
+Chowilla,rule,12,2.5622,0.2619,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real"
+Chowilla,LF-only,0,0.3926,0.8767,valid_boundary_case,LF-only is best on Chowilla; LSG degrades.
+,,,,,,
+BurnettRV,global,auto,1.612,0.6312,partial_12of74,RMSE from validation_std.json (12-event single split). Event LOOCV: scripts/32_b
+BurnettRV,KMeans_B4,4,1.6122,0.6307,partial_12of74,RMSE from validation_std.json (12-event single split). Event LOOCV: scripts/32_b
+BurnettRV,Rule_B4,4,1.6122,0.6307,partial_12of74,RMSE from validation_std.json (12-event single split). Event LOOCV: scripts/32_b
+BurnettRV,Rule_B8,8,1.6158,0.6263,partial_12of74,RMSE from validation_std.json (12-event single split). Event LOOCV: scripts/32_b
+BurnettRV,global_loocv,4,1.7479,,loocv_30,Mean over 30 LOOCV folds. Rule dRMSE=-0.0781; improved 6/30; significant=False.
+BurnettRV,rule_loocv,4,1.826,,loocv_30,Mean Rule RMSE over 30 folds from burnettrv_30events.npz.
+BurnettRV,LF-only,0,2.2323,0.6911,partial_12of74,Baseline from validation_std.json

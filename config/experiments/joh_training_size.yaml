@@ -1,0 +1,28 @@
+# Training size sensitivity analysis
+experiment:
+  name: joh_training_size
+  description: >
+    Test sensitivity of global LSG and zonal LSG to training sample size.
+
+cases:
+  - carlisle
+  - chowilla
+  - burnettrv
+
+variants:
+  - lsg_ts
+
+training_fractions: [0.2, 0.4, 0.6, 0.8, 1.0]
+n_repeats: 5  # repeat each fraction with different random seeds
+random_seeds: [42, 123, 456, 789, 1011]
+
+zoning:
+  method: kmeans
+  n_zones: 4
+  mode_budget: global_equal
+
+evaluation:
+  metrics:
+    - rmse_depth
+    - csi
+  bootstrap_iterations: 1000

@@ -1,0 +1,53 @@
+# Raw / processed hydrodynamic data (HDF, NPZ, DEM, etc.)
+data/raw/
+data/external/
+data/processed/
+data/synthetic/
+
+# Large model / prediction binaries
+outputs/models/
+outputs/predictions/
+
+# Python caches
+*.pyc
+__pycache__/
+.pytest_cache/
+*.egg-info/
+.ipynb_checkpoints/
+
+# Binary / archive formats (never commit hydrodynamic dumps)
+*.npz
+*.npy
+*.h5
+*.hdf5
+*.hdf
+*.zip
+*.bad
+*.tif
+*.tiff
+*.nc
+*.netcdf
+
+# Secrets / credentials
+.env
+.env.*
+*.pem
+*credentials*
+*secret*
+*token*.json
+
+# Logs / temp
+logs/
+*.log
+.tmp/
+tmp/
+
+# Legacy generated reports at repo root (keep Markdown; HTML/PDF regenerable)
+report.html
+report.pdf
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

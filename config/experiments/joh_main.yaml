@@ -1,0 +1,47 @@
+# Main JOH experiment configuration
+experiment:
+  name: joh_main
+  description: >
+    Primary experiment comparing global LSG vs zonal LSG across all three
+    public benchmark cases (Carlisle, Chowilla, BurnettRV).
+
+cases:
+  - carlisle
+  - chowilla
+  - burnettrv
+
+variants:
+  - lsg_ts
+  - lsg_max
+
+zoning:
+  methods:
+    - kmeans
+    - rule
+  n_zones: [4, 6]
+  mode_budget: ["free", "global_equal"]
+  features:
+    spatial: true
+    hydrodynamic: true
+    residual: true
+
+lsg:
+  weight_by_cell_area: true
+  max_eof_modes: 100
+  inducing_point_fraction: 0.02
+  gp_kernel: exponential
+  train_test_split: 0.8
+  random_seed: 42
+
+evaluation:
+  metrics:
+    - rmse_depth
+    - mae_depth
+    - bias_depth
+    - csi
+    - pod
+    - rfa
+  contingency_thresholds_m: [0.03, 0.05, 0.10]
+  zone_level_metrics: true
+  error_hotspot_percentile: 90
+  bootstrap_iterations: 1000
