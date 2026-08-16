@@ -1,12 +1,12 @@
 # Hydrodynamic Zoning under Matched EOF Capacity in Multi-Fidelity Flood-Inundation Emulation: A Three-Case Diagnostic Assessment
 
-Code and evaluation artefacts: https://github.com/Coucou2016/202606-JOH-zonal-LSG (manuscript draft v0.8).
+Code and evaluation artefacts: https://github.com/Coucou2016/202606-JOH-zonal-LSG (manuscript draft v0.9).
 
 ---
 
 ## Abstract
 
-High-resolution two-dimensional flood models remain computationally expensive for ensemble and real-time applications. Multi-fidelity LSG surrogates map coarse hydrodynamic fields to high-fidelity inundation fields through EOF reduction and Gaussian-process coefficient mapping, typically using a single global EOF domain. We test whether zoning changes LSG-Max depth skill when total retained-mode capacity is matched on the public Fraehr benchmark. At Carlisle (B = 4), rule zoning reduced area-weighted RMSE from 0.1464 to 0.0964 m and improved all nine leave-one-out folds; the official two-fold sensitivity analysis was non-significant. Burnett 30-fold leave-one-out did not favour zoning, while at Chowilla LSG performed worse than the low-fidelity field alone. Max-surface EOI values of 0.057, 0.116, and 0.957 for Carlisle, Chowilla, and Burnett, respectively, did not rank the observed zoning benefit. Pure-EOF oracles, together with a Carlisle stage-swap, argue against a truncation-only explanation and are consistent with a coupled representation–mapping effect. Zoning is therefore a conditional representation choice, not a universal prescription.
+High-resolution two-dimensional flood models remain computationally expensive for ensemble and real-time applications. Multi-fidelity LSG surrogates map coarse hydrodynamic fields to high-fidelity inundation fields through EOF reduction and Gaussian-process coefficient mapping, typically using a single global EOF domain. We test whether zoning changes LSG-Max depth skill when total retained-mode capacity is matched on the public Fraehr benchmark. At Carlisle (B = 4), rule zoning reduced area-weighted RMSE from 0.1464 to 0.0964 m and improved all nine leave-one-out folds; the official two-fold sensitivity analysis was non-significant. Burnett 30-fold leave-one-out did not favour zoning, while at Chowilla LSG performed worse than the low-fidelity field alone. First-order error-organization index (EOI) values of 0.057, 0.116, and 0.957 for Carlisle, Chowilla, and Burnett, respectively, did not rank the observed zoning benefit. Pure-EOF oracles, together with a Carlisle stage-swap, argue against a truncation-only explanation and are consistent with a coupled representation–mapping effect. Zoning is therefore a conditional representation choice, not a universal prescription.
 
 **Keywords:** multi-fidelity surrogate; flood inundation; EOF; Gaussian Process; LSG; zonal reduction; equal-budget comparison
 
@@ -42,11 +42,15 @@ We use the public Fraehr multi-fidelity inundation benchmark (Figshare 24312658)
 
 ### 2.2 Global and zoned LSG-Max
 
-Wet cells use a depth threshold of 0.03 m for masks and CSI contingency counts. The LSG-Max pipeline follows the Fraehr LF→EOF→GP→reconstruction structure. Headline results use scikit-learn Gaussian Process regression rather than sparse GPflow SGPR. Global LSG-Max fits EOF on the wet HF training stack, projects LF onto the same modes, and maps LF→HF expansion coefficients with an RBF kernel plus white-noise term (three optimizer restarts; ridge 1×10⁻⁶; per-mode standardization). Zoned LSG-Max first partitions wet cells, then runs per-zone EOF+GP under a shared total mode budget B with near-equal mode allocation across zones (each active zone receives at least one mode when B ≥ n_zones). Rule zoning uses training maximum depth, inundation frequency, and an optional training LF–HF mean-absolute-residual hotspot override (error percentile 80; deep percentile 80; frequent/intermittent frequency cut-offs 0.7/0.1). KMeans (K = 4 in primary comparisons; K = 6 in configuration sweeps only) uses features standardized on training active cells only. Zoning features, EOF bases, and GPs are fit on training events only; test events enter only at prediction and evaluation. Headline results are LSG-Max; real-data zonal LSG-TS is not claimed here. A sparse GPflow path is implemented in the public code base but was not executed in the reported environment; backend equivalence is therefore a formal limitation rather than a missing hyperparameter.
+**Inherited LSG-Max pipeline.** Wet cells use a depth threshold of 0.03 m for masks and CSI contingency counts. Following Fraehr, both arms share the LF→EOF→GP→reconstruction structure. Headline results use scikit-learn Gaussian Process regression rather than sparse GPflow SGPR. Global LSG-Max fits EOF on the wet HF training stack, projects LF onto the same modes, and maps LF→HF expansion coefficients with an RBF kernel plus white-noise term (three optimizer restarts; ridge 1×10⁻⁶; per-mode standardization).
 
-![Fig. 1 Workflow](../outputs/figures/fig01_workflow.png)
+**What zoning changes.** Zoned LSG-Max first partitions wet cells, then runs per-zone EOF+GP under a shared total mode budget B with near-equal mode allocation across zones (each active zone receives at least one mode when B ≥ n_zones). Rule zoning uses training maximum depth, inundation frequency, and an optional training LF–HF mean-absolute-residual hotspot override (error percentile 80; deep percentile 80; frequent/intermittent frequency cut-offs 0.7/0.1). KMeans (K = 4 in primary comparisons; K = 6 in configuration sweeps only) uses features standardized on training active cells only.
 
-![Fig. 2 Zone maps](../outputs/figures/fig02_zone_maps_real.png)
+**What is held equal.** Event splits, wet-depth threshold, evaluation fields, and total retained-mode capacity B are matched in the strict equal-B comparisons. Zoning features, EOF bases, and GPs are fit on training events only; test events enter only at prediction and evaluation. Headline results are LSG-Max; real-data zonal LSG-TS is not claimed here. A sparse GPflow path is implemented in the public code base but was not executed in the reported environment; backend equivalence is therefore a formal limitation rather than a missing hyperparameter.
+
+![Fig. 1. Equal-budget global versus zoned LSG-Max workflow (LF→EOF→GP→reconstruction; matched total mode budget B).](../outputs/figures/fig01_workflow.png)
+
+![Fig. 2. Train-only Rule and KMeans zone maps on representative Fraehr case grids.](../outputs/figures/fig02_zone_maps_real.png)
 
 ### 2.3 Fair comparison protocol and leakage controls
 
@@ -68,51 +72,51 @@ The principal Carlisle paired stability analysis is 9-fold event LOOCV at B = 4 
 
 ## 3. Results
 
-Results follow a spatial-then-quantitative presentation: qualitative inundation maps first, then tables and curves.
+Results follow the methodological argument order: equal-budget Carlisle skill first, then event-level paired stability, qualitative diagnosis of a large-error fold, three-case boundaries, mechanism diagnostics, and secondary robustness checks.
 
-### 3.1 Qualitative spatial results
+### 3.1 Equal-budget Carlisle curves
 
-**Carlisle primary map event.** Event index 1 (Run2) is the LOOCV fold with the largest Global RMSE spike at B = 4. Held-out LOOCV area-weighted RMSE on this fold is LF 0.233 m, Global 0.694 m, and Rule 0.166 m. Side-by-side maximum-depth maps (common colour scale) show that Global LSG-Max introduces floodplain artefacts relative to HF, whereas Rule recovers a visually closer depth field (Fig. A1).
+At B = 4, Global / Rule / KMeans area-weighted RMSE = 0.1464 / 0.0964 / 0.1015 m (Rule −34.2% versus Global). Across the audited budget sweep, Global RMSE increased from 0.1464 to 0.2588 and 0.3527 m, while Rule increased from 0.0964 to 0.1256 and 0.1790 m. B = 4 and 6 are strict matched-budget comparisons; the nominal Global B = 8 point realized seven modes and is retained only as a budget-audit exception. Fig. 3 therefore supports a capacity-sensitive Global curve under the audited protocol rather than a claim that more modes always help. Component-level attribution (for example, event-noise fitting) is not uniquely identified here. CSI does not show a matching zonal win: LF-only CSI (0.9145) exceeds LSG CSI at B = 4, so zoning improves depth RMSE more than wet–dry extent (Figs. 3, 9, and 13).
 
-![Fig. A1 Inundation maps, Carlisle Run2](../outputs/figures/figA1_inundation_maps_carlisle_ev1.png)
+![Fig. 3. Carlisle area-weighted depth RMSE versus retained-mode budget B for Global, Rule, and KMeans LSG-Max (strict equal-B at B = 4 and 6; B = 8 shown as audited mismatch).](../outputs/figures/fig03_mode_budget.png)
+
+![Fig. 9. Carlisle area-weighted CSI versus retained-mode budget B (wet threshold 0.03 m).](../outputs/figures/fig09_csi_budget.png)
+
+![Fig. 13. Carlisle area-weighted MAE and bias versus retained-mode budget B.](../outputs/figures/fig13_mae_bias.png)
+
+### 3.2 Event-level statistics
+
+Carlisle B = 4 LOOCV: 9/9 folds improved; mean ΔRMSE = 0.0821 m; 95% CI [0.0155, 0.1987]. B = 6: 7/9; mean 0.0606 m; CI [0.0032, 0.1618]. Official two-fold: mean ΔRMSE = 0.0045 m; CI [−0.0073, 0.0134]; significant = false. These protocols answer different questions: LOOCV tests fold-consistent paired improvement under equal B, whereas the official two-fold split is a coarser sensitivity check with wide uncertainty and must not be read as contradicting 9/9 LOOCV. Burnett B = 4 30-fold: mean Global 1.7479 m versus Rule 1.8260 m; ΔRMSE = −0.0781 m; 6/30; significant = false. The Burnett 12-event fixed split in Table 2 is a different protocol (Global ≈ Rule) and is not interchangeable with the 30-fold LOOCV non-benefit contrast (Figs. 8, 10, 11, and 12).
+
+![Fig. 8. Carlisle per-event paired ΔRMSE under B = 4 LOOCV with bootstrap uncertainty.](../outputs/figures/fig08_per_event_bootstrap.png)
+
+![Fig. 11. Carlisle LOOCV Global versus Rule RMSE scatter at B = 4.](../outputs/figures/fig11_loocv_scatter.png)
+
+![Fig. 12. Bootstrap confidence intervals for mean paired ΔRMSE (Carlisle LOOCV and official two-fold; Burnett 30-fold).](../outputs/figures/fig12_stat_ci.png)
+
+![Fig. 10. Burnett 30-fold LOOCV Global versus Rule RMSE at B = 4.](../outputs/figures/fig10_burnett_loocv.png)
+
+### 3.3 Qualitative spatial diagnosis
+
+**Carlisle large-error fold.** Event index 1 (Run2) is the LOOCV fold with the largest Global RMSE spike at B = 4 and is shown as a diagnostic extreme rather than as a pooled skill estimate. Held-out LOOCV area-weighted RMSE on this fold is LF 0.233 m, Global 0.694 m, and Rule 0.166 m. Side-by-side maximum-depth maps (common colour scale) show that Global LSG-Max introduces floodplain artefacts relative to HF, whereas Rule recovers a visually closer depth field (Fig. A1).
+
+![Fig. A1. Carlisle Run2 held-out max-depth maps (HF, LF, Global, Rule) under B = 4 LOOCV; common colour scale.](../outputs/figures/figA1_inundation_maps_carlisle_ev1.png)
 
 Wet/dry hit–miss maps (threshold 0.03 m) locate the CSI gap: Global CSI = 0.591 versus Rule CSI = 0.816 on the same held-out Run2 surface, with false-alarm cells markedly reduced under Rule (Fig. A2).
 
-![Fig. A2 Hit–miss CSI maps, Carlisle Run2](../outputs/figures/figA2_csi_hitmiss_carlisle_ev1.png)
+![Fig. A2. Carlisle Run2 hit–miss maps at 0.03 m for Global and Rule under B = 4 LOOCV.](../outputs/figures/figA2_csi_hitmiss_carlisle_ev1.png)
 
 Residual panels (Global−HF, Rule−HF, and absolute-error improvement) show a broad over-deep Global bias that Rule largely removes across the wet floodplain (Fig. A3).
 
-![Fig. A3 Residuals, Carlisle Run2](../outputs/figures/figA3_residuals_carlisle_ev1.png)
+![Fig. A3. Carlisle Run2 residual and improvement maps (Global−HF, Rule−HF).](../outputs/figures/figA3_residuals_carlisle_ev1.png)
 
 Rule zones from the train-only fit are overlaid on the HF depth field to link the partition to the inundation pattern (Fig. A4). Wet-cell observed-versus-predicted scatter complements the maps with a cell-level 1:1 view (Fig. A5).
 
-![Fig. A4 Zones overlay, Carlisle Run2](../outputs/figures/figA4_zones_overlay_carlisle_ev1.png)
+![Fig. A4. Carlisle Run2 train-only Rule zones overlaid on HF depth.](../outputs/figures/figA4_zones_overlay_carlisle_ev1.png)
 
-![Fig. A5 Obs vs pred, Carlisle Run2](../outputs/figures/figA5_obs_vs_pred_carlisle_ev1.png)
+![Fig. A5. Carlisle Run2 wet-cell observed versus predicted depths for Global and Rule.](../outputs/figures/figA5_obs_vs_pred_carlisle_ev1.png)
 
 A milder Carlisle fold (event 0 / Run1; RMSE LF/Global/Rule ≈ 0.074 / 0.072 / 0.057 m) yields the same map types with smaller residuals. Boundary contrasts use the same LOOCV map suite: Burnett event 0 shows Global ≈ Rule spatially; Chowilla event 0 (Chow_p01) shows LSG fields far from HF while LF remains closer.
-
-### 3.2 Equal-budget Carlisle curves
-
-At B = 4, Global / Rule / KMeans area-weighted RMSE = 0.1464 / 0.0964 / 0.1015 m (Rule −34.2% versus Global). Across the audited budget sweep, Global RMSE increased from 0.1464 to 0.2588 and 0.3527 m, while Rule increased from 0.0964 to 0.1256 and 0.1790 m. B = 4 and 6 are strict matched-budget comparisons; the nominal Global B = 8 point realized seven modes and is retained only as a budget-audit exception. Fig. 3 therefore supports a capacity-sensitive Global curve under the audited protocol rather than a claim that more modes always help. Component-level attribution (for example, event-noise fitting) is not uniquely identified here. CSI does not show a matching zonal win: LF-only CSI (0.9145) exceeds LSG CSI at B = 4, so zoning improves depth RMSE more than wet–dry extent. This pattern is consistent with the maps in Section 3.1, where LF already captures most wet cells and Global artefacts are primarily depth errors (Figs. 3, 9, and 13).
-
-![Fig. 3 Mode budget](../outputs/figures/fig03_mode_budget.png)
-
-![Fig. 9 CSI budget](../outputs/figures/fig09_csi_budget.png)
-
-![Fig. 13 MAE/bias](../outputs/figures/fig13_mae_bias.png)
-
-### 3.3 Event-level statistics
-
-Carlisle B = 4 LOOCV: 9/9 folds improved; mean ΔRMSE = 0.0821 m; 95% CI [0.0155, 0.1987]. B = 6: 7/9; mean 0.0606 m; CI [0.0032, 0.1618]. Official two-fold: mean ΔRMSE = 0.0045 m; CI [−0.0073, 0.0134]; significant = false. These protocols answer different questions: LOOCV tests fold-consistent paired improvement under equal B, whereas the official two-fold split is a coarser, benchmark-compatible sensitivity check with wide uncertainty and must not be read as contradicting 9/9 LOOCV. Burnett B = 4 30-fold: mean Global 1.7479 m versus Rule 1.8260 m; ΔRMSE = −0.0781 m; 6/30; significant = false. The Burnett 12-event fixed split in Table 2 is a different protocol (Global ≈ Rule) and is not interchangeable with the 30-fold LOOCV non-benefit contrast (Figs. 8, 10, 11, and 12).
-
-![Fig. 8 Per-event](../outputs/figures/fig08_per_event_bootstrap.png)
-
-![Fig. 11 LOOCV scatter](../outputs/figures/fig11_loocv_scatter.png)
-
-![Fig. 12 Statistical CI](../outputs/figures/fig12_stat_ci.png)
-
-![Fig. 10 Burnett LOOCV](../outputs/figures/fig10_burnett_loocv.png)
 
 ### 3.4 Three-case pattern
 
@@ -124,27 +128,27 @@ Carlisle B = 4 LOOCV: 9/9 folds improved; mean ΔRMSE = 0.0821 m; 95% CI [0.0155
 | Chowilla | 0.3926 | 2.5606 | 2.5614 | LF best; LSG RMSE worse than LF-only (upstream boundary) |
 | Burnett (12-event fixed split) | 2.2323 | 1.6120 | 1.6122 | Global ≈ Rule (not the 30-fold LOOCV protocol) |
 
-![Fig. 4 Three-case](../outputs/figures/fig04_three_case.png)
+![Fig. 4. Three-case area-weighted RMSE at B = 4 for LF-only, Global, and Rule.](../outputs/figures/fig04_three_case.png)
 
 ### 3.5 EOI, second-order, and stage-swap
 
 Max-surface EOI: Carlisle 0.057, Chowilla 0.116, Burnett 0.957. Zoning benefit does not increase with EOI: the clearest equal-B gain occurs at the lowest EOI, while the highest EOI coincides with no Rule advantage. That pattern falsifies EOI-as-switch on the tested cases rather than estimating an operational threshold. Modal diagnostics show ZGG > 0 with equal-budget pure-EOF oracle ΔRMSE < 0 on all three cases, ruling out the claim that zoning helps merely by truncating HF EOF better. Area-weighted oracle ΔRMSE remains negative on Chowilla (−0.0543 versus −0.0657 unweighted) and is identical to the unweighted value on Carlisle and Burnett (uniform areas), so weighting does not rescue a truncation-only story. Stage-swap LOOCV means: GG ≈ 0.180, ZZ ≈ 0.098, GZ ≈ 0.098, ZG ≈ 0.101 m. Because GZ ≈ ZG ≈ ZZ ≪ GG, either approximate localization of the EOF coordinates or of the GP stack recovers most of the ZZ gain; the design therefore rejects single-stage necessity claims without uniquely identifying one localized stage as the mechanism (Figs. 14, 15, and 19).
 
-![Fig. 14 EOI](../outputs/figures/fig14_eoi.png)
+![Fig. 14. Max-surface EOI by case (Carlisle, Chowilla, Burnett).](../outputs/figures/fig14_eoi.png)
 
-![Fig. 15 EOI vs Δ](../outputs/figures/fig15_eoi_vs_delta.png)
+![Fig. 15. EOI versus equal-B zoning ΔRMSE across cases.](../outputs/figures/fig15_eoi_vs_delta.png)
 
-![Fig. 19 Modal EOI](../outputs/figures/fig19_modal_eoi.png)
+![Fig. 19. Modal EOI / ZGG diagnostics complementary to first-order EOI.](../outputs/figures/fig19_modal_eoi.png)
 
-### 3.6 Published MaxWD contrast and robustness probes
+### 3.6 Secondary sensitivity and robustness analyses
 
-This comparison is used only as a protocol-level sanity check and is not a head-to-head comparison with a locally reproduced LSG-TS implementation. On the official nine-fold MaxWD R² protocol, rule LSG-Max reaches 0.988 versus published LSG-TS 0.990 (Global Max ≈ 0.915). LF coarsening and channel-distance zoning probes (Figs. 17–18) support robustness narratives but are secondary to the equal-B LOOCV claim.
+This subsection collects protocol-level sanity checks that are secondary to the equal-B LOOCV claim and are not head-to-head comparisons with a locally reproduced LSG-TS implementation. On the official nine-fold MaxWD R² protocol, rule LSG-Max reaches 0.988 versus published LSG-TS 0.990 (Global Max ≈ 0.915). LF coarsening and channel-distance zoning probes (Figs. 17–18) support robustness narratives but do not redefine the primary equal-B result.
 
-![Fig. 16 Official MaxWD R²](../outputs/figures/fig16_official_maxwd_r2.png)
+![Fig. 16. Official MaxWD R² protocol contrast (sanity check only).](../outputs/figures/fig16_official_maxwd_r2.png)
 
-![Fig. 17 LF degradation](../outputs/figures/fig17_lf_degradation.png)
+![Fig. 17. LF coarsening probe (secondary robustness).](../outputs/figures/fig17_lf_degradation.png)
 
-![Fig. 18 Channel distance](../outputs/figures/fig18_channel_distance.png)
+![Fig. 18. Channel-distance zoning probe (secondary robustness).](../outputs/figures/fig18_channel_distance.png)
 
 ---
 
@@ -154,7 +158,7 @@ The results distinguish three questions that should not be conflated. First, zon
 
 ### 4.1 When does zoning help under equal representation capacity?
 
-At Carlisle under equal B = 4, rule zoning reduced area-weighted depth RMSE with fold-consistent improvement (9/9 LOOCV). The gain concerns depth-error organization under limited capacity, not inventing wet cells that the LF already captures well (CSI remains LF-led). Qualitative maps of the worst Global fold reinforce the same point: Global artefacts are concentrated as depth bias and false structure on an already largely wet mask. In practical terms, Carlisle is the positive existence proof that a global EOF domain is not performance-neutral once retained-mode capacity is constrained and audited. The official two-fold contrast was non-significant and is kept as a sensitivity check; non-significance there does not negate LOOCV fold consistency because the splits, sample sizes, and inferential targets differ. Burnett 30-fold leave-one-out remains the equal-budget non-benefit contrast, and the 12-event fixed split only shows Global ≈ Rule under another protocol. “Conditional” therefore means that zoning can help under matched capacity on at least one public case, but the same protocol does not transfer automatically to Burnett or Chowilla. Claiming a universal zoning win from Carlisle alone would over-reach the evidence.
+At Carlisle under equal B = 4, rule zoning reduced area-weighted depth RMSE with fold-consistent improvement (9/9 LOOCV). The gain concerns depth-error organization under limited capacity, not inventing wet cells that the LF already captures well (CSI remains LF-led). Qualitative maps of the worst Global fold (Section 3.3) reinforce the same point: Global artefacts are concentrated as depth bias and false structure on an already largely wet mask. In practical terms, Carlisle is the positive existence proof that a global EOF domain is not performance-neutral once retained-mode capacity is constrained and audited. The official two-fold contrast was non-significant and is kept as a sensitivity check; non-significance there does not negate LOOCV fold consistency because the splits, sample sizes, and inferential targets differ. Burnett 30-fold leave-one-out remains the equal-budget non-benefit contrast, and the 12-event fixed split only shows Global ≈ Rule under another protocol. “Conditional” therefore means that zoning can help under matched capacity on at least one public case, but the same protocol does not transfer automatically to Burnett or Chowilla. Claiming a universal zoning win from Carlisle alone would over-reach the evidence.
 
 ### 4.2 Why can zoning help when it does?
 
@@ -168,15 +172,11 @@ Rival explanations rejected or weakened include: (i) accidental unequal budgets 
 
 ### 4.4 Limitations and scope boundaries
 
-Limitations are grouped by transfer type rather than listed as open tasks.
+**Implementation transfer.** Production numbers use LSG-Max with scikit-learn GP regression. Equivalence to a sparse GPflow/SGPR backend has not been established in this study, so backend transfer remains untested. Real-data zonal LSG-TS is likewise out of scope for headline claims.
 
-**Implementation transfer.** Production numbers use LSG-Max with scikit-learn GP regression. A sparse GPflow path is implemented but not executed here. Closing this boundary requires re-running Carlisle B = 4 Global/Rule LOOCV under SGPR with the Supplementary Information defaults and reporting whether Rule still beats Global on 9/9 folds within the same area-weighted RMSE protocol. Real-data zonal LSG-TS is likewise out of scope for headline claims.
-
-**Domain transfer.** Carlisle is the only clear zoning-positive public case in this study. Brisbane licensed data are unavailable. Burnett KMeans LOOCV and the full 74-event evaluation remain incomplete; until those artefacts exist, Burnett claims are restricted to the 30-fold Rule LOOCV and the 12-event fixed-split table. Chowilla archive checksum and datum provenance remain unresolved and are disclosed as a data-integrity caveat, not a numeric rewrite.
+**Domain transfer.** Carlisle is the only clear zoning-positive public case in this study. Brisbane licensed data are unavailable. Burnett KMeans LOOCV and the full 74-event evaluation remain incomplete; Burnett claims are therefore restricted to the 30-fold Rule LOOCV and the 12-event fixed-split table. Chowilla archive checksum and datum provenance remain unresolved and are disclosed as a data-integrity caveat, not a numeric rewrite.
 
 **Decision transfer.** No transferable operational zoning selector is claimed. Prospective selector validation would require a pre-registered diagnostic, a hold-out case protocol, and success/failure criteria defined before looking at test metrics; that experiment is not claimed here. Historical temporal EOI uses a different protocol and is Supplementary Information only.
-
-**Structural reference precision.** Fraehr et al. (2024) *Water Research* is the intended multi-case presentation template, but automated full-text retrieval was blocked by publisher access controls; length and structure targets therefore follow Fraehr (2022) and Tan (2025) full texts plus Fraehr (2024) abstract and metadata only. Exact full-text length matching to Fraehr (2024) is not claimed.
 
 ---
 
@@ -196,7 +196,7 @@ The hydrodynamic cases are from the public Fraehr multi-fidelity inundation benc
 
 ---
 
-## References (independently verified seed list)
+## References
 
 1. Fraehr, N., Wang, Q. J., Wu, W., & Nathan, R. (2022). Upskilling low-fidelity hydrodynamic models of flood inundation through spatial analysis and Gaussian Process learning. *Water Resources Research*, 58, e2022WR032248. https://doi.org/10.1029/2022WR032248
 2. Fraehr, N., Wang, Q. J., Wu, W., & Nathan, R. (2023). Development of a fast and accurate hybrid model for floodplain inundation simulations. *Water Resources Research*, 59, e2022WR033836. https://doi.org/10.1029/2022WR033836
@@ -213,11 +213,3 @@ The hydrodynamic cases are from the public Fraehr multi-fidelity inundation benc
 13. Fraehr, N., Wang, Q. J., Wu, W., & Nathan, R. (2023). Supercharging hydrodynamic inundation models for instant flood insight. *Nature Water*, 1, 835–843. https://doi.org/10.1038/s44221-023-00132-2
 14. Wang, W., Wang, Q. J., & Nathan, R. (2026). Strategies for predicting flood inundation in a large and complex floodplain based on low-fidelity hydrodynamic models. *Water Resources Research*. https://doi.org/10.1029/2025WR042481
 
----
-
-## Scope boundaries
-
-- GP backend remains scikit-learn until sparse GPflow is executed under the acceptance criterion in Limitations.
-- Brisbane licensed hydrodynamic archives are absent; no Brisbane skill claim is made.
-- Headline results are LSG-Max; real zonal LSG-TS is not asserted.
-- No transferable zoning selector is claimed after EOI falsification.
