@@ -4,13 +4,13 @@
 
 **Status:** English manuscript draft v0.3 (Track B evidence locked; nature-polishing consistency pass; public code at https://github.com/Coucou2016/202606-JOH-zonal-LSG). Figures name existing files under `outputs/figures/` (SciencePlots + Times New Roman for Track B curves; fig02 kept from real geometry export).  
 **nature-writing / polishing axes:** `task=manuscript`, `paper_type=methods`, `language=en`, `journal=generic` (JOH primary / WRR methods paradigm).  
-**One-sentence argument:** Spatial zoning is not universally advantageous, but neither is global EOF a performance-neutral representation choice; under a fixed total retained-mode budget, zoning value is conditional on how spatial structure enters the coupled reduced-representation and LF-to-HF mapping pipeline, and first-order EOI alone cannot decide when to zone.
+**One-sentence argument:** Spatial zoning is not universally advantageous, but a global EOF representation can be performance-sensitive under constrained retained-mode capacity; under an audited retained-mode-budget protocol, zoning value is conditional on how spatial structure enters the coupled reduced-representation and LF-to-HF mapping pipeline, and first-order EOI alone cannot decide when to zone.
 
 ---
 
 ## Abstract
 
-High-resolution two-dimensional flood models remain expensive for ensembles and real-time use. Multi-fidelity surrogates in the Low-fidelity–Spatial analysis–Gaussian Process (LSG) family upskill coarse hydrodynamic fields by Empirical Orthogonal Function (EOF) reduction and Gaussian Process (GP) coefficient mapping. Most evaluations treat a single global EOF basis over the wet floodplain as a performance-neutral representation choice. We test that assumption with hydrodynamically zoned LSG-Max on the public Fraehr et al. benchmark under true equal total retained-mode budgets, area-weighted depth metrics, and train-only zoning/EOF/GP fits. At Carlisle with budget B = 4, rule zoning reduces area-weighted RMSE from 0.1464 m (global) to 0.0964 m, with improvement on 9/9 event leave-one-out folds. The official two-fold split is not significant and is reported as a benchmark-compatible sensitivity check, not as the primary claim. Burnett 30-fold leave-one-out does not favour rule zoning; at Chowilla, LSG degrades relative to the low-fidelity field alone (an upstream applicability boundary for LSG correction). Max-surface residual organization indices (EOI = 0.057 / 0.116 / 0.957) do not rank zoning gains. Second-order diagnostics and EOF×GP stage-swap experiments place the Carlisle gain in the coupled representation–mapping pipeline rather than in pure EOF truncation. The contribution is a conditional, mechanism-aware reading of when global EOF capacity is insufficient, not a universal zoning recipe.
+High-resolution two-dimensional flood models remain expensive for ensembles and real-time use. Multi-fidelity surrogates in the Low-fidelity–Spatial analysis–Gaussian Process (LSG) family upskill coarse hydrodynamic fields by Empirical Orthogonal Function (EOF) reduction and Gaussian Process (GP) coefficient mapping. Baseline LSG formulations commonly employ a global EOF representation over the wet floodplain, while its downstream performance consequence under matched retained-mode capacity has rarely been isolated. We test that consequence with hydrodynamically zoned LSG-Max on the public Fraehr et al. benchmark under an audited retained-mode-budget protocol (primary matched-budget inference at B = 4), area-weighted depth metrics, and train-only zoning/EOF/GP fits. At Carlisle with budget B = 4, rule zoning reduces area-weighted RMSE from 0.1464 m (global) to 0.0964 m, with improvement on 9/9 event leave-one-out folds. The official two-fold split is not significant and is reported as a benchmark-compatible sensitivity check, not as the primary claim. Burnett 30-fold leave-one-out does not favour rule zoning; at Chowilla, LSG degrades relative to the low-fidelity field alone (an upstream applicability boundary for LSG correction). Max-surface residual organization indices (EOI = 0.057 / 0.116 / 0.957) do not rank zoning gains. Second-order diagnostics and EOF×GP stage-swap experiments reject a pure-EOF-truncation explanation and are consistent with zonal structure acting through the coupled representation–mapping pipeline. The contribution is a conditional, mechanism-aware reading of when global EOF capacity is insufficient, not a universal zoning recipe.
 
 **Keywords:** multi-fidelity surrogate; flood inundation; EOF; Gaussian Process; LSG; zonal reduction; equal-budget comparison
 
@@ -22,7 +22,7 @@ Fine-grid two-dimensional hydrodynamic models remain the reference for flood ext
 
 That global basis is convenient; it is not necessarily a performance-neutral representation choice for depth emulation. Channel, frequently inundated shelves, and fringe shallow water can mix into shared leading modes. When the retained-mode budget B is tight, such mixing can waste capacity and bias depth learning even when wet–dry skill looks acceptable. Prior work already shows that spatial reduction, rotated/localized EOF structure, and LSG regionalization can help in focused settings: PCA–ANN downscaling (Carreau and Guinot, 2021), SRR/USRR reconstruction (Zhou et al., 2021, 2022), REOF–sparse-GP flood surrogates that motivate localized EOF structure inside an LF–EOF–SGP pipeline (Wang et al., 2025), and regionalized LSG training for local velocity dimensionality-reduction error (Tan et al., 2025). Those precedents rule out “first zonal LSG” and any broad claim that regionalizing EOF/LSG is itself novel. What remains insufficiently tested under a matched total retained-mode budget is whether zoning still changes LSG-Max depth skill, where any gain originates in the representation–mapping pipeline, and when zoning should be refused.
 
-We therefore ask three methods questions under true equal total retained-mode budget, area-weighted metrics, and train-only partitioning: (RQ1) when does zoning help; (RQ2) why does it help when it does (representation, mapping, or their coupling); and (RQ3) when not, and can a simple pre-fit indicator identify those cases? We implement hydrodynamically zoned LSG-Max (maximum inundation surfaces) with rule and KMeans partitions on Carlisle, Chowilla, and Burnett River, and add residual-organization and stage-swap diagnostics. The contribution is a bounded, falsifiable reading of conditional zoning, not a universal regionalization recipe.
+We therefore ask three methods questions under an audited retained-mode-budget protocol, area-weighted metrics, and train-only partitioning: (RQ1) when does zoning help; (RQ2) why does it help when it does (representation, mapping, or their coupling); and (RQ3) when not, and can a simple training-data diagnostic identify those cases? We implement hydrodynamically zoned LSG-Max (maximum inundation surfaces) with rule and KMeans partitions on Carlisle, Chowilla, and Burnett River, and add residual-organization and stage-swap diagnostics. The contribution is a bounded, falsifiable reading of conditional zoning, not a universal regionalization recipe.
 
 ---
 
@@ -50,11 +50,11 @@ Wet cells use depth threshold 0.03 m. Global LSG-Max fits EOF on the wet HF trai
 
 ### 2.3 Fair comparison protocol
 
-True equal total retained-mode budget: Global and zonal models use the same total mode count B ∈ {4, 6, 8} (Carlisle). This is equal retained EOF capacity, not a claim of equal wall-clock cost or equal GP complexity. Area-weighted RMSE, MAE, bias, and CSI use geometric cell areas. Leakage audit reports CLEAN_PASS (official splits; train-only zoning/EOF/GP; metrics on held-out events). Mode-budget audit flags Global B = 8 as MISMATCH (requested 8, realized 7).
+Audited retained-mode-budget protocol (Carlisle): matched equal total retained-mode budgets at B ∈ {4, 6}; Global B = 8 is retained only as a budget-audit exception (requested 8, realized 7 = MISMATCH), not as a strict equal-B claim. Matched budgets mean equal retained EOF capacity, not equal wall-clock cost or equal GP complexity. Area-weighted RMSE, MAE, bias, and CSI use geometric cell areas. Leakage audit reports CLEAN_PASS (official splits; train-only zoning/EOF/GP; metrics on held-out events).
 
 ### 2.4 Residual organization and stage-swap
 
-First-order EOI summarizes between-zone versus within-zone residual structure on max surfaces. We treat the EOI-as-switch test as an exploratory falsification of a plausible first-order selector, not as prospective selector validation. Second-order ZGG and an equal-budget pure-EOF reconstruction oracle test whether zoning improves HF reconstruction without GP learning. Stage-swap arms (GG/ZZ/GZ/ZG) are a mechanistic ablation that crosses global versus zonal EOF coordinates with global versus zonal GP stacks; they are not four competing production models.
+First-order EOI summarizes between-zone versus within-zone residual structure on max surfaces. We treat the EOI-as-switch test as an exploratory falsification of a plausible first-order training-data diagnostic, not as prospective selector validation. Second-order ZGG and an equal-budget pure-EOF reconstruction oracle test whether zoning improves HF reconstruction without GP learning. Stage-swap arms (GG/ZZ/GZ/ZG) cross global versus zonal EOF coordinates with global versus zonal GP stacks; they are not four competing production models. GZ and ZG are diagnostic approximations rather than algebraically exact stage substitutions; accordingly, the stage-swap is used to reject single-stage explanations, not to estimate a unique causal contribution of each stage.
 
 ### 2.5 Statistical claims
 
@@ -100,7 +100,7 @@ Carlisle B = 4 LOOCV: 9/9 folds improved; mean ΔRMSE = 0.0821 m; 95% CI [0.0155
 
 ### 3.4 EOI, second-order, and stage-swap
 
-Max-surface EOI: Carlisle 0.057, Chowilla 0.116, Burnett 0.957. Zoning benefit does not increase with EOI. Modal EOI registry shows ZGG > 0 with equal-budget pure-EOF oracle ΔRMSE < 0 on all three cases (ZGG_POSITIVE_ORACLE_LOSS), ruling out “zoning helps merely by truncating HF EOF better.” Stage-swap LOOCV means: GG ≈ 0.180, ZZ ≈ 0.098, GZ ≈ 0.098, ZG ≈ 0.101 m. This supports that the Carlisle gain is not a pure EOF-truncation effect and is not uniquely attributable to one localized stage; it does not identify GP locality alone as the mechanism.
+Max-surface EOI: Carlisle 0.057, Chowilla 0.116, Burnett 0.957. Zoning benefit does not increase with EOI. Modal EOI registry shows ZGG > 0 with equal-budget pure-EOF oracle ΔRMSE < 0 on all three cases (ZGG_POSITIVE_ORACLE_LOSS), ruling out “zoning helps merely by truncating HF EOF better.” Stage-swap LOOCV means: GG ≈ 0.180, ZZ ≈ 0.098, GZ ≈ 0.098, ZG ≈ 0.101 m. These results reject a pure-EOF-truncation explanation and are consistent with zonal structure acting through the coupled representation–mapping pipeline; they do not uniquely attribute the gain to one localized stage or identify GP locality alone as the mechanism.
 
 ![Fig. 14 EOI](../outputs/figures/fig14_eoi.png)
 
@@ -110,7 +110,7 @@ Max-surface EOI: Carlisle 0.057, Chowilla 0.116, Burnett 0.957. Zoning benefit d
 
 ### 3.5 Published MaxWD contrast and robustness probes
 
-On the official nine-fold MaxWD R² protocol, rule LSG-Max reaches 0.988 versus published LSG-TS 0.990 (Global Max ≈ 0.915). LF coarsening and channel-distance zoning probes (Figs. 17–18) support robustness narratives but are secondary to the equal-B LOOCV claim.
+This comparison is used only as a protocol-level sanity check and is not a head-to-head comparison with a locally reproduced LSG-TS implementation. On the official nine-fold MaxWD R² protocol, rule LSG-Max reaches 0.988 versus published LSG-TS 0.990 (Global Max ≈ 0.915). LF coarsening and channel-distance zoning probes (Figs. 17–18) support robustness narratives but are secondary to the equal-B LOOCV claim.
 
 ![Fig. 16 Official MaxWD R²](../outputs/figures/fig16_official_maxwd_r2.png)
 
@@ -122,7 +122,7 @@ On the official nine-fold MaxWD R² protocol, rule LSG-Max reaches 0.988 versus 
 
 ## 4. Discussion
 
-**Thesis.** Spatial zoning is not universally advantageous, but neither is global EOF a performance-neutral representation choice. Under a fixed total retained-mode budget, the value of zoning is conditional on how spatial structure interacts with the coupled reduced-representation and LF-to-HF mapping pipeline; simple field heterogeneity alone is insufficient to decide when zoning should be used.
+**Thesis.** Spatial zoning is not universally advantageous, but a global EOF representation can be performance-sensitive under constrained retained-mode capacity. Under an audited retained-mode-budget protocol, the value of zoning is conditional on how spatial structure interacts with the coupled reduced-representation and LF-to-HF mapping pipeline; simple field heterogeneity alone is insufficient to decide when zoning should be used.
 
 ### Q1. When does zoning help under equal representation capacity?
 
@@ -134,7 +134,7 @@ First-order EOI does not explain the pattern. The pure-EOF oracle rules out a tr
 
 ### Q3. When should zoning not be used?
 
-Burnett shows that high first-order EOI does not justify zoning under equal B. EOI therefore has no reliable threshold as a deployable switch. Chowilla shows a more fundamental upstream question: whether LSG correction should be applied at all when LSG is far worse than LF-only. EOI has been ruled out as a sufficient first-order selector, but the present experiments do not yet establish a transferable pre-training criterion for choosing between global and zonal LSG.
+Burnett shows that high first-order EOI does not justify zoning under equal B. EOI therefore has no reliable threshold as a deployable switch. Chowilla shows a more fundamental upstream question: whether LSG correction should be applied at all when LSG is far worse than LF-only. EOI has been ruled out as a sufficient first-order training-data diagnostic, but the present experiments do not yet establish a transferable criterion for choosing between global and zonal LSG.
 
 Rival explanations rejected or weakened: (i) accidental unequal budgets (audited); (ii) test leakage into zoning (CLEAN_PASS); (iii) GP-only localization as the unique cause (ZG ≈ ZZ as well as GZ ≈ ZZ); (iv) official two-fold as primary evidence (CI includes zero).
 
@@ -146,8 +146,8 @@ Results use LSG-Max with sklearn GPR, not the canonical gpflow Sparse GP / LSG-T
 
 ## 5. Conclusions
 
-1. On Carlisle at equal B = 4, global EOF is not a performance-neutral representation choice for multi-fidelity depth emulation (0.1464 → 0.0964 m; 9/9 LOOCV).
-2. Inflating Global B is not a substitute for zonal capacity allocation under the equal-budget protocol.
+1. On Carlisle at equal B = 4, the global EOF representation was not performance-neutral for multi-fidelity depth emulation (0.1464 → 0.0964 m; 9/9 LOOCV).
+2. In the Carlisle budget sweep, increasing the requested global mode count did not recover the B = 4 zonal advantage; the B = 8 point is retained as an audited mismatch rather than a strict equal-B comparison.
 3. Zoning benefit is conditional: Burnett 30-fold does not favour Rule; Chowilla is an upstream LSG-vs-LF applicability boundary.
 4. First-order max-surface EOI does not select zoning; mechanism evidence rules out pure-EOF truncation and does not uniquely pin the gain to one stage (stage-swap).
 5. Official two-fold non-significance must be stated; it is a sensitivity check, not the principal paired claim.
@@ -179,7 +179,7 @@ Results use LSG-Max with sklearn GPR, not the canonical gpflow Sparse GP / LSG-T
 11. Tan, Z., Xu, D., Taraphdar, S., Ma, J., Bisht, G., & Leung, L. R. (2025). An efficient hybrid downscaling framework to estimate high-resolution river hydrodynamics. *Hydrology and Earth System Sciences*, 29, 3833–3852. https://doi.org/10.5194/hess-29-3833-2025
 12. Wang, R., Lian, J., Yuan, X., Tian, F., Li, K., & Liu, Z. (2025). Rapid simulation of floods by considering the spatial and temporal characteristics of inundation. *International Journal of Disaster Risk Science*, 16, 481–495. https://doi.org/10.1007/s13753-025-00642-5
 13. Fraehr, N., Wang, Q. J., Wu, W., & Nathan, R. (2023). Supercharging hydrodynamic inundation models for instant flood insight. *Nature Water*, 1, 835–843. https://doi.org/10.1038/s44221-023-00132-2
-14. Wang, Q. J., Wang, Y., & Nathan, R. (2025/2026). Strategies for predicting flood inundation in a large and complex floodplain based on low-fidelity hydrodynamic models. *Water Resources Research*. https://doi.org/10.1029/2025WR042481
+14. Wang, W., Wang, Q. J., & Nathan, R. (2026). Strategies for predicting flood inundation in a large and complex floodplain based on low-fidelity hydrodynamic models. *Water Resources Research*. https://doi.org/10.1029/2025WR042481
 
 Full ChatGPT literature map + adopt/reject table: `paper/chatgpt/` and `paper/refs/citation_audit.md`.
 

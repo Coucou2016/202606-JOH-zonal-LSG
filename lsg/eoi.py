@@ -1,8 +1,9 @@
-"""Error Organisation Index (EOI) — a priori zonal-EOF diagnostic.
+"""Error Organisation Index (EOI) — training-data residual-organisation diagnostic.
 
 EOI = Var(zone-mean |LF−HF|) / Var(cell |LF−HF|) on the training wet mask.
-High EOI: residual is organised by hydrodynamic zones → zonal EOF is justified.
-Low EOI: residual is diffuse → zoning is not expected to help (and may hurt).
+High EOI indicates stronger between-zone organisation of LF–HF residual magnitude
+relative to total cell-scale variance. It does **not** imply that zoning will
+improve downstream LSG skill (Track B falsifies EOI-as-switch).
 """
 from __future__ import annotations
 
@@ -14,6 +15,7 @@ from lsg.spatial import wet_cell_mask
 from lsg.zoning import rule_based_zones
 
 
+# Descriptive bins only — not validated decision thresholds for zoning.
 EOI_HIGH = 0.30
 EOI_MODERATE = 0.15
 
@@ -190,8 +192,10 @@ def modal_subspace_diagnostic(
 
     1. **Zone–global variance gap (ZGG):** on each zone, variance explained by
        ``k_z`` local modes minus variance explained by the same number of
-       *global* modes restricted to that zone. Positive ⇒ the zone needs its
-       own basis.
+       *global* modes restricted to that zone. Positive ZGG means local modes
+       explain more within-zone variance than the same number of restricted
+       global modes; this is **not** sufficient evidence that zonal EOF
+       reconstruction or downstream LSG prediction will improve.
     2. **Equal-budget oracle EOF reconstruction:** HF→EOF→HF with total B modes
        (global vs rule). ``oracle_delta_rmse = RMSE_G − RMSE_Z`` (positive ⇒
        zoning already helps *before* any GP).

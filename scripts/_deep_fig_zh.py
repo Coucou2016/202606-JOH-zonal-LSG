@@ -68,7 +68,7 @@ def deep_explains(d: dict) -> dict[str, str]:
 <p><strong>（a）背景与作用。</strong>这是 Carlisle 等预算主证据的核心曲线：在总模态数 B 相同的前提下，全局、规则分区、KMeans 的面积加权 RMSE 如何随 B 变化。它直接回答标题“全局 EOF 何时不够”。</p>
 <p><strong>（b）如何读 RMSE–B 曲线。</strong>横轴离散取 B=4/6/8（不是连续光滑函数）；纵轴越小越好。比较三条线的高度差（谁更准）与斜率（加模态是帮还是害）。</p>
 <p><strong>（c）曲线含义。</strong>圆点实线=全局；方点虚线=规则；三角点线=KMeans。B=4：全局 {fmt(G4)} m，规则 {fmt(R4)} m（相对降幅 {impr4:.1f}%），KMeans {fmt(K4)} m。B=6：全局跳至 {fmt(G6)} m；B=8：全局 {fmt(G8)} m，规则 {fmt(R8)} m 仍最低。全局 B=8 实际模态仅 7（审计 MISMATCH），即便少用 1 个仍最差。</p>
-<p><strong>（d）结论。</strong>在 Carlisle、等预算下，<strong>增加全局模态不是补救，而是过拟合</strong>。分区把有限 B 分配到更均匀的子域，相当于给每个子问题更合适的秩（隐式容量约束）。</p>
+<p><strong>（d）结论。</strong>在该 Carlisle sweep 中，全局 RMSE 随请求 B 增大而升高；当前诊断<strong>未唯一识别</strong>其原因，因此不将该趋势直接解释为过拟合。分区把有限 B 分配到子域是候选容量配置解释，而非已证实机制。</p>
 <p><strong>（e）日常语言。</strong>考试复习时，把全部精力花在背噪音细节，分数可能更差；把精力按章节分开复习，往往更稳。B 就是“复习时间总量”，分区就是按章节分配。</p>
 """
 
@@ -81,10 +81,10 @@ def deep_explains(d: dict) -> dict[str, str]:
 """
 
     out["fig13_mae_bias.png"] = f"""
-<p><strong>（a）作用。</strong>把“过拟合”从单一 RMSE 扩展到平均绝对误差（Mean Absolute Error，MAE）与偏差（bias）：多模态是否把整张水面系统推偏。</p>
+<p><strong>（a）作用。</strong>把 Global–B 趋势从单一 RMSE 扩展到平均绝对误差（Mean Absolute Error，MAE）与偏差（bias）：请求更多全局模态时，整张水面是否被系统推偏。</p>
 <p><strong>（b）读法。</strong>左图 MAE（对极端格不如 RMSE 敏感）；右图偏差（正=预测偏深，负=偏浅）。关注符号翻转与分区是否贴零线。</p>
 <p><strong>（c）含义。</strong>左图形态与 RMSE 图相似：全局随 B 上升最快。右图：全局 B=4 偏差 {fmt(cb['budgets']['4']['global']['bias_area'])} m，B=8 变为 {fmt(cb['budgets']['8']['global']['bias_area'])} m（符号翻转并增大）；规则偏差始终更近 0。</p>
-<p><strong>（d）结论。</strong>多出来的全局模态不是“补细结构”，而是把系统偏差推离 HF——支持容量误用叙事。</p>
+<p><strong>（d）结论。</strong>多出来的全局模态伴随系统偏差推离 HF——与 capacity-misallocation 假说相容，但不能单独证明过拟合。</p>
 <p><strong>（e）日常语言。</strong>不是某一处画错一点，而是整张图被整体涂深或涂浅了。</p>
 """
 
@@ -131,7 +131,7 @@ def deep_explains(d: dict) -> dict[str, str]:
 <p><strong>（a）作用。</strong>负例主图：高一阶 EOI（{eoi_bmax:.3f}）并不保证等预算分区获益。</p>
 <p><strong>（b）读法。</strong>对照 Carlisle 图 6：这里两条线应纠缠而非系统分离。纵轴到数米是洪水尺度使然。</p>
 <p><strong>（c）数值。</strong>30 折均值：全局 {fmt(bloo['mean_global_rmse'])} m，规则 {fmt(bloo['mean_zonal_rmse'])} m，Δ={fmt(bloo['mean_delta_rmse'])} m（负=分区更差），6/30 折，区间含 0。</p>
-<p><strong>（d）结论。</strong>高 EOI 在此度量的是 LF 系统性偏移的空间组织；B=4 切成每区约 1 个模态无法消化米级偏差。一阶 EOI 不能当分区开关。</p>
+<p><strong>（d）结论。</strong>高 EOI 在此度量的是 LF 系统性偏移的空间组织；Burnett 表明强组织残差不足以保证等预算分区收益，现有诊断<strong>未唯一识别</strong>原因。一阶 EOI 不能当分区开关。</p>
 <p><strong>（e）日常语言。</strong>误差虽然“成块”，但每块错得太深、样本又被切碎，分区反而帮倒忙或无益。</p>
 """
 

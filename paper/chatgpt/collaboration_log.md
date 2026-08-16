@@ -92,3 +92,56 @@
 | Claim ChatGPT successfully read GitHub | REJECT | No proof this round |
 | “First zonal LSG” | REJECT | Tan + Wang prior art |
 | Invent transferable zoning selector | REJECT | Still not established |
+
+---
+
+## Conversation 1 — Round 4 GitHub-read closed loop (2026-08-16 late)
+
+| Field | Value |
+|---|---|
+| URL | https://chatgpt.com/c/6a812977-6814-83ea-9a9d-f27c1dbd8a8f （同一线程；未串到无关会话） |
+| Web search | Enabled；回复含 raw.githubusercontent.com / GitHub / HESS / Springer 等引用芯片 |
+| GitHub | https://github.com/Coucou2016/202606-JOH-zonal-LSG （public，`master` @ `f692bf1`） |
+| **GitHub 读取** | **成功** |
+
+### 读取证明（ChatGPT 原文要点；本地已核对）
+
+1. `paper/manuscript.md` Discussion **Q2** 标题为 “Why can zoning help when it does?”；pure-EOF oracle 排除 truncation-only。  
+2. `lsg/eoi.py` 存在函数 **`modal_subspace_diagnostic()`**，注释定义 ZGG + equal-budget pure-EOF oracle。  
+3. `outputs/evaluation/carlisle/stage_swap.json`：`B=4`；LOOCV means GG/ZZ/GZ/ZG ≈ **0.18023 / 0.09789 / 0.09798 / 0.10096**；hypothesis 为 mapping-only 假说被双侧 zoning 否决。  
+
+注：ChatGPT 称当时抓到的 `master` raw 状态行仍显示 v0.2、故改用 `f692bf1` commit-specific raw；**本地用 `urllib` 拉取 `master/paper/manuscript.md` 确为 v0.3**（可能为其侧缓存/指针歧义）。证明条目本身与仓库内容一致。
+
+### Local independent DOI checks (this round)
+
+| DOI | Verdict |
+|---|---|
+| 10.1029/2022WR032248 | PASS (HTTP 200 → AGU) |
+| 10.1016/j.watres.2024.121202 | PASS |
+| 10.1016/j.jhydrol.2025.132949 | PASS |
+| 10.5194/hess-29-3833-2025 | PASS |
+| 10.1007/s13753-025-00642-5 | PASS |
+| 10.1016/j.envsoft.2025.106654 | PASS |
+| 10.5194/hess-30-459-2026 | PASS |
+| 10.1029/2025WR042481 | PASS；作者确认为 **Wen Wang, Quan J. Wang, Rory Nathan (2026)** |
+| 10.1016/j.envsoft.2025.106562 | PASS |
+
+### Adopt / reject (local executor)
+
+| Item | Decision | Note |
+|---|---|---|
+| Novelty package ADOPT + TWEAK；禁止 “首次 zonal LSG” | ADOPT | 与既有锁定一致 |
+| B=8 退出 “true equal-B”；改 audited protocol | ADOPT | `paper/manuscript.md` §2.3 / Abstract / Conclusion 2 |
+| EOI：`pre-fit` → training-data diagnostic；修 `eoi.py` docstring | ADOPT | manuscript + `lsg/eoi.py` |
+| ZGG docstring 去掉 “needs its own basis” | ADOPT | `lsg/eoi.py` |
+| 正文写明 GZ/ZG 为 diagnostic approximations | ADOPT | manuscript §2.4 / §3.4 |
+| framework Q2 同步为 “Why can zoning help…” | ADOPT | `paper/framework.md` |
+| 软化中文 fig03/fig13/fig10 过拟合/容量误用/无法消化句 | ADOPT | `scripts/_deep_fig_zh.py` + `99_full_report_zh.py`；已重跑 `99` |
+| MaxWD 0.988 vs 0.990 加 not head-to-head | ADOPT | manuscript §3.5 |
+| Ref 14 作者/年份修正 | ADOPT | verified DOI page |
+| Abstract “Most evaluations treat…performance-neutral” 心理立场句 | ADOPT | 改为 baseline commonly employ… |
+| 中文 §5.1 标题“真等预算”→预算对照与审计；表 4 CI 措辞 | ADOPT | `99_full_report_zh.py` |
+| 中文 Burnett/Chowilla 机制过强句 | ADOPT | 改为未唯一识别 / LSG-vs-LF 边界 |
+| 新增 Taghizadeh / Markert 进正文参考文献表 | HOLD | DOI PASS；非本轮最小必需；可后续补 bib |
+| Claim transferable zoning selector | REJECT | |
+| Push / commit | **未做** | 默认仅本地；paper/scripts 已改但未强制同步 remote |

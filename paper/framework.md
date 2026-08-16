@@ -2,7 +2,7 @@
 
 **Target venue (working):** Journal of Hydrology (primary) or Water Resources Research (methods).  
 **Paper type (nature-writing):** methods.  
-**One-sentence argument:** In multi-fidelity flood inundation emulation, global EOF reduction is not hydrodynamically neutral; under equal mode budget, hydrodynamically zoned LSG-Max can reduce area-weighted depth RMSE when residual structure and capacity interact, but first-order EOI is not a zoning switch and the gain is conditional across sites.
+**One-sentence argument:** In multi-fidelity flood inundation emulation, a global EOF representation can be performance-sensitive under constrained retained-mode capacity; under an audited budget protocol, hydrodynamically zoned LSG-Max can reduce area-weighted depth RMSE conditionally, but first-order EOI is not a zoning switch.
 
 **Imitated architecture:** Fraehr et al. WRR/Water Research LSG papers (problem → method modules → multi-case results → honest boundary cases) + Lu et al. 2025 JOH kernel-design paper (fixed LSG frame → internal design choice) + Wang et al. WRR Brisbane strategies (design questions, not “new model only”).
 
@@ -36,8 +36,8 @@
 ## Discussion three questions
 
 1. **When does zoning help?** Carlisle equal-B + event LOOCV.
-2. **Why can larger Global B hurt?** Overfitting / capacity misuse; zonal capacity locking.
-3. **When does it fail / what does EOI mean?** Burnett high EOI no gain; Chowilla LSG worse than LF; EOI not switch.
+2. **Why can zoning help when it does?** First-order EOI insufficient → pure-EOF truncation rejected → approximate stage-swap implicates coupled representation–mapping structure (not a unique causal stage).
+3. **When does it fail / what does EOI mean?** Burnett high EOI no gain; Chowilla LSG worse than LF; EOI not switch; Global–B non-monotonicity is a related observation, not the Discussion spine.
 
 ---
 

@@ -495,14 +495,14 @@ def build(data: dict) -> tuple[str, str, list[str], list[str]]:
             f"{L4['improved']}/{L4['n']}",
             fmt(L4["mean"]),
             f"[{fmt(L4['ci'][0])}, {fmt(L4['ci'][1])}]",
-            "是（显著）" if L4["sig"] else "否",
+            "该 fold-bootstrap 95% CI 不跨 0" if L4["sig"] else "CI 跨 0 / 不显著",
         ],
         [
             "Carlisle B=6 事件 LOOCV",
             f"{L6['improved']}/{L6['n']}",
             fmt(L6["mean"]),
             f"[{fmt(L6['ci'][0])}, {fmt(L6['ci'][1])}]",
-            "是（显著）" if L6["sig"] else "否",
+            "该 fold-bootstrap 95% CI 不跨 0" if L6["sig"] else "CI 跨 0 / 不显著",
         ],
         [
             "Carlisle 官方 2 折",
@@ -812,17 +812,17 @@ RMSE<sub>area</sub> = {{ Σ<sub>i</sub> A<sub>i</sub> (ĥ<sub>i</sub> − h<sub>
   <div class="metric bad"><div class="v">不显著</div><div class="l">官方 2 折自助法</div></div>
   <div class="metric bad"><div class="v">6/30</div><div class="l">Burnett 分区更优的折数</div></div>
 </div>
-<h3 id="s5-1">5.1　Carlisle：真等预算下全局变差、分区更稳</h3>
-{html_table(t3_h, t3_r, "表 3　Carlisle 真等预算面积加权 RMSE（budget_sweep_true_equal.json）。", "tbl3")}
+<h3 id="s5-1">5.1　Carlisle：模态预算对照与审计</h3>
+{html_table(t3_h, t3_r, "表 3　Carlisle 模态预算对照（B=4/6 matched；B=8 为 audit exception；budget_sweep_true_equal.json）。", "tbl3")}
 <p class="tbl-explain">先看 B=4 这一行：全局 {fmt(G4)} m，规则 {fmt(R4)} m，KMeans {fmt(K4)} m。规则相对全局降低 {impr4:.1f}%，KMeans 也明显优于全局但略逊于规则。再看行间变化：全局从 B=4 到 B=8 升高 {rise_g:.0f}%（{fmt(G4)} → {fmt(G8)}），规则升高 {rise_r:.0f}%（{fmt(R4)} → {fmt(R8)}）。“加模态一定更好”在这个等预算实验里不成立。最后看实际模态数列：B=8 全局只有 7 个模态，分区为 8；即便给全局少算一个模态的便宜，它仍然最差。仅用 LF 的 RMSE 为 {fmt(LF)} m，全局 B=4 已经略优于仅用 LF，但规则分区的改善幅度大得多。</p>
 {html_table(t3c_h, t3c_r, "表 3b　同一实验的面积加权 CSI（湿润阈值 0.03 m）。", "tbl3b")}
 <p class="tbl-explain">CSI 必须单独说，避免只报 RMSE。仅用 LF 的 CSI 为 {fmt(csi['lf'])}，高于任何 LSG 变体（全局 B=4 为 {fmt(csi['g4'])}，规则为 {fmt(csi['r4'])}）。结合原始 JSON：LSG 的探测率（POD）接近 1，但空报率（FAR）高于仅用 LF。含义是：分区主要把<strong>水深数值</strong>校准得更准，同时可能把一些浅水格判湿。本文主指标仍是面积加权 RMSE；不把 CSI 写成“全面胜利”。</p>
 {html_table(t_mae_h, t_mae_r, "表 3c　同一实验的面积加权平均绝对误差（MAE）与偏差（budget_sweep_true_equal.json）。", "tbl3c")}
-<p class="tbl-explain">英文稿讨论“过拟合”时主要看 RMSE 随 B 上升。表 3c 把平均绝对误差与偏差补上：全局 B=4 的偏差为 {fmt(cb['budgets']['4']['global']['bias_area'])} m，B=8 变为 {fmt(cb['budgets']['8']['global']['bias_area'])} m（符号翻转并增大），说明多出来的模态不只是加细结构，而是把系统偏差推偏。规则分区的偏差始终更接近 0。这与“分区提供隐式容量约束”一致。</p>
+<p class="tbl-explain">表 3c 把平均绝对误差与偏差补上：全局 B=4 的偏差为 {fmt(cb['budgets']['4']['global']['bias_area'])} m，B=8 变为 {fmt(cb['budgets']['8']['global']['bias_area'])} m（符号翻转并增大）。这与 capacity-misallocation 假说相容，但当前诊断不能单独证明过拟合；规则分区偏差更接近 0 是观察，不是已证实的隐式容量约束机制。</p>
 {fig_block(3, "Carlisle 真等预算：面积加权 RMSE 随模态预算 B 的变化（SciencePlots 2.2 / IEEE）", "fig03_mode_budget.png",
 "图3 真等预算 RMSE–B 曲线",
 f"<p>横轴是模态预算 B=4、6、8，纵轴是面积加权 RMSE。圆点实线为全局，方点虚线为规则分区，三角点线为 KMeans。三条线都向上，但斜率不同。B=4 时三者最低点靠近：全局约 {fmt(G4)} m，KMeans 约 {fmt(K4)} m，规则约 {fmt(R4)} m。B=6 时全局已经跳到约 {fmt(G6)} m，分区仍在 0.12–0.14 m。B=8 时全局约 {fmt(G8)} m，KMeans 约 {fmt(K8)} m，规则约 {fmt(R8)} m 仍为三者最低。</p>"
-+ "<p>如何用这张图回答标题中的“何时不够”？在 Carlisle、残差成块、预算有限时，<strong>增加全局模态不是补救，反而是过拟合</strong>。分区把有限的 B 个模态分配到力学更均匀的子域，相当于给每个子问题更合适的秩。KMeans 在 B=8 恶化快于规则，说明“切成四块”还不够，切的方式也要符合水深–频率结构。</p>"
++ "<p>如何用这张图回答标题中的“何时不够”？在 Carlisle 该 sweep 中，全局 RMSE 随请求 B 升高；当前诊断<strong>未唯一识别</strong>原因，故不直接称为过拟合。KMeans 在 B=8 恶化快于规则，说明分区方式本身也会改变结果。</p>"
 + "<p>作图规范：SciencePlots 2.2 的 <code>science+ieee+no-latex</code>，600 dpi，色盲友好循环；图内 Latin/数字为正文字体 <strong>Times New Roman</strong>，轴注与图例为英文（与英文投稿稿共用同一套 PNG）。中文报告正文解说仍为中文。横轴只标 4、6、8，与实验矩阵一致，不把曲线光滑成连续函数。</p>")}
 {fig_block(4, "Carlisle 真等预算：面积加权 CSI 随 B 的变化", "fig09_csi_budget.png",
 "图4 CSI–B 曲线",
@@ -899,11 +899,11 @@ f"<p>横轴为训练+预测时间（秒），纵轴为面积加权 RMSE。叉号
 </ol>
 <p>历史时序 EOI={eoi_ts:.2f} 与深槽 0.245 m / 边缘 0.010 m 仍有教学价值：过程残差确实按区成块；但它度量的不是 LSG-Max 拟合的最大面，故只能进 SI，不能当主文开关证据。</p>
 <h3 id="s6-2">6.2　为何全局模型会随额外模态变差</h3>
-<p>强迫全局使用更大 B，RMSE 从 {fmt(G4)} m 升到 {fmt(G8)} m（+{rise_g:.0f}%），偏差由略正变为 {fmt(cb['budgets']['8']['global']['bias_area'])} m。这是经典过拟合：多出来的模态在训练事件上解释噪声，检验事件上变成系统偏差。规则分区把同一笔 B 分到各区且每区至少 1 个模态，相当于给每个子问题加上秩约束，因此同一区间只升高 {rise_r:.0f}%（{fmt(R4)} → {fmt(R8)} m）。英文稿称之为<strong>隐式正则</strong>：分区不是多给参数，而是不许全局把容量花在错误的方向上。审计表显示全局 B=8 实际只有 7 个模态，即便少用 1 个，它仍然最差，所以不能用“模态不够”来开脱。</p>
+<p>强迫全局使用更大 B，RMSE 从 {fmt(G4)} m 升到 {fmt(G8)} m（+{rise_g:.0f}%），偏差由略正变为 {fmt(cb['budgets']['8']['global']['bias_area'])} m。伴随检验偏差翻转与 RMSE 升高，与 capacity-misallocation / 过拟合假说相容，但<strong>尚未被唯一识别</strong>。规则分区同一区间只升高 {rise_r:.0f}%（{fmt(R4)} → {fmt(R8)} m）。审计表显示全局 B=8 实际只有 7 个模态（audit exception），即便少用 1 个仍最差，因此不能用“模态不够”开脱，也不宜把分区写成已证实的隐式正则。</p>
 <p><strong>给非专业读者：</strong>“多背一点”在这里像把噪音细节也背进答案；按章节分配有限复习时间，反而更稳。</p>
 <h3 id="s6-3">6.3　为何 Burnett / Chowilla 不然</h3>
-<p><strong>Burnett：高一阶 EOI，但等预算分区无益。</strong>最大面 EOI={eoi_bmax:.3f}，深槽与边缘残差可差到数米量级，误差极度成块。然而 30 折 LOOCV 上规则平均更差（{fmt(bloo['mean_zonal_rmse'])} vs {fmt(bloo['mean_global_rmse'])} m），仅 6/30 折占优，区间跨 0。机制解读：高 EOI 度量的是 LF 系统性偏移的空间组织；在总预算 B=4 被切成每区约 1 个模态时，分区无法消化米级偏差，反而把本已有限的事件样本切碎。12 事件单次划分上全局≈规则≈{fmt(b_g)} m，也说明“LSG 有用 ≠ 分区额外有用”。</p>
-<p><strong>Chowilla：LSG 相对仅用 LF 帮倒忙。</strong>仅用 LF {fmt(ch_lf)} m 并不荒唐；LSG≈{fmt(ch_g)} m、CSI 从约 0.88 掉到约 0.26，说明在错误流形上做 GP 会把水面推离 HF。最大面 EOI={eoi_w:.3f}（低）与“分区改变不了错误流形”一致。网格比约 77:1；历史上 MD5 失败与未做的高程基准修正【待补充】，故机制解释停在“LF–HF 匹配过差 / 可能的基准问题”，不编造更细故事。</p>
+<p><strong>Burnett：高一阶 EOI，但等预算分区无益。</strong>最大面 EOI={eoi_bmax:.3f}，深槽与边缘残差可差到数米量级，误差极度成块。然而 30 折 LOOCV 上规则平均更差（{fmt(bloo['mean_zonal_rmse'])} vs {fmt(bloo['mean_global_rmse'])} m），仅 6/30 折占优，区间跨 0。解读：高 EOI 度量 LF 残差的空间组织；Burnett 表明强组织残差不足以保证等预算分区收益，现有诊断<strong>未唯一识别</strong>原因。12 事件单次划分上全局≈规则≈{fmt(b_g)} m，也说明“LSG 有用 ≠ 分区额外有用”。</p>
+<p><strong>Chowilla：LSG 相对仅用 LF 帮倒忙。</strong>仅用 LF {fmt(ch_lf)} m 并不荒唐；LSG≈{fmt(ch_g)} m、CSI 从约 0.88 掉到约 0.26，说明 LSG 校正相对 LF-only 帮倒忙（上游适用性边界）。最大面 EOI={eoi_w:.3f}（低）。网格比约 77:1；历史上 MD5 失败与未做的高程基准修正【待补充】；失败来源未在此隔离，不编造更细故事。</p>
 <p><strong>对照一句话。</strong>Carlisle = LF 可修正 + 等预算下全局表示非中性；Burnett = 残差成块但分区容量不够修；Chowilla = 先别做 LSG，LF 与 HF 还没站在同一物理故事里。</p>
 <h3 id="s6-4">6.4　官方 2 折、CSI 与投稿策略</h3>
 <p>官方两折只有四场检验事件，平均 ΔRMSE = {fmt(official['mean_delta_rmse'])} m，区间跨 0。事件 1 那种半米级差异若没被抽中，显著性就消失。这是功效问题。英文稿因此把 9 折作为统计主声称，并把 2 折不显著写进摘要——中文完整版保持同一纪律。</p>
@@ -1186,7 +1186,7 @@ Chowilla 为边界情形：LSG RMSE 约 {fmt(ch_g)} m，仅用 LF 为 {fmt(ch_lf
 
 ## 5 结果展示
 
-### 5.1 Carlisle 真等预算
+### 5.1 Carlisle 模态预算对照与审计
 
 **表 3　面积加权 RMSE**
 
@@ -1237,9 +1237,9 @@ LOOCV 均值：GG≈0.180、ZZ≈0.098、GZ≈0.098、ZG≈0.101 m → **GZ≈ZG
 
 **为何 Carlisle 有效：** LF 已抓住主导地形；规则切区符合水深–频率结构；等预算下全局表示非中性；但最大面 EOI 仅 {eoi_c:.3f}——故不是“高 EOI 开关”。
 
-**为何加模态变差：** 全局过拟合与偏差翻转；分区提供隐式秩约束。
+**为何加模态变差：** 观察为全局 RMSE/偏差随请求 B 恶化；原因未唯一识别，不作过拟合定论。
 
-**为何 Burnett/Chowilla 不然：** Burnett 高 EOI={eoi_bmax:.3f} 但 B=4 分区容量不够修米级偏差；Chowilla LSG 在错误流形上退化（EOI={eoi_w:.3f}）。
+**为何 Burnett/Chowilla 不然：** Burnett 高 EOI={eoi_bmax:.3f} 但等预算分区无益（原因未唯一识别）；Chowilla 主要为 LSG-vs-LF 适用性边界（EOI={eoi_w:.3f}）。
 
 **EOI 证伪 + stage-swap：** 一阶 EOI 不能当开关；oracle 排除纯截断；stage-swap 显示表示或映射任一段分区化即可收回大部分收益。
 
