@@ -1,10 +1,6 @@
-# When Is Global EOF Reduction Insufficient in Multi-Fidelity Flood Inundation Emulation?
+# Hydrodynamic Zoning under Matched EOF Capacity in Multi-Fidelity Flood-Inundation Emulation: A Three-Case Diagnostic Assessment
 
-**Working title (methods paper).** Hydrodynamically zoned LSG-Max under equal mode budget, area-weighted metrics, and train-only zoning.
-
-**Status:** English manuscript draft v0.7 (Track B evidence locked). Code and evaluation artefacts: https://github.com/Coucou2016/202606-JOH-zonal-LSG.
-
-**One-sentence argument:** Spatial zoning is not universally advantageous, but a global EOF representation can be performance-sensitive under constrained retained-mode capacity; under a matched retained-mode-budget protocol, zoning value is conditional on how spatial structure enters the coupled reduced-representation and LF-to-HF mapping pipeline, and first-order EOI alone cannot decide when to zone.
+Code and evaluation artefacts: https://github.com/Coucou2016/202606-JOH-zonal-LSG (manuscript draft v0.8).
 
 ---
 
@@ -34,7 +30,7 @@ We formulate global and zonal LSG-Max as alternative representations of the same
 
 ### 2.1 Cases and data
 
-We use the public Fraehr multi-fidelity inundation benchmark (Figshare 24312658). Carlisle (UK; HF LISFLOOD-FP, LF HEC-RAS 2D) is the primary statistical case (nine events). Chowilla (Australia; MIKE 21) is treated as a boundary case where LF–HF mismatch can make LSG correction harmful. Burnett River (Australia; HF TUFLOW, LF HEC-RAS 2D) provides a 30-event leave-one-out contrast under the same equal-B protocol. Cell counts follow Fraehr geometry (Carlisle HF/LF ≈ 581,061 / 5,681; Chowilla ≈ 109,914 / 1,434; Burnett ≈ 780,825 / 15,256). Geometric cell areas are taken from the Fraehr geometry archives: Carlisle and Burnett are uniform (25 m² and 400 m²), whereas Chowilla areas vary widely; area-weighted metrics therefore coincide with cell-count weighting on Carlisle and Burnett but remain informative on Chowilla. Synthetic toy grids are excluded from all claims. Brisbane River licensed data are not available in this study and are out of scope.
+We use the public Fraehr multi-fidelity inundation benchmark (Figshare 24312658). Carlisle (UK; HF LISFLOOD-FP, LF HEC-RAS 2D) is the primary statistical case (all nine available events). Chowilla (Australia; MIKE 21) is treated as a boundary case where LF–HF mismatch can make LSG correction harmful; the 12-event subset follows the Fraehr multi-case split used for cross-case LSG comparisons rather than an author-selected cherry-pick. Burnett River (Australia; HF TUFLOW, LF HEC-RAS 2D) appears in two protocols: a 12-event fixed split aligned with the same three-case table, and a separate 30-event leave-one-out contrast under the equal-B protocol (74 events are available in the archive; fuller Burnett extensions remain a stated limitation). Cell counts follow Fraehr geometry (Carlisle HF/LF ≈ 581,061 / 5,681; Chowilla ≈ 109,914 / 1,434; Burnett ≈ 780,825 / 15,256). Geometric cell areas are taken from the Fraehr geometry archives: Carlisle and Burnett are uniform (25 m² and 400 m²), whereas Chowilla areas vary widely; area-weighted metrics therefore coincide with cell-count weighting on Carlisle and Burnett but remain informative on Chowilla. Synthetic toy grids are excluded from all claims. Brisbane River licensed data are not available in this study and are out of scope.
 
 **Table 1.** Case roles, geometry, and paper role (Fraehr Figshare 24312658). Max-surface EOI (Carlisle / Chowilla / Burnett) = 0.057 / 0.116 / 0.957.
 
@@ -66,7 +62,7 @@ First-order EOI is the variance of zone-mean training |LF−HF| residuals divide
 
 ### 2.5 Statistical claims and reproducibility
 
-The principal Carlisle paired stability analysis is 9-fold event LOOCV at B = 4 (and secondary B = 6), with bootstrap confidence intervals on mean ΔRMSE = RMSE_global − RMSE_zonal (seed 42; 10,000 resamples). The LOOCV unit is an event: each fold holds out one event’s max surface, fits zoning, EOF, and GP on the remainder, and evaluates area-weighted metrics on the held-out surface. Official two-fold bootstrap is reported as a benchmark-compatible sensitivity check and is not promoted as the primary claim. Burnett uses 30-fold event LOOCV at B = 4. Representative held-out spatial maps are qualitative and must not be read as pooled skill. Code and evaluation artefacts are public at https://github.com/Coucou2016/202606-JOH-zonal-LSG (raw hydrodynamic archives excluded).
+The principal Carlisle paired stability analysis is 9-fold event LOOCV at B = 4 (and secondary B = 6). For each fold we form the paired difference ΔRMSE = RMSE_global − RMSE_zonal on the held-out event max surface, then compute a percentile bootstrap confidence interval on the mean of the nine paired differences (resampling folds with replacement; seed 42; 10,000 replicates). The LOOCV unit is an event: each fold holds out one event’s max surface, fits zoning, EOF, and GP on the remainder, and evaluates area-weighted metrics on the held-out surface. Official two-fold bootstrap is reported only as a coarser sensitivity check aligned with the benchmark split and is not promoted as the primary claim. Burnett uses 30-fold event LOOCV at B = 4. Representative held-out spatial maps are qualitative and must not be read as pooled skill. Code and evaluation artefacts are public at https://github.com/Coucou2016/202606-JOH-zonal-LSG (raw hydrodynamic archives excluded).
 
 ---
 
@@ -219,10 +215,9 @@ The hydrodynamic cases are from the public Fraehr multi-fidelity inundation benc
 
 ---
 
-## Scope boundaries (editorial)
+## Scope boundaries
 
 - GP backend remains scikit-learn until sparse GPflow is executed under the acceptance criterion in Limitations.
 - Brisbane licensed hydrodynamic archives are absent; no Brisbane skill claim is made.
 - Headline results are LSG-Max; real zonal LSG-TS is not asserted.
 - No transferable zoning selector is claimed after EOI falsification.
-- Author list, funding, and exact target-journal administrative wording remain editorial.
