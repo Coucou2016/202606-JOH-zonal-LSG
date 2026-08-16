@@ -22,7 +22,19 @@ Local extract: `paper/chatgpt/01_formal_analysis_extract.txt`
 | Zhou et al. 2021 EMS SRR framework | 10.1016/j.envsoft.2021.105112 | ADOPT (confirm volume/pages in final bib) |
 | Tan et al. 2025 HESS regionalized LSG | 10.5194/hess-29-3833-2025 | ADOPT as **novelty boundary** |
 | Wang et al. 2025 REOF–SGP (IJDRS) | 10.1007/s13753-025-00642-5 | ADOPT as **localized EOF prior** (not equal-B zoning test) |
-| Wang, Wang & Nathan WRR Brisbane strategies | 10.1029/2025WR042481 | ADOPT as related WRR template; **not** our Brisbane run |
+| Wang, Wang & Nathan WRR Brisbane strategies | 10.1029/2025WR042481 | ADOPT as related WRR template; **not** our Brisbane run; authors verified **Wen Wang, Quan J. Wang, Rory Nathan (2026)** |
+
+## 2026-08-16 night re-verify (Cursor executor; DOI HEAD/GET)
+
+| DOI | HTTP | Landing |
+|---|---|---|
+| 10.5194/hess-29-3833-2025 | 200 | hess.copernicus.org |
+| 10.1007/s13753-025-00642-5 | 200 | Springer/IJDRS |
+| 10.1029/2025WR042481 | 200 | AGU WRR |
+| 10.1029/2022WR032248 | 200 | AGU WRR |
+| 10.1016/j.watres.2024.121202 | 200 | Elsevier Water Research |
+
+No DOI invented this round. Donnelly truncated DOI remains HOLD.
 
 ## HOLD / use carefully
 

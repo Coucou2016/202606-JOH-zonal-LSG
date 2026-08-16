@@ -1,0 +1,358 @@
+{
+  "budget": {
+    "lf_rmse": 0.1602,
+    "lf_csi": 0.9145,
+    "rows": {
+      "4": {
+        "global": 0.1464,
+        "rule": 0.0964,
+        "kmeans": 0.1015,
+        "global_modes": 4,
+        "rule_modes": 4
+      },
+      "6": {
+        "global": 0.2588,
+        "rule": 0.1256,
+        "kmeans": 0.1367,
+        "global_modes": 6,
+        "rule_modes": 6
+      },
+      "8": {
+        "global": 0.3527,
+        "rule": 0.179,
+        "kmeans": 0.298,
+        "global_modes": 7,
+        "rule_modes": 8
+      }
+    }
+  },
+  "loocv_B4": {
+    "n": 9,
+    "improved": 9,
+    "mean_delta": 0.0821,
+    "mean_global": 0.1803,
+    "mean_zonal": 0.0982
+  },
+  "loocv_B6": {
+    "n": 9,
+    "improved": 7,
+    "mean_delta": 0.0606,
+    "mean_global": 0.1664,
+    "mean_zonal": 0.1058
+  },
+  "carlisle/multifold_bootstrap.json": {
+    "top_keys": [
+      "n_folds",
+      "n_test_events",
+      "per_event",
+      "mean_delta_rmse",
+      "median_delta_rmse",
+      "ci_95_lower",
+      "ci_95_upper",
+      "improved_fraction",
+      "significant"
+    ]
+  },
+  "carlisle/official_fold_zonal.json": {
+    "top_keys": [
+      "config",
+      "published_mean",
+      "published_models",
+      "per_fold",
+      "summary"
+    ],
+    "summary": {
+      "global": {
+        "n_folds": 9,
+        "mean_rmse_area": 0.18024885019549775,
+        "mean_maxwd_r2": 0.9149171056488308,
+        "mean_csi": 0.868836228282523,
+        "mean_peak_diff": -0.09708841332394016,
+        "mean_rmse_wet": 0.27921327910965327
+      },
+      "rule": {
+        "n_folds": 9,
+        "mean_rmse_area": 0.09819836053235526,
+        "mean_maxwd_r2": 0.9882927213085593,
+        "mean_csi": 0.9054334212991522,
+        "mean_peak_diff": -0.011542942566309847,
+        "mean_rmse_wet": 0.15123957749789302
+      },
+      "kmeans": {
+        "n_folds": 9,
+        "mean_rmse_area": 0.12329822301078525,
+        "mean_maxwd_r2": 0.976104036994593,
+        "mean_csi": 0.8922584592844311,
+        "mean_peak_diff": -0.016722009784751177,
+        "mean_rmse_wet": 0.1901944485740637
+      },
+      "published_LSG": {
+        "mean_maxwd_r2": 0.990425979822197,
+        "mean_csi": 0.9371033030004858
+      }
+    },
+    "published_MaxWD_R2_LSG": 0.990425979822197,
+    "mean_rule_maxwd_r2": 0.988,
+    "mean_global_maxwd_r2": 0.915
+  },
+  "carlisle/stage_swap.json": {
+    "top_keys": [
+      "config",
+      "split_7_2",
+      "loocv",
+      "interpretation"
+    ],
+    "has_mean_rmse": true,
+    "has_loocv_mean": true,
+    "numeric_arm_dicts": {
+      "/split_7_2/deltas_vs_GG": {
+        "GG": 0.0,
+        "ZZ": 0.05250039349114913,
+        "GZ": 0.05229956617136908,
+        "ZG": 0.045570103985370286
+      },
+      "/split_7_2/deltas_vs_ZZ": {
+        "GG": -0.05250039349114913,
+        "ZZ": 0.0,
+        "GZ": -0.0002008273197800503,
+        "ZG": -0.006930289505778842
+      },
+      "/loocv/per_fold[0]/deltas_vs_GG": {
+        "GG": 0.0,
+        "ZZ": 0.015125362446820369,
+        "GZ": 0.013841747162275014,
+        "ZG": 0.014920068343665653
+      },
+      "/loocv/per_fold[0]/deltas_vs_ZZ": {
+        "GG": -0.015125362446820369,
+        "ZZ": 0.0,
+        "GZ": -0.0012836152845453544,
+        "ZG": -0.00020529410315471563
+      },
+      "/loocv/per_fold[1]/deltas_vs_GG": {
+        "GG": 0.0,
+        "ZZ": 0.5282055612553034,
+        "GZ": 0.5280002924118796,
+        "ZG": 0.5260466972712858
+      },
+      "/loocv/per_fold[1]/deltas_vs_ZZ": {
+        "GG": -0.5282055612553034,
+        "ZZ": 0.0,
+        "GZ": -0.0002052688434236727,
+        "ZG": -0.0021588639840175727
+      },
+      "/loocv/per_fold[2]/deltas_vs_GG": {
+        "GG": 0.0,
+        "ZZ": 0.008493364051622362,
+        "GZ": 0.008743467771267596,
+        "ZG": 0.007686958539234318
+      },
+      "/loocv/per_fold[2]/deltas_vs_ZZ": {
+        "GG": -0.008493364051622362,
+        "ZZ": 0.0,
+        "GZ": 0.0002501037196452338,
+        "ZG": -0.0008064055123880448
+      }
+    }
+  },
+  "eoi/eoi_all.json": {
+    "top_keys": [
+      "cases"
+    ],
+    "eoi": {
+      "burnettrv": 0.957,
+      "chowilla": 0.116,
+      "carlisle": 0.057
+    }
+  },
+  "eoi/modal_eoi.json": {
+    "top_keys": [
+      "config",
+      "cases"
+    ],
+    "modal": {
+      "carlisle": {
+        "mean_zgg": 0.0479,
+        "oracle_delta_rmse": -0.0761,
+        "interpretation": "ZGG_POSITIVE_ORACLE_LOSS"
+      },
+      "burnettrv": {
+        "mean_zgg": 0.0287,
+        "oracle_delta_rmse": -0.1983,
+        "interpretation": "ZGG_POSITIVE_ORACLE_LOSS"
+      },
+      "chowilla": {
+        "mean_zgg": 0.1071,
+        "oracle_delta_rmse": -0.0657,
+        "interpretation": "ZGG_POSITIVE_ORACLE_LOSS"
+      }
+    }
+  },
+  "burnettrv/loocv_results.json": {
+    "top_keys": [
+      "config",
+      "per_event",
+      "summary"
+    ],
+    "summary": {
+      "rule": {
+        "n_folds": 30,
+        "mean_global_rmse": 1.7479142815086492,
+        "mean_zonal_rmse": 1.826010370574428,
+        "mean_delta_rmse": -0.07809608906577906,
+        "improved_fraction": 0.2,
+        "n_improved": 6,
+        "ci_95_lower": -0.21156129573036225,
+        "ci_95_upper": 0.04054170070372044,
+        "significant": false
+      }
+    },
+    "computed": {
+      "n": 30,
+      "mean_global": 1.7479,
+      "mean_rule": 1.826,
+      "mean_delta": -0.0781,
+      "improved": 6
+    }
+  },
+  "three_case_foldall": {
+    "carlisle": {
+      "global": {
+        "rmse_area": null,
+        "keys": [
+          "lf_only",
+          "global_lsg_ts"
+        ]
+      },
+      "lf": {
+        "rmse_area": null,
+        "keys": [
+          "rmse",
+          "mae",
+          "bias",
+          "r2",
+          "pod",
+          "far",
+          "csi",
+          "hss",
+          "ct_hits",
+          "ct_misses",
+          "ct_false_alarms",
+          "ct_correct_negatives"
+        ]
+      },
+      "rule": {
+        "rmse_area": null,
+        "keys": [
+          "ts_rmse",
+          "ts_mae",
+          "ts_bias",
+          "ts_r2",
+          "ts_pod",
+          "ts_far",
+          "ts_csi",
+          "ts_hss",
+          "ts_ct_hits",
+          "ts_ct_misses",
+          "ts_ct_false_alarms",
+          "ts_ct_correct_negatives",
+          "max_rmse",
+          "max_mae",
+          "max_bias"
+        ]
+      }
+    },
+    "chowilla": {
+      "global": {
+        "rmse_area": null,
+        "keys": [
+          "lf_only",
+          "global_lsg_ts"
+        ]
+      },
+      "lf": {
+        "rmse_area": null,
+        "keys": [
+          "rmse",
+          "mae",
+          "bias",
+          "r2",
+          "pod",
+          "far",
+          "csi",
+          "hss",
+          "ct_hits",
+          "ct_misses",
+          "ct_false_alarms",
+          "ct_correct_negatives"
+        ]
+      },
+      "rule": {
+        "rmse_area": null,
+        "keys": [
+          "ts_rmse",
+          "ts_mae",
+          "ts_bias",
+          "ts_r2",
+          "ts_pod",
+          "ts_far",
+          "ts_csi",
+          "ts_hss",
+          "ts_ct_hits",
+          "ts_ct_misses",
+          "ts_ct_false_alarms",
+          "ts_ct_correct_negatives",
+          "max_rmse",
+          "max_mae",
+          "max_bias"
+        ]
+      }
+    },
+    "burnettrv": {
+      "global": {
+        "rmse_area": null,
+        "keys": [
+          "lf_only",
+          "global_lsg_ts"
+        ]
+      },
+      "lf": {
+        "rmse_area": null,
+        "keys": [
+          "rmse",
+          "mae",
+          "bias",
+          "r2",
+          "pod",
+          "far",
+          "csi",
+          "hss",
+          "ct_hits",
+          "ct_misses",
+          "ct_false_alarms",
+          "ct_correct_negatives"
+        ]
+      },
+      "rule": {
+        "rmse_area": null,
+        "keys": [
+          "ts_rmse",
+          "ts_mae",
+          "ts_bias",
+          "ts_r2",
+          "ts_pod",
+          "ts_far",
+          "ts_csi",
+          "ts_hss",
+          "ts_ct_hits",
+          "ts_ct_misses",
+          "ts_ct_false_alarms",
+          "ts_ct_correct_negatives",
+          "max_rmse",
+          "max_mae",
+          "max_bias"
+        ]
+      }
+    }
+  }
+}
