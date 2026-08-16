@@ -62,3 +62,33 @@
 | Claim transferable zoning selector exists | REJECT | Explicitly stated as not established |
 | gpflow/SGPR required before any draft | HOLD / pending | Flagged limitation; not blocking this audit round |
 | Public GitHub for ChatGPT | N/A | No remote configured; text CONTEXT only |
+
+---
+
+## Conversation 1 — Round 3 GitHub publish + review (2026-08-16 evening)
+
+| Field | Value |
+|---|---|
+| URL | https://chatgpt.com/c/6a812977-6814-83ea-9a9d-f27c1dbd8a8f (intended same thread) |
+| Also attempted | New chat with web search ON; UI repeatedly redirected to unrelated threads (XAJ-Snow / hemodynamics) |
+| Web search | Requested; prior rounds in this thread already used web search |
+| GitHub | https://github.com/Coucou2016/202606-JOH-zonal-LSG (public) |
+| ChatGPT GitHub read | **NOT confirmed this round** — browser automation could not complete a clean send/receive proving raw.githubusercontent.com access. Do not claim ChatGPT read the repo. Fallback: text CONTEXT + local independent DOI checks. |
+
+### Local independent DOI checks (executor)
+
+| Item | Verdict | Evidence |
+|---|---|---|
+| Tan et al. 2025 HESS 10.5194/hess-29-3833-2025 | PASS | Copernicus HESS page; regionalized LSG training for velocity DR error — blocks “first zonal LSG” |
+| Wang et al. 2025 IJDRS 10.1007/s13753-025-00642-5 | PASS | Springer/HEP; REOF–SGP LF–EOF–SGP pipeline; authors include Li & Liu (seed list updated) |
+| Fraehr / Lu / Zhou / Carreau / Bentivoglio seed DOIs | HOLD from prior audit | See `refs/citation_audit.md` |
+
+### Adopt / reject (this round)
+
+| Item | Decision | Note |
+|---|---|---|
+| Publish public GitHub baseline | ADOPT | Done: commit `3e2059f` + follow-up push |
+| Deepen synthetic fig captions (eof_variance / boxplots / zone_metrics / fig07_*) | ADOPT | From prior ChatGPT deepen list + local pedagogy |
+| Claim ChatGPT successfully read GitHub | REJECT | No proof this round |
+| “First zonal LSG” | REJECT | Tan + Wang prior art |
+| Invent transferable zoning selector | REJECT | Still not established |

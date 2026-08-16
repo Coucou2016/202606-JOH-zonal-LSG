@@ -2,7 +2,7 @@
 
 **Working title (methods paper).** Hydrodynamically zoned LSG-Max under equal mode budget, area-weighted metrics, and train-only zoning.
 
-**Status:** English manuscript draft v0.2 (Track B evidence locked; nature-polishing pass on Abstract/Intro/Discussion thesis). Figures name existing files under `outputs/figures/` (SciencePlots + Times New Roman for Track B curves; fig02 kept from real geometry export).  
+**Status:** English manuscript draft v0.3 (Track B evidence locked; nature-polishing consistency pass; public code at https://github.com/Coucou2016/202606-JOH-zonal-LSG). Figures name existing files under `outputs/figures/` (SciencePlots + Times New Roman for Track B curves; fig02 kept from real geometry export).  
 **nature-writing / polishing axes:** `task=manuscript`, `paper_type=methods`, `language=en`, `journal=generic` (JOH primary / WRR methods paradigm).  
 **One-sentence argument:** Spatial zoning is not universally advantageous, but neither is global EOF a performance-neutral representation choice; under a fixed total retained-mode budget, zoning value is conditional on how spatial structure enters the coupled reduced-representation and LF-to-HF mapping pipeline, and first-order EOI alone cannot decide when to zone.
 
@@ -157,9 +157,10 @@ Results use LSG-Max with sklearn GPR, not the canonical gpflow Sparse GP / LSG-T
 ## Data and code availability (draft)
 
 - Data: Fraehr et al. public benchmark, Figshare 24312658.
+- Code and artefacts: https://github.com/Coucou2016/202606-JOH-zonal-LSG (public; raw hydrodynamic HDF/NPZ excluded).
 - Numbers: `outputs/registry/result_manifest_v4.csv` and evaluation JSON under `outputs/evaluation/`.
-- Report generators: `scripts/95_final_submission_report.py`, `scripts/96_research_report_zh.py`.
-- Figures: `outputs/figures/fig*.png` (parallel replotting workline).
+- Report generators: `scripts/95_final_submission_report.py`, `scripts/96_research_report_zh.py`, `scripts/99_full_report_zh.py`.
+- Figures: `outputs/figures/fig*.png` (SciencePlots + Times New Roman for Track B curves).
 
 ---
 
@@ -176,7 +177,7 @@ Results use LSG-Max with sklearn GPR, not the canonical gpflow Sparse GP / LSG-T
 9. Zhou, Y., Wu, W., Nathan, R., & Wang, Q. J. (2021). A rapid flood inundation modelling framework using deep learning with spatial reduction and reconstruction. *Environmental Modelling & Software*, 143, 105112. https://doi.org/10.1016/j.envsoft.2021.105112
 10. Zhou, Y., Wu, W., Nathan, R., & Wang, Q. J. (2022). Deep learning-based rapid flood inundation modeling for flat floodplains with complex flow paths. *Water Resources Research*, 58, e2022WR033214. https://doi.org/10.1029/2022WR033214
 11. Tan, Z., Xu, D., Taraphdar, S., Ma, J., Bisht, G., & Leung, L. R. (2025). An efficient hybrid downscaling framework to estimate high-resolution river hydrodynamics. *Hydrology and Earth System Sciences*, 29, 3833–3852. https://doi.org/10.5194/hess-29-3833-2025
-12. Wang, R., Lian, J., Yuan, X., & Tian, F. (2025). Rapid simulation of floods by considering the spatial and temporal characteristics of inundation. *International Journal of Disaster Risk Science*, 16, 481–495. https://doi.org/10.1007/s13753-025-00642-5
+12. Wang, R., Lian, J., Yuan, X., Tian, F., Li, K., & Liu, Z. (2025). Rapid simulation of floods by considering the spatial and temporal characteristics of inundation. *International Journal of Disaster Risk Science*, 16, 481–495. https://doi.org/10.1007/s13753-025-00642-5
 13. Fraehr, N., Wang, Q. J., Wu, W., & Nathan, R. (2023). Supercharging hydrodynamic inundation models for instant flood insight. *Nature Water*, 1, 835–843. https://doi.org/10.1038/s44221-023-00132-2
 14. Wang, Q. J., Wang, Y., & Nathan, R. (2025/2026). Strategies for predicting flood inundation in a large and complex floodplain based on low-fidelity hydrodynamic models. *Water Resources Research*. https://doi.org/10.1029/2025WR042481
 

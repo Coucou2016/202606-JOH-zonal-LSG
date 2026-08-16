@@ -194,40 +194,67 @@ def deep_explains(d: dict) -> dict[str, str]:
     # Synthetic / conflict appendix figures — deepen pedagogy, keep non-citable
     out["fig03_eof_variance.png"] = """
 <p><strong>（a）本图角色。</strong>附录教学图：用累计解释方差说明“分区后局部场往往更简单”，帮助理解为何等预算下局部基可能更省秩。它<strong>不是</strong> Track B 主证据。</p>
-<p><strong>（b）如何读。</strong>横轴模态数、纵轴累计方差比例；对比全局曲线与分区曲线的爬升速度。爬升越快，说明同样方差可用更少模态覆盖。</p>
-<p><strong>（c）子图/曲线含义。</strong>若分区曲线在低模态处更高，表示局部同质性；若全局曲线缓慢爬升，表示异质湿区共享一组基时需要更多秩。务必区分两件事：达到某一累计解释方差所需的模态数 ≠ 等预算实验中强制对齐的总保留模态数 B。前者是方差解释，后者是公平比较约束。</p>
+<p><strong>（b）如何读。</strong>横轴=保留模态数（离散），纵轴=累计解释方差（0–1）。先比<strong>同一横轴位置</strong>上全局 vs 分区曲线谁更高，再比达到例如 90% 方差所需的最小模态数。</p>
+<p><strong>（c）逐曲线/子图含义。</strong>
+<ul>
+<li><strong>全局曲线：</strong>把全部湿单元压进同一组正交模态；爬升慢 = 深槽与边缘浅水争抢前几阶模态。</li>
+<li><strong>分区曲线（若分色）：</strong>各区或区均值曲线爬升更快，通常表示局部场更同质、同样方差可用更少秩覆盖。</li>
+<li><strong>关键混淆：</strong>“更高累计方差”≠“更低下游 LSG RMSE”。方差只描述 HF 表示紧凑性，不保证 LF→HF 的 GP 映射变好。务必区分：等解释方差所需模态数 ≠ 等预算实验强制对齐的总保留模态数 B。</li>
+</ul></p>
 <p><strong>（d）能/不能得出的结论。</strong>能：建立“分区可能降低所需秩”的直觉。不能：用本图声称真实 Carlisle 需要数十个全局模态，也不能用其数字替代表 3 的面积加权 RMSE。</p>
 <p><strong>（e）与正文对齐。</strong>真实等预算实验锁在 B=4/6/8（见 fig03_mode_budget）。引用请改去那张 Track B 曲线。</p>
 <p class="note">协议标签：合成/示意 · 数字不可引用 · 仅教学。该图用于说明诊断量/算法流程的读取方式；其合成案例中的方向性结果不参与 Track B 实证推断，若与公开基准结果不一致，以 Track B 真实案例为准。</p>
 """
     out["fig04_metric_boxplots.png"] = """
 <p><strong>（a）本图角色。</strong>附录箱线对照，提醒读者存在 LSG-TS（全时段）与 LSG-Max（最大面）两条产品线；本文主结果只锁 Max。</p>
-<p><strong>（b）如何读箱线。</strong>每个箱子的抽样单位是折/事件（非网格单元）。箱体=四分位距（IQR），中线=中位数（≠面积加权均值），须=1.5×IQR 惯例，点=离群折。若面板同时出现 TS 与 Max，必须先分清协议再比高低；方向上 RMSE 越小越好、CSI 越大越好。</p>
-<p><strong>（c）子图含义。</strong>各指标面板只反映该图生成时所用网格与变体。真实数据上的全时段分区 LSG-TS 仍为【待补充】，故箱线中位数不可替换表 3。</p>
-<p><strong>（d）结论边界。</strong>可用作“不要把 Max 写成 TS”的警示；不可用作投稿主结果。</p>
+<p><strong>（b）如何读箱线（统计读法优先）。</strong>抽样单位=折/事件（不是格子）。箱体=IQR（Q1–Q3），中线=中位数（≠面积加权全域均值），须≈1.5×IQR，点=离群折。比较前先锁定协议标签（TS 还是 Max）与指标方向（RMSE↓、CSI↑）。</p>
+<p><strong>（c）逐面板含义。</strong>
+<ul>
+<li><strong>RMSE 面板：</strong>看中位数高低与箱子宽度（折间稳定性）；离群点可能是单场灾难事件。</li>
+<li><strong>CSI 面板：</strong>湿干命中，与水深 RMSE 可反向；勿因 RMSE 好看就默认 CSI 也赢。</li>
+<li><strong>若同图混 TS/Max：</strong>两套产品线不可横比绝对值；真实分区 LSG-TS【待补充】，故中位数不可替换表 3。</li>
+</ul></p>
+<p><strong>（d）结论边界。</strong>可用作“不要把 Max 写成 TS”的警示；若合成方向与 Track B 冲突，必须保留冲突并以后者为准，不可调和粉饰。</p>
 <p><strong>（e）日常语言。</strong>这是练习册上的示意图，不是期末考试成绩单。</p>
 <p class="note">协议标签：合成/混协议风险 · 数字不可引用。该图用于说明诊断量/算法流程的读取方式；其合成案例中的方向性结果不参与 Track B 实证推断，若与公开基准结果不一致，以 Track B 真实案例为准。</p>
 """
     out["fig06_zone_metrics.png"] = """
 <p><strong>（a）本图角色。</strong>展示“分区分误差”方向与假说一致（深槽/边缘误差形态不同），属于早期概念验证。</p>
-<p><strong>（b）如何读。</strong>先确认区定义（训练期水深/频率或 KMeans），再读各区面积或湿单元占比，最后读局地 RMSE/CSI。区级指标如何汇总到全域面积加权值，必须以面积 A<sub>i</sub> 加权，不能对各区取算术平均冒充全域。</p>
-<p><strong>（c）数据来源。</strong>数值来自 30×40 玩具网格，不是 Carlisle 581,061 格的面积加权 Track B。</p>
-<p><strong>（d）结论边界。</strong>方向可教学；幅度不可引用。真实分区分误差请回到等预算 LOOCV 与面积加权表。</p>
+<p><strong>（b）如何读。</strong>顺序固定：①区定义（训练期水深/频率或 KMeans，且未见检验事件）→ ②各区面积或湿单元占比 → ③局地 RMSE/CSI → ④如何汇总到全域。</p>
+<p><strong>（c）逐要素含义。</strong>
+<ul>
+<li><strong>区标签：</strong>颜色对应水动力角色（深槽/常淹/间歇/边缘），不是行政区。</li>
+<li><strong>区占比：</strong>若某区湿单元极少，其局地指标方差大，不能与大区等权平均。</li>
+<li><strong>汇总规则：</strong>全域面积加权误差必须用 A<sub>i</sub> 加权；对区 RMSE 做算术平均会系统偏向小区，属于读图错误。</li>
+</ul></p>
+<p><strong>（d）结论边界。</strong>方向可教学；幅度不可引用。数值来自 30×40 玩具网格，不是 Carlisle 581,061 格 Track B。</p>
 <p><strong>（e）日常语言。</strong>像沙盘推演：格局对，但不能拿沙盘上的厘米当真实城市的米。</p>
 <p class="note">协议标签：合成 · 数字不可引用。该图用于说明诊断量/算法流程的读取方式；其合成案例中的方向性结果不参与 Track B 实证推断，若与公开基准结果不一致，以 Track B 真实案例为准。</p>
 """
     out["fig07_budget_zones.png"] = f"""
 <p><strong>（a）本图角色。</strong>历史草稿图，曾试图同时展示预算与分区数；现与 Track B 真等预算曲线<strong>冲突</strong>，仅保留供审计对照。</p>
-<p><strong>（b）冲突点。</strong>本图左翼全局几乎水平；真等预算中全局 RMSE 从 {fmt(G4)} m（B=4）升到 {fmt(G8)} m（B=8）。若读者只看本图，会误以为“加全局模态无害”。</p>
-<p><strong>（c）面板语义。</strong>读任何子图前先确认：纵轴是 RMSE 还是 CSI、参考场是 HF 还是 LF、差值符号（正=分区更好还是全局更好）、湿掩膜是否共用。本图不承载机制证明。</p>
+<p><strong>（b）冲突点（必须先读）。</strong>本图左翼全局几乎水平；真等预算中全局 RMSE 从 {fmt(G4)} m（B=4）升到 {fmt(G8)} m（B=8）。若读者只看本图，会误以为“加全局模态无害”。</p>
+<p><strong>（c）逐面板读前检查清单。</strong>
+<ul>
+<li>纵轴是 RMSE 还是 CSI？单位与方向？</li>
+<li>参考场是 HF 还是 LF-only？</li>
+<li>差值符号约定：正=分区更好还是全局更好？</li>
+<li>湿掩膜是否与 Track B 共用 0.03 m 阈值？</li>
+</ul>
+本图<strong>不</strong>承载机制证明；机制请看 stage-swap 与 pure-EOF oracle。</p>
 <p><strong>（d）结论。</strong>保留冲突图是为了防止旧图回流进正文，不是提供第二套可引用结果。</p>
 <p><strong>（e）日常语言。</strong>这是被更正作废的旧成绩单复印件，钉在墙上只为提醒“别再用它”。</p>
 <p class="note">协议标签：与 Track B 冲突 · 禁止引用数字。该图用于说明诊断量/算法流程的读取方式；其合成案例中的方向性结果不参与 Track B 实证推断，若与公开基准结果不一致，以 Track B 真实案例为准。</p>
 """
     out["fig07_training_size.png"] = f"""
 <p><strong>（a）本图角色。</strong>合成敏感性示意：训练事件比例变化时全局/分区曲线如何移动。</p>
-<p><strong>（b）读法陷阱。</strong>图上全局 RMSE 约 0.03–0.05 m，与真实 Carlisle 仅用 LF 的 {fmt(LF)} m 不在同一实验量级。</p>
-<p><strong>（c）子图含义。</strong>横轴训练比例、纵轴误差；若分区曲线更低，只说明该玩具设定下的样本效率假说，不能外推真实案例。面板色标/线型勿与 Track B 预算图混读。</p>
+<p><strong>（b）读法陷阱。</strong>图上全局 RMSE 约 0.03–0.05 m，与真实 Carlisle 仅用 LF 的 {fmt(LF)} m 不在同一实验量级——量级差本身就是“不可引用”的红旗。</p>
+<p><strong>（c）逐轴/曲线含义。</strong>
+<ul>
+<li><strong>横轴：</strong>训练事件比例（或训练场次数），非模态预算 B。</li>
+<li><strong>纵轴：</strong>误差；勿与 fig03_mode_budget 的等预算曲线混读色标/线型。</li>
+<li><strong>分区更低：</strong>只说明该玩具设定下的样本效率假说，不能外推真实 Carlisle。</li>
+</ul></p>
 <p><strong>（d）结论边界。</strong>不能声称“真实 Carlisle 上分区更样本高效”。真实主证据仍是等预算 B=4 的 9 折 LOOCV。</p>
 <p><strong>（e）日常语言。</strong>练习题里的“少做几套卷子也能考好”，不能直接写成真实考场结论。</p>
 <p class="note">协议标签：合成 · 数字不可引用。该图用于说明诊断量/算法流程的读取方式；其合成案例中的方向性结果不参与 Track B 实证推断，若与公开基准结果不一致，以 Track B 真实案例为准。</p>
