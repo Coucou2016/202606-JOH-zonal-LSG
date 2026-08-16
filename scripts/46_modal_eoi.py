@@ -22,6 +22,7 @@ from lsg.eoi import modal_diagnostic_loocv, modal_subspace_diagnostic
 from lsg.experiment import jsonable
 from lsg.fraehr import (
     load_burnett_max_pack,
+    load_case_geometry,
     load_or_build_carlisle_max,
     load_or_build_chowilla_max,
     repo_root,
@@ -77,14 +78,29 @@ def main():
             raise SystemExit(f"unknown case {case}")
 
         hf = pack["hf_max"]
+        areas = None
+        try:
+            areas = np.asarray(load_case_geometry(root, case)["area_hf"], dtype=np.float64)
+            if areas.shape[0] != hf.shape[1]:
+                print(f"  WARN area length {areas.shape[0]} != n_cells {hf.shape[1]}; skip area oracle", flush=True)
+                areas = None
+        except Exception as exc:
+            print(f"  WARN geometry areas unavailable: {exc}", flush=True)
         print(f"  {hf.shape[0]} events, {hf.shape[1]:,} cells", flush=True)
-        pooled = modal_subspace_diagnostic(hf, budget=args.budget)
+        pooled = modal_subspace_diagnostic(hf, budget=args.budget, cell_areas=areas)
         print(
             f"  ZGG={pooled['mean_zgg']:+.4f}  "
             f"oracle RMSE G={pooled['oracle_rmse_global']:.4f} Z={pooled['oracle_rmse_zonal']:.4f} "
             f"d={pooled['oracle_delta_rmse']:+.4f}  {pooled['interpretation']}",
             flush=True,
         )
+        if pooled.get("area_weights_used"):
+            print(
+                f"  area-oracle RMSE G={pooled['oracle_rmse_global_area']:.4f} "
+                f"Z={pooled['oracle_rmse_zonal_area']:.4f} "
+                f"d={pooled['oracle_delta_rmse_area']:+.4f}",
+                flush=True,
+            )
         for zid, gap in (pooled.get("zone_zgg") or {}).items():
             print(f"    zone {zid}: ZGG={gap:+.4f}", flush=True)
 
@@ -96,7 +112,7 @@ def main():
         }
 
         if not args.skip_per_fold:
-            folds = modal_diagnostic_loocv(hf, budget=args.budget)
+            folds = modal_diagnostic_loocv(hf, budget=args.budget, cell_areas=areas)
             loocv = _ROOT / "outputs" / "evaluation" / case / "loocv_results.json"
             _attach_delta(folds, loocv)
             rec["per_fold"] = folds

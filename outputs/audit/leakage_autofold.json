@@ -1,0 +1,116 @@
+{
+  "timestamp": "2026-08-16 21:20:34",
+  "synthetic_loocv": {
+    "protocol": "synthetic_loocv_corruption_probe",
+    "n_folds": 6,
+    "passed": true,
+    "folds": [
+      {
+        "fold": 0,
+        "n_train": 5,
+        "n_test": 1,
+        "disjoint": true,
+        "zoning_train_only_insensitive_to_test_corruption": true,
+        "all_event_zoning_sensitive_to_test_corruption": true,
+        "eof_train_only_stable_under_test_corruption": true,
+        "eoi_train_only": 1.4926114677843818,
+        "eoi_all_events": 1.4264877909860698,
+        "pass": true
+      },
+      {
+        "fold": 1,
+        "n_train": 5,
+        "n_test": 1,
+        "disjoint": true,
+        "zoning_train_only_insensitive_to_test_corruption": true,
+        "all_event_zoning_sensitive_to_test_corruption": true,
+        "eof_train_only_stable_under_test_corruption": true,
+        "eoi_train_only": 1.3505538821206213,
+        "eoi_all_events": 1.4264877909860698,
+        "pass": true
+      },
+      {
+        "fold": 2,
+        "n_train": 5,
+        "n_test": 1,
+        "disjoint": true,
+        "zoning_train_only_insensitive_to_test_corruption": true,
+        "all_event_zoning_sensitive_to_test_corruption": true,
+        "eof_train_only_stable_under_test_corruption": true,
+        "eoi_train_only": 1.4725610423943194,
+        "eoi_all_events": 1.4264877909860698,
+        "pass": true
+      },
+      {
+        "fold": 3,
+        "n_train": 5,
+        "n_test": 1,
+        "disjoint": true,
+        "zoning_train_only_insensitive_to_test_corruption": true,
+        "all_event_zoning_sensitive_to_test_corruption": true,
+        "eof_train_only_stable_under_test_corruption": true,
+        "eoi_train_only": 1.294790263169986,
+        "eoi_all_events": 1.4264877909860698,
+        "pass": true
+      },
+      {
+        "fold": 4,
+        "n_train": 5,
+        "n_test": 1,
+        "disjoint": true,
+        "zoning_train_only_insensitive_to_test_corruption": true,
+        "all_event_zoning_sensitive_to_test_corruption": true,
+        "eof_train_only_stable_under_test_corruption": true,
+        "eoi_train_only": 1.25574266242149,
+        "eoi_all_events": 1.4264877909860698,
+        "pass": true
+      },
+      {
+        "fold": 5,
+        "n_train": 5,
+        "n_test": 1,
+        "disjoint": true,
+        "zoning_train_only_insensitive_to_test_corruption": true,
+        "all_event_zoning_sensitive_to_test_corruption": true,
+        "eof_train_only_stable_under_test_corruption": true,
+        "eoi_train_only": 1.2589698931488598,
+        "eoi_all_events": 1.4264877909860698,
+        "pass": true
+      }
+    ]
+  },
+  "carlisle_official_splits": {
+    "available": true,
+    "folds": [
+      {
+        "fold": 1,
+        "status": "OK",
+        "n_train": 1893,
+        "n_test": 211,
+        "n_overlap": 0,
+        "pass": true,
+        "source": "I:\\Projects\\202606-JOH-zonal-LSG\\data\\external\\fraehr2024\\Carlisle\\Train_test_split_data\\Train_test_split_ValidateOnGrp_1.npz"
+      },
+      {
+        "fold": 2,
+        "status": "OK",
+        "n_train": 1915,
+        "n_test": 213,
+        "n_overlap": 0,
+        "pass": true,
+        "source": "I:\\Projects\\202606-JOH-zonal-LSG\\data\\external\\fraehr2024\\Carlisle\\Train_test_split_data\\Train_test_split_ValidateOnGrp_2.npz"
+      }
+    ],
+    "passed": true
+  },
+  "code_contracts": {
+    "passed": true,
+    "checks": {
+      "zoning_features_named_train": true,
+      "gp_train_ec_emulator": true,
+      "baseline_fit": true,
+      "zonal_fit": true
+    }
+  },
+  "passed": true
+}

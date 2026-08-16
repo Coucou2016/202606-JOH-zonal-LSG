@@ -178,12 +178,24 @@ def _allocate_modes(n_zones: int, budget: int) -> list[int]:
     return base
 
 
+def _oracle_rmse(a: np.ndarray, b: np.ndarray, weights: np.ndarray | None = None) -> float:
+    err2 = (np.asarray(a, dtype=np.float64) - np.asarray(b, dtype=np.float64)) ** 2
+    if weights is None:
+        return float(np.sqrt(np.mean(err2)))
+    w = np.asarray(weights, dtype=np.float64).reshape(-1)
+    den = float(np.sum(w)) + 1e-12
+    if err2.ndim == 2:
+        return float(np.sqrt(np.mean(np.sum(err2 * w[None, :], axis=1) / den)))
+    return float(np.sqrt(np.sum(err2 * w) / den))
+
+
 def modal_subspace_diagnostic(
     hf_max: np.ndarray,
     budget: int = 4,
     modes_per_zone_cap: int = 4,
     wet_threshold: float = 0.03,
     event_index: np.ndarray | slice | None = None,
+    cell_areas: np.ndarray | None = None,
 ) -> dict[str, Any]:
     """Second-order zonal-EOF diagnostic on LSG-Max surfaces.
 
@@ -198,7 +210,8 @@ def modal_subspace_diagnostic(
        reconstruction or downstream LSG prediction will improve.
     2. **Equal-budget oracle EOF reconstruction:** HF→EOF→HF with total B modes
        (global vs rule). ``oracle_delta_rmse = RMSE_G − RMSE_Z`` (positive ⇒
-       zoning already helps *before* any GP).
+       zoning already helps *before* any GP). When ``cell_areas`` is provided,
+       also report area-weighted oracle RMSE / ΔRMSE.
 
     No LF or GP is used — this isolates the EOF organisation hypothesis.
     """
@@ -212,6 +225,9 @@ def modal_subspace_diagnostic(
     labels, active = _rule_labels_from_hf(hf, wet_threshold)
     hf_wet = hf[:, active]
     labels_wet = labels[active]
+    areas_wet = None
+    if cell_areas is not None:
+        areas_wet = np.asarray(cell_areas, dtype=np.float64).reshape(-1)[active]
     zone_ids = sorted(int(z) for z in np.unique(labels_wet) if z >= 0)
     n_active = int(active.sum())
     n_ev = int(hf.shape[0])
@@ -226,6 +242,10 @@ def modal_subspace_diagnostic(
         "oracle_rmse_global": float("nan"),
         "oracle_rmse_zonal": float("nan"),
         "oracle_delta_rmse": float("nan"),
+        "oracle_rmse_global_area": float("nan"),
+        "oracle_rmse_zonal_area": float("nan"),
+        "oracle_delta_rmse_area": float("nan"),
+        "area_weights_used": bool(areas_wet is not None),
         "interpretation": "undefined",
     }
     if len(zone_ids) < 2 or n_ev < 2 or n_active < 8:
@@ -239,7 +259,10 @@ def modal_subspace_diagnostic(
     # --- equal-budget oracle reconstruction ---
     ecs_g = eof.project_pseudo_ecs(hf_wet, modes_g, None, mean_g)
     recon_g = eof.reconstruct_from_ecs(ecs_g, modes_g, mean_g, None)
-    rmse_g = float(np.sqrt(np.mean((recon_g - hf_wet) ** 2)))
+    rmse_g = _oracle_rmse(recon_g, hf_wet, None)
+    rmse_g_area = (
+        _oracle_rmse(recon_g, hf_wet, areas_wet) if areas_wet is not None else float("nan")
+    )
 
     alloc = _allocate_modes(len(zone_ids), B)
     recon_z = np.zeros_like(hf_wet)
@@ -278,8 +301,14 @@ def modal_subspace_diagnostic(
         zgg_list.append(gap)
         zone_zgg[str(zid)] = float(gap)
 
-    rmse_z = float(np.sqrt(np.mean((recon_z - hf_wet) ** 2)))
+    rmse_z = _oracle_rmse(recon_z, hf_wet, None)
+    rmse_z_area = (
+        _oracle_rmse(recon_z, hf_wet, areas_wet) if areas_wet is not None else float("nan")
+    )
     delta = rmse_g - rmse_z
+    delta_area = (
+        float(rmse_g_area - rmse_z_area) if areas_wet is not None else float("nan")
+    )
     mean_zgg = float(np.mean(zgg_list)) if zgg_list else float("nan")
 
     out.update(
@@ -288,6 +317,9 @@ def modal_subspace_diagnostic(
         oracle_rmse_global=rmse_g,
         oracle_rmse_zonal=rmse_z,
         oracle_delta_rmse=float(delta),
+        oracle_rmse_global_area=float(rmse_g_area) if areas_wet is not None else float("nan"),
+        oracle_rmse_zonal_area=float(rmse_z_area) if areas_wet is not None else float("nan"),
+        oracle_delta_rmse_area=delta_area,
         mode_allocation={str(z): int(a) for z, a in zip(zone_ids, alloc)},
     )
     if delta > 0 and mean_zgg > 0.02:
@@ -305,6 +337,7 @@ def modal_diagnostic_loocv(
     hf_max: np.ndarray,
     budget: int = 4,
     wet_threshold: float = 0.03,
+    cell_areas: np.ndarray | None = None,
 ) -> list[dict[str, Any]]:
     """Per-fold train-only modal diagnostic (leave-one-event-out training set)."""
     n = hf_max.shape[0]
@@ -312,7 +345,11 @@ def modal_diagnostic_loocv(
     for i in range(n):
         train = [j for j in range(n) if j != i]
         rec = modal_subspace_diagnostic(
-            hf_max, budget=budget, wet_threshold=wet_threshold, event_index=train
+            hf_max,
+            budget=budget,
+            wet_threshold=wet_threshold,
+            event_index=train,
+            cell_areas=cell_areas,
         )
         rec["fold"] = i
         rec["test_event"] = i

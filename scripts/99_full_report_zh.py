@@ -44,6 +44,16 @@ SCRIPT_NAME = "scripts/99_full_report_zh.py"
 FIGURE_FILES = [
     "fig01_workflow.png",
     "fig02_zone_maps_real.png",
+    # Qualitative / spatial (real packs; scripts/97b_spatial_maps.py)
+    "figA1_inundation_maps_carlisle_ev1.png",
+    "figA2_csi_hitmiss_carlisle_ev1.png",
+    "figA3_residuals_carlisle_ev1.png",
+    "figA4_zones_overlay_carlisle_ev1.png",
+    "figA5_obs_vs_pred_carlisle_ev1.png",
+    "figA1_inundation_maps_carlisle_ev0.png",
+    "figA1_inundation_maps_burnettrv_ev0.png",
+    "figA1_inundation_maps_chowilla_ev0.png",
+    # Quantitative Track B curves
     "fig03_mode_budget.png",
     "fig09_csi_budget.png",
     "fig04_three_case.png",
@@ -153,7 +163,7 @@ def md_table(headers, rows):
 def img_html(b64: str | None, alt: str, missing_name: str) -> str:
     if not b64:
         return (
-            f'<p class="pending">【待补充】图文件缺失：<code>{escape(missing_name)}</code>。'
+            f'<p class="pending">【文件缺失】图文件缺失：<code>{escape(missing_name)}</code>。'
             "请将 PNG 置于 <code>outputs/figures/</code> 后重新运行本生成脚本。</p>"
         )
     return (
@@ -601,26 +611,27 @@ def build(data: dict) -> tuple[str, str, list[str], list[str]]:
         ["<code>scripts/09_make_tables.py</code>", "B", "表 1–4 CSV"],
         ["<code>scripts/95_final_submission_report.py</code>", "英文 JOH", "英文 report.html / .md（请勿覆盖）"],
         ["<code>scripts/97_scienceplots_figures.py</code>", "B 配图（2026 IEEE / 英文标签）", "SciencePlots 2.2：science+ieee+no-latex，Times New Roman，英文轴注"],
+        ["<code>scripts/97b_spatial_maps.py</code>", "B 空间直观图", "真实 HF/LF/LOOCV 预测：淹没四联图、hit–miss、残差、分区叠加、obs–pred"],
         ["<code>scripts/96_research_report_zh.py</code>", "中文平行稿（精简）", "研究报告.html / .md / .pdf"],
         ["<code>scripts/99_full_report_zh.py</code>", "中文完整深度扩写", "本文件：完整研究报告.html / .md / .pdf"],
         ["<code>scripts/_deep_fig_zh.py</code>", "图解库", "逐图/子图深度解释与术语溯源"],
         ["<code>scripts/03–09_*.py</code>（含 --synthetic）", "A（不可引用）", "30×40 合成冒烟测试"],
     ]
 
-    pend_h = ["编号", "事项", "为何标记「待补充」"]
+    pend_h = ["编号", "事项", "处置（非模糊待补充）"]
     pend_r = [
-        ["P1", "gpflow Sparse GP（SGPR）正式结果", "现用 sklearn GPR，与原 LSG 论文后端不同"],
-        ["P2", "Brisbane（布里斯班）案例", "未运行；需昆士兰数据许可"],
-        ["P3", "Chowilla 高程基准（datum）修正", "LSG 退化可能与基准/LF 质量有关，尚未做对照实验"],
-        ["P4", "Chowilla 压缩包 MD5 复验", "历史上校验失败；现用已解压的 31 HF + 31 LF"],
-        ["P5", "把官方 2 折当作主结论", "multifold_bootstrap.json 中 significant=false，不能当作主声称"],
-        ["P6", "真实数据上的 LSG-TS", "Track B 仅为最大淹没面 LSG-Max"],
-        ["P7", "gpflow Sparse GP（与 sklearn 对照）", "环境无 TensorFlow/gpflow；现用 sklearn GPR"],
-        ["P7b", "Burnett 二阶 EOI 的 30 折", "已算池化 ZGG/oracle；折级仅 Carlisle 完整"],
-        ["P8", "Burnett 的 KMeans 30 折 LOOCV", "计算更贵，未跑"],
-        ["P9", "Burnett 全部 74 场事件", "LOOCV 用 30 场；单次划分用 12 场"],
-        ["P10", "Chowilla 实际模态数", "manifest 中 modes_actual=unknown"],
-        ["P11", "full31_3fold.json 与 registry 的差异", "该文件 RMSE 量级约 0.75 m，与 v4 的约 2.56 m 不一致，本文不引用"],
+        ["S1", "gpflow/SGPR 对照", "FORMALIZED LIMITATION：生产数字为 sklearn GPR；关闭标准=Carlisle B=4 LOOCV 在 SGPR 下复现 Rule 优于 Global"],
+        ["S2", "Brisbane 案例", "SCOPE BOUNDARY：需昆士兰许可数据；仓库无原始场，不声称已评"],
+        ["S3", "真实分区 LSG-TS", "SCOPE BOUNDARY：Track B 主声称仅为 LSG-Max；不把 synthetic/foldall TS 当作主结果"],
+        ["S4", "可迁移分区开关", "SCIENCE-SHOULD-NOT-FORCE：EOI 已证伪；无预注册 selector 验证，不另造开关"],
+        ["S5", "Burnett KMeans LOOCV / 74 场", "FORMALIZED LIMITATION：现有 30 折 Rule LOOCV 已支撑“非普遍获益”；扩展覆盖不阻塞主声称"],
+        ["S6", "Chowilla MD5/datum", "FORMALIZED LIMITATION：无权威 reference hash 时只讨论库内相对误差，不猜 datum"],
+        ["S7", "Fraehr 2024 全文结构对标", "BLOCKED/HOLD：ScienceDirect CAPTCHA；顾问提示 Adelaide OA，本地探针 404，未取得 PDF"],
+        ["S8", "全折泄漏自动审计", "COMPLETED：`scripts/20b_audit_leakage_autofold.py` → `leakage_autofold.json` PASS"],
+        ["S9", "面积加权 pure-EOF oracle", "COMPLETED：`modal_eoi.json` 含 `oracle_*_area`；Chowilla 仍为负 Δ"],
+        ["S10", "Methods/SI 超参表", "COMPLETED：`paper/si_hyperparameters.md`"],
+        ["S11", "稿件数字机器审计", "COMPLETED：`scripts/100_manuscript_data_audit.py` 43/43 PASS"],
+        ["S12", "论文/报告分工", "COMPLETED：`paper/manuscript.md` 剔除路径/脚本/协作元信息；本报告保留过程细节"],
     ]
 
     # ---------- HTML sections ----------
@@ -661,12 +672,15 @@ def build(data: dict) -> tuple[str, str, list[str], list[str]]:
     </li>
     <li><a href="#s4">研究过程</a>
       <ol>
+        <li><a href="#s4-0">论文与研究报告分工</a></li>
         <li><a href="#s4-1">双轨管线</a></li>
         <li><a href="#s4-2">泄漏审计</a></li>
+        <li><a href="#s4-3">稿件数字审计与协作摘要</a></li>
       </ol>
     </li>
     <li><a href="#s5">结果展示</a>
       <ol>
+        <li><a href="#s5-0">直观空间结果（先定性）</a></li>
         <li><a href="#s5-1">Carlisle 等预算</a></li>
         <li><a href="#s5-2">事件级 LOOCV 与官方 2 折</a></li>
         <li><a href="#s5-3">三案例对照</a></li>
@@ -690,7 +704,7 @@ def build(data: dict) -> tuple[str, str, list[str], list[str]]:
       <ol>
         <li><a href="#s9-1">数据来源</a></li>
         <li><a href="#s9-2">脚本索引</a></li>
-        <li><a href="#s9-3">待补充清单</a></li>
+        <li><a href="#s9-3">范围边界与正式局限清单</a></li>
         <li><a href="#s9-4">合成/历史配图备查</a></li>
         <li><a href="#s9-5">参考文献</a></li>
       </ol>
@@ -717,7 +731,7 @@ def build(data: dict) -> tuple[str, str, list[str], list[str]]:
 <h3 id="s2-0">2.1　文献脉络：对照英文投稿稿补上的“为什么要做”</h3>
 <p>英文 JOH 稿把问题写成一句：经验正交函数降维在多保真淹没模拟里是不是水动力中性的。中文研究报告若只复述数字表，会丢掉原稿的问题意识。本节按投稿稿的论证顺序补全来龙去脉，不增加未登记的实验。</p>
 <p>Fraehr 等人（2022, 2023, 2024）建立了 LSG：对高保真淹没场做经验正交函数，把低保真场投影到同一空间基，再用高斯过程学习系数映射。公开基准见 Figshare 24312658。Wang 等人（2026）在《Water Resources Research》中比较了全时段 LSG-TS 与最大面 LSG-Max，指出复杂泛滥平原上最大面变体更稳、也更贴近预警常用的峰值淹没。英文稿的创新点不是再发明一种高斯过程，而是问：<strong>全局经验正交函数把河道、滩地与边缘浅水绑在同一组模态里，是否已经在降维阶段丢掉了水动力结构？</strong></p>
-<p>对照英文稿，此前中文稿缺了三块现在一并补上：（1）面积加权均方根误差、临界成功指数与残差组织指数的定义式；（2）训练期分区平均绝对残差（深槽相对边缘约 25 倍）——这是“为什么分区”的机制表；（3）讨论按“何时有用 / 为何加模态会变差 / 何时无益”三条展开，而不是把三案例揉成一段。卷期页码若仓库未收录，参考文献中标【待补充】，不编造 DOI。</p>
+<p>对照英文稿，此前中文稿缺了三块现在一并补上：（1）面积加权均方根误差、临界成功指数与残差组织指数的定义式；（2）训练期分区平均绝对残差（深槽相对边缘约 25 倍）——这是“为什么分区”的机制表；（3）讨论按“何时有用 / 为何加模态会变差 / 何时无益”三条展开，而不是把三案例揉成一段。卷期页码若仓库未收录，参考文献中标【未锁定页码】，不编造 DOI。</p>
 <h3 id="s2-1">2.2　科学问题</h3>
 <p>细网格二维水动力模型可以给出可信的淹没水深与范围，但单场洪水往往要算数小时到数日，难以支撑预警、规划中的大批量情景。多保真思路是：用便宜的低保真模型先跑出一张“轮廓”，再用少量高保真样本学习两者之间的系统偏差，从而在新情景上快速逼近高保真结果。</p>
 <p>Fraehr 等人把这一思路写成 LSG：对高保真淹没场做 EOF 降维，把低保真场投影到同一套空间基上得到伪展开系数，再用 GP 学习「低保真系数 → 高保真系数」。代理一旦离线训练好，新一场低保真模拟可以在数秒内映射成高保真风格的淹没面。Wang 等人（2026）在复杂泛滥平原上比较了 LSG-TS（全时段序列）与 LSG-Max（最大面）等变体。</p>
@@ -728,8 +742,8 @@ def build(data: dict) -> tuple[str, str, list[str], list[str]]:
 <ul>
 <li><span class="term">EOF</span>（经验正交函数，Empirical Orthogonal Function）：把多场淹没水深矩阵分解为空间模态与系数。模态数越多，重建越细，也越容易在小样本上过拟合。</li>
 <li><span class="term">LSG</span>（低保真—空间分析—高斯过程）：Fraehr 框架的三步——EOF、低保真投影、GP 映射。</li>
-<li><span class="term">LSG-Max / LSG-TS</span>：Max 只学最大淹没面；TS 学全时段。本文 Track B <strong>只有 Max</strong>；真实数据上的 TS 为【待补充】。</li>
-<li><span class="term">GP / GPR / SGPR</span>：高斯过程回归。本文生产数字来自 sklearn GPR；gpflow SGPR 为【待补充】。</li>
+<li><span class="term">LSG-Max / LSG-TS</span>：Max 只学最大淹没面；TS 学全时段。本文 Track B <strong>只有 Max</strong>；真实数据分区 LSG-TS 为正式 Scope boundary（不做伪补）。</li>
+<li><span class="term">GP / GPR / SGPR</span>：高斯过程回归。本文生产数字来自 sklearn GPR；gpflow SGPR 为正式 limitation（环境无 TF/gpflow）。</li>
 <li><span class="term">RMSE</span>：水深均方根误差（m），越小越好。</li>
 <li><span class="term">CSI</span>（临界成功指数，Critical Success Index）：以 0.03 m 为湿润阈值的范围命中率，越大越好。它惩罚漏报与空报。</li>
 <li><span class="term">EOI</span>：残差组织指数，区间方差 / 总方差。主文只用与 LSG-Max 同协议的<strong>最大面</strong> EOI（Carlisle {eoi_c:.3f}）。历史时序 EOI 见附录 SI，不可与最大面混用。一阶 EOI 不能单独作为分区开关。</li>
@@ -767,7 +781,7 @@ synthetic=True)}
 + f"<p>图题中的 |LF−HF|=0.039 m 是该次制图所用的平均绝对差量级，与表 3 中仅用 LF 的 RMSE {fmt(LF)} m 同属“低保真已经不太差、但仍有结构误差”的故事，不要把两个统计量当成同一个指标。规则分区的地图未单独成图，其物理含义见表 2 的 E2：按水深与频率切区，而不是按像素颜色聚类。</p>")}
 <h3 id="s3-3">3.3　真等预算、面积加权与防泄漏</h3>
 <p>真等预算的操作定义是：请求 B 个模态时，全局模型用 <code>force_n_modes</code> 对齐到 B；分区模型各区模态数之和为 B。Carlisle 在 B=8 时全局实际模态为 7（审计表记为 MISMATCH），因为方差阈值与湿单元秩限制使全局凑不满 8；分区一侧仍达到 8。比较 B=8 时应对这一不对称保持清醒：即便全局少用了 1 个模态，它的 RMSE 仍然明显更差，说明问题不是“全局模态不够多”。</p>
-<p>面积加权 RMSE / CSI 使用几何面积向量，不随训练检验划分改变。湿润阈值 0.03 m 同时用于 CSI 的命中、空报、漏报计数。高斯过程为 sklearn <code>GaussianProcessRegressor</code>，不是 gpflow SGPR（【待补充】）。</p>
+<p>面积加权 RMSE / CSI 使用几何面积向量，不随训练检验划分改变。湿润阈值 0.03 m 同时用于 CSI 的命中、空报、漏报计数。高斯过程为 sklearn <code>GaussianProcessRegressor</code>，不是 gpflow SGPR（正式 limitation；见 §9.3）。</p>
 <h3 id="s3-4">3.4　指标公式与残差组织（对照英文稿补全）</h3>
 <p>英文投稿稿把面积加权写进方法节，中文稿若只说“按面积加权”而不给式子，审稿人无法核对实现。下列符号中，<span class="term">h<sub>i</sub></span> 是高保真最大水深，<span class="term">ĥ<sub>i</sub></span> 是预测水深，<span class="term">A<sub>i</sub></span> 是第 i 个高保真格子的平面面积，全部来自几何文件，不随划分改变。</p>
 <p class="eq" style="text-align:center;margin:14px 0;font-family:Cambria,'Times New Roman',serif;">
@@ -779,13 +793,16 @@ RMSE<sub>area</sub> = {{ Σ<sub>i</sub> A<sub>i</sub> (ĥ<sub>i</sub> − h<sub>
 <p class="tbl-explain">请分开读两套 EOI。最大面 Carlisle EOI={eoi_c:.3f}（低）却仍有分区 RMSE 大降；Burnett={eoi_bmax:.3f}（高）却无分区增益——这是“EOI 不能当开关”的核心对照。历史时序 EOI={eoi_ts:.2f} 与深槽/边缘约 25 倍残差差，说明过程残差按区成块，但度量的不是 LSG-Max 拟合的那张最大面。统计主声称仍只依赖表 3 与表 4。</p>
 <h3 id="s3-5">3.5　二阶诊断与 stage-swap（机制实验设计）</h3>
 <p>一阶 EOI 被证伪为开关后，需要更细的机制实验。二阶 ZGG 比较“区局部 EOF 基”相对“同秩全局基限制在该区”的解释方差缺口；等预算纯 EOF oracle 则在<strong>不做 GP</strong>的前提下，比较全局截断与分区截断谁更能重建 HF。若 oracle 显示分区更好，说明收益可能来自表示截断；若 oracle 更差而 LSG 分区仍更好，则收益应在 LF→HF 映射。</p>
-<p>stage-swap 进一步把管线拆成表示×映射的 2×2：GG / ZZ / GZ / ZG（定义见结果 5.5）。它回答：收益是否唯一钉在区私有 GP 上，还是“任一段引入分区结构”即可。</p>
+<p>stage-swap 进一步把管线拆成表示×映射的 2×2：GG / ZZ / GZ / ZG（定义见结果 5.6）。它回答：收益是否唯一钉在区私有 GP 上，还是“任一段引入分区结构”即可。</p>
 </section>
 """
 
     s4 = f"""
 <section id="s4">
 <h2>4　研究过程</h2>
+<h3 id="s4-0">4.0　论文与研究报告分工（硬边界）</h3>
+<div class="note"><strong>投稿英文稿（<code>paper/manuscript.md</code> → html/pdf）</strong>只保留问题—方法—结果—讨论的学术叙事；Data/Code Availability 只写公开 Figshare ID、GitHub URL 与软件包名。不得写入本地盘符、仓库绝对路径、<code>scripts/*.py</code>、内部 JSON 文件名堆砌、Cursor/ChatGPT 协作痕迹、制图工作流元数据。</div>
+<div class="warn"><strong>本完整研究报告</strong>专门存档过程：项目路径 <code>{escape(PROJECT_PATH)}</code>；Python 环境 <code>D:\\miniforge3\\envs\\hydromodel\\python.exe</code>；脚本索引见 §9.2；泄漏审计见 <code>outputs/audit/</code>；数字审计见 <code>scripts/100_manuscript_data_audit.py</code> → <code>outputs/evaluation/manuscript_data_audit.json</code>；协作摘要见 <code>paper/chatgpt/collaboration_log.md</code>。论文删掉的工程细节默认落在本报告，而不是 SI 口号句。</div>
 <h3 id="s4-1">4.1　双轨管线：哪些数字可以写进论文</h3>
 <p>仓库里同时存在两条历史轨道，读者若把它们叠在一起，会得到互相矛盾的 RMSE。必须先分清。</p>
 <p><strong>轨道 A（合成冒烟，scripts/03–09，<code>--synthetic</code>）。</strong>在 30×40 的玩具网格上生成高斯型洪水过程，用来在真实 HDF5 到来之前把 EOF、GP、分区、作图跑通。这些 RMSE 往往在数厘米量级，箱线图、分区柱状图、训练比例曲线多半来自这里。它们<strong>不是</strong> Fraehr 真实案例的结果，本文凡引用轨道 A 配图，都会在图注标明“不可当作论文数字”。</p>
@@ -795,15 +812,21 @@ RMSE<sub>area</sub> = {{ Σ<sub>i</sub> A<sub>i</sub> (ĥ<sub>i</sub> − h<sub>
 {html_table(t8_h, t8_r, "表 8　Carlisle 泄漏审计摘要（outputs/audit/carlisle_leakage_audit.json）。", "tbl8")}
 <p class="tbl-explain">审计文件记录时间戳 2026-08-14 21:05:55，<code>passed=true</code>。官方划分文件中训练 1893 个时间步、检验 211 步、重叠为零。分区特征、EOF 基与 GP 均不得看见检验事件。面积权来自几何。随机种子 42。若没有这一步，分区模型可能通过“用检验洪水的最大水深来画区”而偷看答案；那会把表 3 的 34.2% 变成不可信的数字。</p>
 {html_table(t7_h, t7_r, "表 7　模态预算审计。Carlisle 全局 B=8 时实际模态为 7（MISMATCH）。", "tbl7")}
+<h3 id="s4-3">4.3　稿件数字审计与协作摘要</h3>
+<p>机器核验：<code>D:\\miniforge3\\envs\\hydromodel\\python.exe scripts/100_manuscript_data_audit.py</code>，对 <code>paper/manuscript.md</code> 头条数字与 <code>outputs/evaluation/**/*.json</code> 对齐；v0.7 冻结目标为 <strong>43/43 PASS</strong>（结果写入 <code>outputs/evaluation/manuscript_data_audit.json</code>）。全折泄漏自动审计：<code>scripts/20b_audit_leakage_autofold.py</code> → <code>outputs/audit/leakage_autofold.json</code>。</p>
+<p>ChatGPT Pro 协作（网页搜索；禁止附件）：会话 <a href="https://chatgpt.com/c/6a812977-6814-83ea-9a9d-f27c1dbd8a8f">6a812977-6814-83ea-9a9d-f27c1dbd8a8f</a>。本轮至少两拍——(A) 文风对标清单；(B) Abstract/Intro/Methods/Discussion 开头投稿级润色。本地独立核验后才写入 <code>paper/manuscript.md</code>；详细 adopt/reject 记入 <code>paper/chatgpt/collaboration_log.md</code>。公开仓库：<a href="https://github.com/Coucou2016/202606-JOH-zonal-LSG">Coucou2016/202606-JOH-zonal-LSG</a>。</p>
 </section>
 """
 
+    # NOTE: previous s4 closed after leakage; keep s5 start intact below
     rise_g = (G8 - G4) / G4 * 100
     rise_r = (R8 - R4) / R4 * 100
 
+    ev1 = L4["items"][1]
     s5 = f"""
 <section id="s5">
 <h2>5　结果展示</h2>
+<p>呈现顺序对齐 Fraehr/LSG 类论文：<strong>先直观空间结果</strong>（真实最大淹没面与 LOOCV 预测地图），再进入 RMSE/CSI/森林图等定量统计。空间图由 <code>scripts/97b_spatial_maps.py</code> 读取 <code>data/processed/*_events.npz</code> 真实包生成，不使用合成淹没场。</p>
 <div class="metrics">
   <div class="metric good"><div class="v">{fmt(G4)}→{fmt(R4)}</div><div class="l">Carlisle B=4 RMSE（m）全局→规则</div></div>
   <div class="metric good"><div class="v">{impr4:.1f}%</div><div class="l">等预算相对降幅</div></div>
@@ -812,7 +835,26 @@ RMSE<sub>area</sub> = {{ Σ<sub>i</sub> A<sub>i</sub> (ĥ<sub>i</sub> − h<sub>
   <div class="metric bad"><div class="v">不显著</div><div class="l">官方 2 折自助法</div></div>
   <div class="metric bad"><div class="v">6/30</div><div class="l">Burnett 分区更优的折数</div></div>
 </div>
-<h3 id="s5-1">5.1　Carlisle：模态预算对照与审计</h3>
+<h3 id="s5-0">5.1　直观空间结果（定性先行）</h3>
+<p>主图事件取 Carlisle LOOCV 事件 1（Run2）：该折全局 RMSE 尖峰最大（表 6 / <code>loocv_results.json</code> B=4）。本折面积加权 RMSE：LF ≈ 0.2330 / 全局 {fmt(ev1['global_rmse'])} / 规则 {fmt(ev1['zonal_rmse'])} m（LF 来自同折真实面重算；全局与规则与 JSON 一致）。同色标最大水深四联图、命中/漏报/空报空间图、残差与改善图、分区叠加与湿单元 obs–pred 散点如下。</p>
+{fig_block("S1", "Carlisle Run2（事件 1）LOOCV：HF / LF / Global / Rule 最大水深面", "figA1_inundation_maps_carlisle_ev1.png",
+"图S1 淹没水深四联图", "")}
+{fig_block("S2", "Carlisle Run2：湿/干命中—漏报—空报空间图（CSI 来源）", "figA2_csi_hitmiss_carlisle_ev1.png",
+"图S2 命中漏报空报", "")}
+{fig_block("S3", "Carlisle Run2：Global−HF、Rule−HF 残差与绝对误差改善", "figA3_residuals_carlisle_ev1.png",
+"图S3 残差与改善", "")}
+{fig_block("S4", "Carlisle Run2：规则分区叠加于 HF 水深", "figA4_zones_overlay_carlisle_ev1.png",
+"图S4 分区叠加", "")}
+{fig_block("S5", "Carlisle Run2：湿单元观测—预测水深散点", "figA5_obs_vs_pred_carlisle_ev1.png",
+"图S5 obs-vs-pred", "")}
+{fig_block("S6", "Carlisle Run1（事件 0，较温和折）最大水深四联图", "figA1_inundation_maps_carlisle_ev0.png",
+"图S6 Run1 淹没图", "")}
+{fig_block("S7", "Burnett 事件 0：Global≈Rule 的边界对照淹没图", "figA1_inundation_maps_burnettrv_ev0.png",
+"图S7 Burnett 淹没图", "")}
+{fig_block("S8", "Chowilla Chow_p01：LSG 相对 LF 退化的边界淹没图", "figA1_inundation_maps_chowilla_ev0.png",
+"图S8 Chowilla 淹没图", "")}
+<p class="note">清单见 <code>outputs/figures/spatial_maps_manifest.json</code>。Burnett/Chowilla 的 hit–miss、残差、散点等同套图亦已生成（文件名 <code>figA2_*_burnettrv_ev0.png</code> 等），完整研究报告正文优先嵌入主案例五联图与三案例淹没对照。</p>
+<h3 id="s5-1">5.2　Carlisle：模态预算对照与审计</h3>
 {html_table(t3_h, t3_r, "表 3　Carlisle 模态预算对照（B=4/6 matched；B=8 为 audit exception；budget_sweep_true_equal.json）。", "tbl3")}
 <p class="tbl-explain">先看 B=4 这一行：全局 {fmt(G4)} m，规则 {fmt(R4)} m，KMeans {fmt(K4)} m。规则相对全局降低 {impr4:.1f}%，KMeans 也明显优于全局但略逊于规则。再看行间变化：全局从 B=4 到 B=8 升高 {rise_g:.0f}%（{fmt(G4)} → {fmt(G8)}），规则升高 {rise_r:.0f}%（{fmt(R4)} → {fmt(R8)}）。“加模态一定更好”在这个等预算实验里不成立。最后看实际模态数列：B=8 全局只有 7 个模态，分区为 8；即便给全局少算一个模态的便宜，它仍然最差。仅用 LF 的 RMSE 为 {fmt(LF)} m，全局 B=4 已经略优于仅用 LF，但规则分区的改善幅度大得多。</p>
 {html_table(t3c_h, t3c_r, "表 3b　同一实验的面积加权 CSI（湿润阈值 0.03 m）。", "tbl3b")}
@@ -831,7 +873,7 @@ f"<p>纵轴是临界成功指数，越大越好。灰点划线是仅用低保真
 {fig_block(5, "Carlisle 真等预算：平均绝对误差与偏差", "fig13_mae_bias.png",
 "图5 MAE 与偏差",
 "<p>左图纵轴为面积加权平均绝对误差（Mean Absolute Error，MAE：绝对误差的面积平均，对极端格子不如 RMSE 敏感）。右图纵轴为面积加权偏差（正值表示预测偏深）。左图形态与 RMSE 图相似：全局随 B 上升最快。右图更有诊断价值：全局在 B=6、B=8 变成明显的负偏差（整体偏浅），规则分区的偏差始终靠近零线。这说明多出来的全局模态不是把局部峰值补准，而是把整个水面推离高保真。</p>")}
-<h3 id="s5-2">5.2　事件级 LOOCV 与官方 2 折：主声称与诚实的不显著</h3>
+<h3 id="s5-2">5.3　事件级 LOOCV 与官方 2 折：主声称与诚实的不显著</h3>
 {html_table(t4_h, t4_r, "表 4　ΔRMSE 的事件级检验。Δ = 全局 RMSE − 分区 RMSE；正值表示分区更好。", "tbl4")}
 <p class="tbl-explain">表 4 把四种协议放在同一口径下。Carlisle B=4：9/9 折改善，均值 {fmt(L4['mean'])} m，区间 [{fmt(L4['ci'][0])}, {fmt(L4['ci'][1])}]，不含 0。B=6：7/9 折改善，区间仍不含 0，但均值从 {fmt(L4['mean'])} 降到 {fmt(L6['mean'])}，与“更大 B 并不自动更好”一致。官方 2 折：平均 Δ 只有 {fmt(official['mean_delta_rmse'])} m，区间跨过 0，<code>significant=false</code>。Burnett 30 折：均值 {fmt(bloo['mean_delta_rmse'])} m，区间跨过 0，仅 6/30 折分区更好。自助法重复 10,000 次、种子 42，与英文稿 <code>95_*.py</code> 相同。</p>
 {html_table(t6_h, t6_r, "表 6　Carlisle B=4 九折 LOOCV 逐事件 RMSE（loocv_results.json）。", "tbl6")}
@@ -848,7 +890,7 @@ f"<p>纵轴是临界成功指数，越大越好。灰点划线是仅用低保真
 f"<p>横轴是平均 ΔRMSE（全局减分区），竖虚线为 0。须向右表示分区更好，须向左表示分区更差；须若跨过 0，则该协议下不能声称显著。自上而下：Carlisle B=4 的须完全在 0 右侧（[{fmt(L4['ci'][0])}, {fmt(L4['ci'][1])}]）；B=6 仍在右侧但更靠近 0；官方 2 折紧贴 0 且跨线；Burnett 30 折均值在左侧但须跨 0。这张图把表 4 四行画成一眼能读的“谁能当主声称”。</p>"
 + "<p>英文稿把官方 2 折写进摘要，就是为了对应这张图的第三行：不是藏起来，而是让读者看见检验力不足。</p>")}
 <div class="warn"><strong>不要把官方 2 折写成“也显著”。</strong>四场检验事件中 3/4 分区更好（improved_fraction=0.75），但均值只有 {fmt(official['mean_delta_rmse'])} m，95% 区间 [{fmt(official['ci_95_lower'])}, {fmt(official['ci_95_upper'])}] 包含 0。n 太小，检验力不足。本文明确：官方 2 折<strong>不是</strong>主声称。</div>
-<h3 id="s5-3">5.3　三案例：成功、无增益、帮倒忙</h3>
+<h3 id="s5-3">5.4　三案例：成功、无增益、帮倒忙</h3>
 {html_table(t5_h, t5_r, "表 5　三案例面积加权 RMSE（registry v4）。Chowilla 为边界情形。", "tbl5")}
 <p class="tbl-explain">表 5 是全文的“地图”。Carlisle：分区 &gt; 全局 &gt; 仅用 LF（就 RMSE）。Burnett 12 事件单次划分：全局 {fmt(b_g)} m 与规则 {fmt(b_r)} m 几乎相同，二者都明显低于仅用 LF 的 {fmt(b_lf)} m——LSG 有用，但分区没有额外好处。Chowilla：仅用 LF {fmt(ch_lf)} m，LSG 约 {fmt(ch_g)} m，差一个数量级。把三列都说成“分区成功”会直接与数据冲突。</p>
 {fig_block(9, "三案例面积加权 RMSE（registry v4 / SciencePlots）", "fig04_three_case.png",
@@ -859,7 +901,7 @@ f"<p>每组三根柱：蓝为仅用 LF，橙为全局 LSG（B=4，Burnett 全局
 <p class="tbl-explain">无论 B 取 4、8 还是 12，全局、规则、KMeans 都停在约 2.56 m，CSI 约 0.26，而仅用 LF 的 CSI 为 {fmt(d['ch_full']['lf_only']['csi_area'])}。加模态、换分区都改变不了“LSG 重建面远离高保真”这一事实。粗网格 1,434 格相对 109,914 格约 77:1；JSON 备注写明会产生极端水位。加上历史上 MD5 失败与未做的基准修正，Chowilla 只作为边界情形。</p>
 {html_table(t10_h, t10_r, "表 10　Burnett River：12 事件单次划分与 30 折 LOOCV。", "tbl10")}
 <p class="tbl-explain">上五行为 <code>validation_std.json</code>（9 训 3 检，780,785 格）。全局与两个 B=4 分区模型的 RMSE 都在 1.612 m 左右，规则与 KMeans 在该划分上数值重合，说明此次切分下分区几乎没有改变预测。30 折均值则显示规则略差（{fmt(bloo['mean_zonal_rmse'])} vs {fmt(bloo['mean_global_rmse'])}）。30 折 CSI 已由逐折 <code>csi_area</code> 平均补上：全局 {fmt(d['bloo_means']['csi_g'])}，规则 {fmt(d['bloo_means']['csi_z'])}，仅用 LF {fmt(d['bloo_means']['csi_lf'])}。两套协议都支持同一句话：在 Burnett，分区不是必要补丁。</p>
-<h3 id="s5-4">5.4　Burnett 30 折逐场曲线与 Carlisle 计算代价</h3>
+<h3 id="s5-4">5.5　Burnett 30 折逐场曲线与 Carlisle 计算代价</h3>
 {fig_block(10, "Burnett River 30 折事件 LOOCV（B=4）", "fig10_burnett_loocv.png",
 "图10 Burnett 逐场 RMSE",
 f"<p>横轴 0–29 为留出事件，纵轴面积加权 RMSE。与 Carlisle 图 6 对照着读：这里两条线纠缠，分区并不系统更低，若干场上分区明显高于全局。平均后全局 {fmt(bloo['mean_global_rmse'])} m、规则 {fmt(bloo['mean_zonal_rmse'])} m，对应表 4 最后一行的负 Δ 与跨 0 区间。纵轴到数米，是洪水尺度使然，不要和 Carlisle 的 0.1 m 级纵轴直接比绝对高度。</p>"
@@ -868,7 +910,7 @@ f"<p>横轴 0–29 为留出事件，纵轴面积加权 RMSE。与 Carlisle 图 
 "图11 精度与运行时间",
 f"<p>横轴为训练+预测时间（秒），纵轴为面积加权 RMSE。叉号为仅用低保真，接近 0 秒、RMSE 约 {fmt(LF)} m。全局约 0.7–0.9 秒、B=4 时约 {fmt(G4)} m。规则 B=4 约 1.3 秒、RMSE 约 {fmt(R4)} m，是“稍慢一点、明显更准”的点；规则 B=8 时间相近但 RMSE 升到约 {fmt(R8)} m。KMeans 在 7–9 秒，B=4 精度接近规则，B=8 则又慢又差。</p>"
 + f"<p>JSON 中的墙钟时间可与此对照：B=4 全局 {fmt(cb['budgets']['4']['global']['time_s'], '.2f')} s，规则 {fmt(cb['budgets']['4']['rule']['time_s'], '.2f')} s，KMeans {fmt(cb['budgets']['4']['kmeans']['time_s'], '.2f')} s。规则分区几乎不增加计算负担。本图按 IEEE 样式重绘，可引用其定性结论。合成管线遗留图见附录 9.4，不进入结果节。</p>")}
-<h3 id="s5-5">5.5　stage-swap：收益落在表示→映射管线何处</h3>
+<h3 id="s5-5">5.6　stage-swap：收益落在表示→映射管线何处</h3>
 {html_table(
     ["臂", "表示（EOF）", "映射（GP）", "9 折均值 RMSE（m）", "相对 GG"],
     [
@@ -903,7 +945,7 @@ f"<p>横轴为训练+预测时间（秒），纵轴为面积加权 RMSE。叉号
 <p><strong>给非专业读者：</strong>“多背一点”在这里像把噪音细节也背进答案；按章节分配有限复习时间，反而更稳。</p>
 <h3 id="s6-3">6.3　为何 Burnett / Chowilla 不然</h3>
 <p><strong>Burnett：高一阶 EOI，但等预算分区无益。</strong>最大面 EOI={eoi_bmax:.3f}，深槽与边缘残差可差到数米量级，误差极度成块。然而 30 折 LOOCV 上规则平均更差（{fmt(bloo['mean_zonal_rmse'])} vs {fmt(bloo['mean_global_rmse'])} m），仅 6/30 折占优，区间跨 0。解读：高 EOI 度量 LF 残差的空间组织；Burnett 表明强组织残差不足以保证等预算分区收益，现有诊断<strong>未唯一识别</strong>原因。12 事件单次划分上全局≈规则≈{fmt(b_g)} m，也说明“LSG 有用 ≠ 分区额外有用”。</p>
-<p><strong>Chowilla：LSG 相对仅用 LF 帮倒忙。</strong>仅用 LF {fmt(ch_lf)} m 并不荒唐；LSG≈{fmt(ch_g)} m、CSI 从约 0.88 掉到约 0.26，说明 LSG 校正相对 LF-only 帮倒忙（上游适用性边界）。最大面 EOI={eoi_w:.3f}（低）。网格比约 77:1；历史上 MD5 失败与未做的高程基准修正【待补充】；失败来源未在此隔离，不编造更细故事。</p>
+<p><strong>Chowilla：LSG 相对仅用 LF 帮倒忙。</strong>仅用 LF {fmt(ch_lf)} m 并不荒唐；LSG≈{fmt(ch_g)} m、CSI 从约 0.88 掉到约 0.26，说明 LSG 校正相对 LF-only 帮倒忙（上游适用性边界）。最大面 EOI={eoi_w:.3f}（低）。网格比约 77:1；历史上 MD5 失败与未做的高程基准修正【正式局限】；失败来源未在此隔离，不编造更细故事。</p>
 <p><strong>对照一句话。</strong>Carlisle = LF 可修正 + 等预算下全局表示非中性；Burnett = 残差成块但分区容量不够修；Chowilla = 先别做 LSG，LF 与 HF 还没站在同一物理故事里。</p>
 <h3 id="s6-4">6.4　官方 2 折、CSI 与投稿策略</h3>
 <p>官方两折只有四场检验事件，平均 ΔRMSE = {fmt(official['mean_delta_rmse'])} m，区间跨 0。事件 1 那种半米级差异若没被抽中，显著性就消失。这是功效问题。英文稿因此把 9 折作为统计主声称，并把 2 折不显著写进摘要——中文完整版保持同一纪律。</p>
@@ -967,18 +1009,18 @@ f"<p>横虚线为预先设定的高结构阈值 0.30。Burnett {eoi_bmax:.3f} �
 <section id="s8">
 <h2>8　不足与展望</h2>
 <ul>
-<li><strong>GP 后端：</strong>sklearn GPR，而非原 LSG 论文的 gpflow SGPR。诱导点稀疏化是否改变表 3，【待补充】。</li>
-<li><strong>仅有 LSG-Max：</strong>真实数据上的分区 LSG-TS【待补充】。合成箱线图中的 TS 不可替代。</li>
+<li><strong>GP 后端：</strong>sklearn GPR，而非原 LSG 论文的 gpflow SGPR。关闭标准：SGPR 下重跑 Carlisle B=4 LOOCV 并比较 Rule vs Global。</li>
+<li><strong>仅有 LSG-Max：</strong>真实数据分区 LSG-TS 为 Scope boundary；合成箱线图中的 TS 不可替代。</li>
 <li><strong>Chowilla：</strong>MD5 历史上失败；基准修正实验未做；<code>modes_actual=unknown</code>；另有 <code>full31_3fold.json</code> 与 registry 量级冲突，未采信。</li>
 <li><strong>Burnett：</strong>未跑 KMeans 30 折；未用满 74 场。最大面 EOI 已算（0.957）。</li>
-<li><strong>Brisbane：</strong>未运行【待补充】。</li>
+<li><strong>Brisbane：</strong>未运行——正式 Scope boundary（需许可数据）。</li>
 <li><strong>官方 2 折：</strong>检验力不足。未来若要与 Fraehr 原文完全对齐，需要更多折或预先登记的多折协议，而不是把当前不显著结果解释成显著。</li>
 <li><strong>CSI：</strong>水深变准不等于范围变准。后续可把空报格的空间分布作为分区是否过湿的诊断。</li>
 <li><strong>配图：</strong>正文可引用图已按 SciencePlots 2.2（<code>science+ieee+no-latex</code>、Times New Roman、英文轴注、600 dpi）重绘；中文报告以中文图题/解说嵌入同一套英文标签图。附录 9.4 的合成图未重绘，仅作历史备查。</li>
 <li><strong>分区分量残差：</strong>深槽 0.245 m / 边缘 0.010 m 引自 v4 报告训练期，未在本次重载 HDF5 复核，机制讨论可用，不作为新的独立实验。</li>
 <li><strong>外推：</strong>LSG-Max 在 p10/p11 上未击败仅用 LF；与已发表 LSG-TS 外推不是同一协议。</li>
 <li><strong>模态诊断：</strong>二阶 ZGG 与等预算纯 EOF oracle 已写入 <code>modal_eoi.json</code>。结论是分区增益在 GP 映射，不在纯 EOF 截断。零填充主角度因支撑不相交恒为 90°，已弃用。</li>
-<li><strong>GP 后端：</strong>sklearn GPR；gpflow/TensorFlow 未装入本环境【待补充】。</li>
+<li><strong>GP 后端：</strong>sklearn GPR；gpflow/TensorFlow 未装入本环境（正式 limitation）。</li>
 </ul>
 <p>展望上，最有信息量的下一步是：(1) 用区际 EOF 子空间夹角代替一阶 EOI；(2) 在 gpflow 稀疏高斯过程下重跑 Carlisle B=4；(3) 若数据许可，把假说拿到 Brisbane 作预注册式检验；(4) 外推协议预先登记湿掩膜，并与仅用 LF 公平对比。</p>
 </section>
@@ -1005,8 +1047,8 @@ f"<p>横虚线为预先设定的高结构阈值 0.30。Burnett {eoi_bmax:.3f} �
 <p>复现配图与中文报告（不重新训练模型）：</p>
 <pre style="background:#f4f6f8;padding:12px;overflow:auto;font-size:0.85em;">D:\\miniforge3\\envs\\hydromodel\\python.exe scripts\\97_scienceplots_figures.py
 D:\\miniforge3\\envs\\hydromodel\\python.exe scripts\\99_full_report_zh.py</pre>
-<h3 id="s9-3">9.3　待补充清单</h3>
-{html_table(pend_h, pend_r, "表 12　凡表中事项均未在本文中编造数字。", "tbl12")}
+<h3 id="s9-3">9.3　范围边界与正式局限清单</h3>
+{html_table(pend_h, pend_r, "表 12　正式范围边界/局限处置（COMPLETED / FORMALIZED / BLOCKED）。", "tbl12")}
 <h3 id="s9-4">9.4　合成或历史配图备查（不可引用数字）</h3>
 <p>下列 PNG 来自轨道 A 或与真等预算冲突的历史作图，按“有图即嵌、结果节不出现”处理。不要把图上的 0.07 m 或 “+25.4%” 抄进摘要。</p>
 {fig_block("A1", "EOF 累计解释方差：全局 vs 分区（合成/示意）", "fig03_eof_variance.png",
@@ -1015,7 +1057,7 @@ D:\\miniforge3\\envs\\hydromodel\\python.exe scripts\\99_full_report_zh.py</pre>
 synthetic=True)}
 {fig_block("A2", "多模型 RMSE 与 CSI 箱线（合成管线，含 LSG-TS）", "fig04_metric_boxplots.png",
 "附图 A2 合成箱线图",
-"<p>图上出现了真实 Track B 没有作为主结果的 LSG-TS。真实数据上的全时段分区为【待补充】。不要用本图中位数替换表 3。</p>",
+"<p>图上出现了真实 Track B 没有作为主结果的 LSG-TS。真实数据上的全时段分区为【Scope boundary】。不要用本图中位数替换表 3。</p>",
 synthetic=True)}
 {fig_block("A3", "分区分 RMSE（合成示意）", "fig06_zone_metrics.png",
 "附图 A3 分区误差分解（合成）",
@@ -1041,7 +1083,7 @@ synthetic=True)}
 <li>Teng, J., et al. (2017). Flood inundation modelling: a review. <em>Environmental Modelling &amp; Software</em>, 90, 201–216.</li>
 <li>Bates, P. D. (2022). Flood inundation prediction. <em>Annual Review of Fluid Mechanics</em>, 54, 287–315.</li>
 <li>Zhou, Y., et al. (2021, 2022). SRR/USRR 快速淹没框架. <em>Environmental Modelling &amp; Software</em> / <em>Water Resources Research</em>。</li>
-<li>Wang 等（2026）WRR 中 LSG-TS / LSG-Max 比较：卷期页若仓库未锁定则【待补充】。</li>
+<li>Wang 等（2026）WRR 中 LSG-TS / LSG-Max 比较：卷期页若仓库未锁定则【未锁定页码】。</li>
 <li>本仓库英文平行稿：<code>report.md</code>（<code>scripts/95_final_submission_report.py</code>）；精简中文稿：<code>研究报告.html</code>（96）；本完整版：<code>完整研究报告.html</code>（99）。</li>
 </ol>
 <p class="footer-note">生成日期 {DATE_STR}。打开方式：用浏览器直接双击 <code>完整研究报告.html</code>（无需联网）。正文中文可用 Microsoft YaHei / 宋体；图内字体为 Times New Roman（英文标签）。PDF 由 Edge/Chrome 无头打印生成。图由 <code>scripts/97_scienceplots_figures.py</code> 按 SciencePlots 2.2 IEEE + Times New Roman 规范绘制。</p>
@@ -1130,7 +1172,7 @@ synthetic=True)}
 
 > **机制。** 纯 EOF oracle ΔRMSE&lt;0；stage-swap LOOCV 均值 GG/ZZ/GZ/ZG ≈ 0.180/0.098/0.098/0.101 → GZ≈ZG≈ZZ≪GG。收益来自分区结构进入表示→映射管线。
 
-Chowilla 为边界情形：LSG RMSE 约 {fmt(ch_g)} m，仅用 LF 为 {fmt(ch_lf)} m。GP 后端为 sklearn GPR，非 gpflow SGPR【待补充】。Novelty=等预算条件性分区+EOI 证伪+stage-swap+诚实边界；勿写“首次 zonal LSG”。
+Chowilla 为边界情形：LSG RMSE 约 {fmt(ch_g)} m，仅用 LF 为 {fmt(ch_lf)} m。GP 后端为 sklearn GPR，非 gpflow SGPR【正式局限】。Novelty=等预算条件性分区+EOI 证伪+stage-swap+诚实边界；勿写“首次 zonal LSG”。
 
 ## 2 研究背景与目的
 
@@ -1174,6 +1216,11 @@ Chowilla 为边界情形：LSG RMSE 约 {fmt(ch_g)} m，仅用 LF 为 {fmt(ch_lf
 
 ## 4 研究过程
 
+### 4.0 论文与研究报告分工（硬边界）
+
+- **投稿英文稿**（`paper/manuscript.md`）：问题—方法—结果—讨论；Data/Code Availability 仅 Figshare / GitHub / 软件包名。
+- **本完整研究报告**：保留项目路径、`D:\\miniforge3\\envs\\hydromodel\\python.exe`、脚本、审计 JSON、ChatGPT 协作摘要（`paper/chatgpt/collaboration_log.md`）。
+
 轨道 A（合成）不可引用；轨道 B 可引用。本完整版不覆盖 `研究报告.*` 与英文 `report.*`。
 
 **表 8　泄漏审计**
@@ -1184,9 +1231,30 @@ Chowilla 为边界情形：LSG RMSE 约 {fmt(ch_g)} m，仅用 LF 为 {fmt(ch_lf
 
 {md_table(t7_h, t7_r)}
 
+### 4.3 稿件数字审计与协作摘要
+
+- `scripts/100_manuscript_data_audit.py` → `outputs/evaluation/manuscript_data_audit.json`（目标 43/43 PASS）
+- `scripts/20b_audit_leakage_autofold.py` → `outputs/audit/leakage_autofold.json`
+- ChatGPT：https://chatgpt.com/c/6a812977-6814-83ea-9a9d-f27c1dbd8a8f （Round A 文风清单；Round B 投稿润色）
+
 ## 5 结果展示
 
-### 5.1 Carlisle 模态预算对照与审计
+呈现顺序：先直观空间结果，再定量统计（对齐 Fraehr/LSG）。
+
+### 5.1 直观空间结果
+
+主图：Carlisle LOOCV 事件 1（Run2）。RMSE LF≈0.233 / 全局 {fmt(L4['items'][1]['global_rmse'])} / 规则 {fmt(L4['items'][1]['zonal_rmse'])} m。
+
+{md_fig("S1", "Run2 最大水深四联图", "figA1_inundation_maps_carlisle_ev1.png", "HF/LF/Global/Rule；规则更接近 HF。")}
+{md_fig("S2", "Run2 命中—漏报—空报", "figA2_csi_hitmiss_carlisle_ev1.png", "规则空报显著减少，CSI 升高。")}
+{md_fig("S3", "Run2 残差与改善", "figA3_residuals_carlisle_ev1.png", "全局系统性偏深；规则残差近零。")}
+{md_fig("S4", "Run2 分区叠加", "figA4_zones_overlay_carlisle_ev1.png", "训练期规则分区叠在 HF 水深上。")}
+{md_fig("S5", "Run2 obs–pred 散点", "figA5_obs_vs_pred_carlisle_ev1.png", "湿单元 1:1；规则更贴对角线。")}
+{md_fig("S6", "Run1 淹没四联图", "figA1_inundation_maps_carlisle_ev0.png", "较温和折，方向一致。")}
+{md_fig("S7", "Burnett 事件 0 淹没图", "figA1_inundation_maps_burnettrv_ev0.png", "Global≈Rule。")}
+{md_fig("S8", "Chowilla Chow_p01 淹没图", "figA1_inundation_maps_chowilla_ev0.png", "LSG 远离 HF，LF 更近。")}
+
+### 5.2 Carlisle 模态预算对照与审计
 
 **表 3　面积加权 RMSE**
 
@@ -1205,7 +1273,7 @@ Chowilla 为边界情形：LSG RMSE 约 {fmt(ch_g)} m，仅用 LF 为 {fmt(ch_lf
 {md_fig(5, "MAE 与偏差", "fig13_mae_bias.png",
 "全局 B 增大后偏差变负；规则偏差靠近 0。")}
 
-### 5.2 LOOCV 与官方 2 折
+### 5.3 LOOCV 与官方 2 折
 
 **表 4　事件级检验**
 
@@ -1219,7 +1287,7 @@ Chowilla 为边界情形：LSG RMSE 约 {fmt(ch_g)} m，仅用 LF 为 {fmt(ch_lf
 {md_fig(7, "1:1 散点", "fig11_loocv_scatter.png", "九点均在 1:1 线下方；事件 1 远离原点。")}
 {md_fig(8, "四种协议的 ΔRMSE 森林图", "fig12_stat_ci.png", "仅 Carlisle 9 折 B=4/6 的须不跨 0。")}
 
-### 5.3–5.4 三案例与 Burnett
+### 5.4–5.5 三案例与 Burnett
 
 **表 5**
 
@@ -1229,9 +1297,9 @@ Chowilla 为边界情形：LSG RMSE 约 {fmt(ch_g)} m，仅用 LF 为 {fmt(ch_lf
 {md_fig(10, "Burnett 30 折", "fig10_burnett_loocv.png", "两条线纠缠；分区不系统更优。")}
 {md_fig(11, "精度–耗时", "fig08_runtime.png", "规则 B=4 位于较优前沿。")}
 
-### 5.5 stage-swap
+### 5.6 stage-swap
 
-LOOCV 均值：GG≈0.180、ZZ≈0.098、GZ≈0.098、ZG≈0.101 m → **GZ≈ZG≈ZZ≪GG**。机制叙述见 HTML 5.5 / 6.6。
+LOOCV 均值：GG≈0.180、ZZ≈0.098、GZ≈0.098、ZG≈0.101 m → **GZ≈ZG≈ZZ≪GG**。机制叙述见 HTML 5.6 / 6.6。
 
 ## 6 分析与讨论
 
@@ -1262,13 +1330,13 @@ LOOCV 均值：GG≈0.180、ZZ≈0.098、GZ≈0.098、ZG≈0.101 m → **GZ≈ZG
 
 ## 8 不足与展望
 
-sklearn GPR 而非 gpflow SGPR【待补充】；无真实 LSG-TS【待补充】；Chowilla MD5/基准【待补充】；Burnett KMeans LOOCV 与 74 场【待补充】；Brisbane 未运行【待补充】。
+sklearn GPR 而非 gpflow SGPR【正式局限】；无真实 LSG-TS【Scope boundary】；Chowilla MD5/基准【正式局限】；Burnett KMeans LOOCV 与 74 场【正式局限】；Brisbane 未运行【Scope boundary】。
 
 ## 9 附录
 
 Fraehr（2024）Figshare 24312658。数字来自 `outputs/registry/` 与 `outputs/evaluation/**`。复现：`D:\\miniforge3\\envs\\hydromodel\\python.exe scripts\\99_full_report_zh.py`
 
-**表 11 脚本索引** / **表 12 待补充** 见 HTML。PDF 工具链：Edge/Chrome `--print-to-pdf`（与 95/96 相同）。
+**表 11 脚本索引** / **表 12 范围边界** 见 HTML。PDF 工具链：Edge/Chrome `--print-to-pdf`（与 95/96 相同）。
 """)
 
     md = "\n".join(md_parts)
@@ -1434,7 +1502,7 @@ def main():
         print(f"PDF FAILED: {msg}")
         print("HTML+MD 已交付。")
 
-    print("待补充事项数:", len([p for p in pending_items if p]))
+    print("范围边界条目数:", len([p for p in pending_items if p]))
     print("未覆盖: 研究报告.* / report.html / report.md / report.pdf")
     print("Done.")
 

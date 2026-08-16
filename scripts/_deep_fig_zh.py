@@ -64,6 +64,58 @@ def deep_explains(d: dict) -> dict[str, str]:
 <p>图题中的平均 |LF−HF| 量级与仅用 LF 的 RMSE {fmt(LF)} m 同属“LF 已不太差、但仍有结构误差”的故事，二者不是同一指标。规则分区地图未单独成图，其物理切法见表 2 的 E2。</p>
 """
 
+    # ---- Qualitative / spatial (97b; real packs) ----
+    ev1 = L4["items"][1]
+    out["figA1_inundation_maps_carlisle_ev1.png"] = f"""
+<p><strong>（a）本图在全篇中的作用。</strong>这是结果章的“开门图”：在报任何平均 RMSE 之前，先让读者看见一张真实洪水的最大水深面。数据来自 <code>carlisle_9events.npz</code>，留出事件 Run2（索引 1），B=4 的 LOOCV 预测——不是示意图。</p>
+<p><strong>（b）如何读四联图。</strong>四幅共用同一色标（最大水深，米）。先看 (a) HF 真值河道与滩地形态，再对照 (b) LF 是否抓住轮廓，最后比较 (c) 全局与 (d) 规则谁更像 (a)。</p>
+<p><strong>（c）子图含义。</strong>(a) 高保真真值；(b) 已插值到 HF 网格的低保真输入；(c) 全局 LSG-Max；(d) 规则分区 LSG-Max。本折面积加权 RMSE：全局 {fmt(ev1['global_rmse'])} m，规则 {fmt(ev1['zonal_rmse'])} m。</p>
+<p><strong>（d）结论。</strong>全局在浅滩出现块状伪影；规则更接近 HF。这与后文“事件 1 是全局灾难折”的统计叙述同一证据源。</p>
+<p><strong>（e）日常语言。</strong>同一场考试：低保真勾出轮廓；全局素描在边缘糊了；按河道分区再画，糊斑明显减少。</p>
+"""
+    out["figA2_csi_hitmiss_carlisle_ev1.png"] = f"""
+<p><strong>（a）作用。</strong>把 CSI 从“一个标量”还原成空间：绿=命中，蓝=漏报，红=空报，灰=正确干燥。阈值 0.03 m。</p>
+<p><strong>（b）读法。</strong>左全局 CSI={fmt(ev1.get('global_csi', float('nan')))}；右规则 CSI={fmt(ev1.get('zonal_csi', float('nan')))}。重点看红色空报是否收缩。</p>
+<p><strong>（c）含义。</strong>全局在城区与滩地边缘空报成片；规则显著压红，同时可能略增少量漏报。这解释了为何单场 CSI 可升，而预算扫描均值上 CSI 仍常低于仅用 LF。</p>
+<p><strong>（d）结论。</strong>分区在本灾难折同时改善水深与湿干；全文主声称仍以面积加权 RMSE 为准，CSI 作诚实对照。</p>
+<p><strong>（e）日常语言。</strong>红斑是“报了水其实没水”；分区把许多误报擦掉。</p>
+"""
+    out["figA3_residuals_carlisle_ev1.png"] = f"""
+<p><strong>（a）作用。</strong>残差空间图回答“错在哪里、分区改在哪里”。</p>
+<p><strong>（b）读法。</strong>(a)(b) 为预测减 HF（红偏深、蓝偏浅）；(c) 为 |全局误差|−|规则误差|，绿=规则更好。</p>
+<p><strong>（c）含义。</strong>全局对湿区系统性偏深；规则残差近白；(c) 大片绿色表明改善覆盖大部分淹没范围，而非边角修修补补。</p>
+<p><strong>（d）结论。</strong>直观支持“等预算下全局表示非中性”；机制仍需 stage-swap / EOI 后文约束。</p>
+<p><strong>（e）日常语言。</strong>全局整张图涂深了；分区把颜色擦回接近真值。</p>
+"""
+    out["figA4_zones_overlay_carlisle_ev1.png"] = f"""
+<p><strong>（a）作用。</strong>把训练期拟合的规则分区叠回空间，解释“切在何处”。</p>
+<p><strong>（b）读法。</strong>左为区号伪彩；右为 HF 水深，必要时叠区分界。</p>
+<p><strong>（c）含义。</strong>分区沿主槽—滩地—边缘分异，与方法节规则特征一致；分区在 EOF/GP 之前，不是事后上色。</p>
+<p><strong>（d）结论。</strong>为读者提供分区几何锚点，衔接下文定量曲线。</p>
+<p><strong>（e）日常语言。</strong>先按河道结构分卷，再各自压缩与映射。</p>
+"""
+    out["figA5_obs_vs_pred_carlisle_ev1.png"] = f"""
+<p><strong>（a）作用。</strong>Fraehr 类论文常用的湿单元观测—预测散点：地图之外的格子级 1:1 视图。</p>
+<p><strong>（b）读法。</strong>横轴 HF，纵轴预测；虚线 1:1。点越贴线越好。</p>
+<p><strong>（c）含义。</strong>全局点云更散、更易偏离对角线；规则更收敛。子样来自湿单元随机抽样（至多 4 万点），仅供可视化。</p>
+<p><strong>（d）结论。</strong>与四联图、残差图同向；定量仍以面积加权 RMSE 表为准。</p>
+<p><strong>（e）日常语言。</strong>每个点是一个积水格子的“实况 vs 预报”。</p>
+"""
+    out["figA1_inundation_maps_carlisle_ev0.png"] = f"""
+<p><strong>（a）作用。</strong>温和折（Run1）对照：证明改善不只依赖灾难折。</p>
+<p><strong>（b–e）</strong>读法同 Run2 四联图；本折全局与规则都已接近 LF/HF，规则仍略优（见表 6 事件 0）。</p>
+"""
+    out["figA1_inundation_maps_burnettrv_ev0.png"] = f"""
+<p><strong>（a）作用。</strong>负例/无增益案例的空间开门图：Burnett 事件 0，LOOCV B=4。</p>
+<p><strong>（b）读法。</strong>同样 HF/LF/Global/Rule 四联；若 Global 与 Rule 肉眼难分，即与 30 折统计“分区不系统更优”一致。</p>
+<p><strong>（c–e）</strong>高 EOI 不保证分区地图更干净；本图是条件性声称的空间脚注。</p>
+"""
+    out["figA1_inundation_maps_chowilla_ev0.png"] = f"""
+<p><strong>（a）作用。</strong>边界负例：Chowilla Chow_p01。LSG 面远离 HF，而 LF 相对更近。</p>
+<p><strong>（b）读法。</strong>先看 HF 与 LF，再看 Global/Rule 是否一起“跑偏”。</p>
+<p><strong>（c–e）</strong>分区救不了上游适用性失败；对应表 5 的 LSG≫LF 故事。</p>
+"""
+
     out["fig03_mode_budget.png"] = f"""
 <p><strong>（a）背景与作用。</strong>这是 Carlisle 等预算主证据的核心曲线：在总模态数 B 相同的前提下，全局、规则分区、KMeans 的面积加权 RMSE 如何随 B 变化。它直接回答标题“全局 EOF 何时不够”。</p>
 <p><strong>（b）如何读 RMSE–B 曲线。</strong>横轴离散取 B=4/6/8（不是连续光滑函数）；纵轴越小越好。比较三条线的高度差（谁更准）与斜率（加模态是帮还是害）。</p>
@@ -212,7 +264,7 @@ def deep_explains(d: dict) -> dict[str, str]:
 <ul>
 <li><strong>RMSE 面板：</strong>看中位数高低与箱子宽度（折间稳定性）；离群点可能是单场灾难事件。</li>
 <li><strong>CSI 面板：</strong>湿干命中，与水深 RMSE 可反向；勿因 RMSE 好看就默认 CSI 也赢。</li>
-<li><strong>若同图混 TS/Max：</strong>两套产品线不可横比绝对值；真实分区 LSG-TS【待补充】，故中位数不可替换表 3。</li>
+<li><strong>若同图混 TS/Max：</strong>两套产品线不可横比绝对值；真实分区 LSG-TS【Scope boundary】，故中位数不可替换表 3。</li>
 </ul></p>
 <p><strong>（d）结论边界。</strong>可用作“不要把 Max 写成 TS”的警示；若合成方向与 Track B 冲突，必须保留冲突并以后者为准，不可调和粉饰。</p>
 <p><strong>（e）日常语言。</strong>这是练习册上的示意图，不是期末考试成绩单。</p>
@@ -275,7 +327,7 @@ def deep_explains(d: dict) -> dict[str, str]:
 <p><strong>给非专业读者：</strong>校正流水线有两道工序——“用什么坐标系描述水面”和“如何把粗系数翻译成细系数”。只要其中一道按河道/滩地分开处理，Carlisle 上的大部分好处就会回来；两道都分开（ZZ）是完整方案，但不是唯一有效开关。</p>
 """
     else:
-        out["_stage_swap_html"] = '<p class="pending">【待补充】未找到 stage_swap.json 的 LOOCV 摘要。</p>'
+        out["_stage_swap_html"] = '<p class="pending">【文件缺失】未找到 stage_swap.json 的 LOOCV 摘要。</p>'
 
     return out
 
@@ -287,8 +339,8 @@ def deep_glossary_html() -> str:
 <ul>
 <li><span class="term">HF / LF</span>（High-/Low-Fidelity）：高/低保真水动力模型。HF 网格细、物理过程更完整但贵；LF 粗网格或简化求解，快但有系统偏差。多保真的出发点是保留 LF 的物理轮廓，再学习指向 HF 的修正。</li>
 <li><span class="term">EOF</span>（Empirical Orthogonal Function，经验正交函数）：对时空/多事件场的协方差做特征分解，得到按方差排序的空间模态与系数。气象海洋学中的经典降维工具；在 LSG 中用于把高维淹没面压到少数系数，以便 GP 学习。等价视角是 PCA（Principal Component Analysis，主成分分析）作用于湿单元集合。</li>
-<li><span class="term">GP / GPR / SGPR</span>：高斯过程回归把函数先验放在函数空间，用核（kernel）编码平滑与相关长度；后验给出映射与不确定度。SGPR（Sparse GP Regression）用诱导点近似以服务大数据。本文 Track B 数字来自 sklearn GPR；gpflow SGPR【待补充】。</li>
-<li><span class="term">LSG / LSG-Max / LSG-TS</span>：Fraehr 框架三步（LF 场 → 空间 EOF → GP 系数映射）。Max 只学最大淹没面；TS 学全时段。本文主结果为 LSG-Max；真实数据分区 LSG-TS【待补充】。</li>
+<li><span class="term">GP / GPR / SGPR</span>：高斯过程回归把函数先验放在函数空间，用核（kernel）编码平滑与相关长度；后验给出映射与不确定度。SGPR（Sparse GP Regression）用诱导点近似以服务大数据。本文 Track B 数字来自 sklearn GPR；gpflow SGPR【正式局限】。</li>
+<li><span class="term">LSG / LSG-Max / LSG-TS</span>：Fraehr 框架三步（LF 场 → 空间 EOF → GP 系数映射）。Max 只学最大淹没面；TS 学全时段。本文主结果为 LSG-Max；真实数据分区 LSG-TS【Scope boundary】。</li>
 <li><span class="term">模态预算 B</span>：全局与分区模型允许的 EOF 模态总数。真等预算要求两边实际总模态数对齐，否则“分区更好”可能只是参数更多。</li>
 <li><span class="term">面积加权 RMSE / MAE / bias</span>：误差按网格面积 A<sub>i</sub> 加权，避免大小格子一视同仁。RMSE 对大误差更敏感；MAE 更稳健；bias 揭示系统偏深/偏浅。</li>
 <li><span class="term">CSI / POD / FAR</span>：临界成功指数 / 探测率 / 空报率，基于湿润阈值 0.03 m 的二值命中表。CSI=Hit/(Hit+Miss+FA)。</li>

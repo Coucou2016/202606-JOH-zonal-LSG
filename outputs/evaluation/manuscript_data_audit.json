@@ -1,0 +1,350 @@
+{
+  "n_checks": 43,
+  "n_pass": 43,
+  "n_fail": 0,
+  "all_pass": true,
+  "checks": [
+    {
+      "name": "carlisle_B4_global_rmse",
+      "expected": 0.1464,
+      "observed": 0.1464,
+      "tol": 0.0005,
+      "pass": true,
+      "source": "budget_sweep_true_equal.json"
+    },
+    {
+      "name": "carlisle_B4_rule_rmse",
+      "expected": 0.0964,
+      "observed": 0.0964,
+      "tol": 0.0005,
+      "pass": true,
+      "source": "budget_sweep_true_equal.json"
+    },
+    {
+      "name": "carlisle_B4_kmeans_rmse",
+      "expected": 0.1015,
+      "observed": 0.1015,
+      "tol": 0.0005,
+      "pass": true,
+      "source": "budget_sweep_true_equal.json"
+    },
+    {
+      "name": "carlisle_lf_rmse",
+      "expected": 0.1602,
+      "observed": 0.1602,
+      "tol": 0.0005,
+      "pass": true,
+      "source": "budget_sweep_true_equal.json"
+    },
+    {
+      "name": "carlisle_lf_csi",
+      "expected": 0.9145,
+      "observed": 0.9145,
+      "tol": 0.0005,
+      "pass": true,
+      "source": "budget_sweep_true_equal.json"
+    },
+    {
+      "name": "carlisle_B6_global_rmse",
+      "expected": 0.2588,
+      "observed": 0.2588,
+      "tol": 0.0005,
+      "pass": true,
+      "source": "budget_sweep_true_equal.json"
+    },
+    {
+      "name": "carlisle_B6_rule_rmse",
+      "expected": 0.1256,
+      "observed": 0.1256,
+      "tol": 0.0005,
+      "pass": true,
+      "source": "budget_sweep_true_equal.json"
+    },
+    {
+      "name": "carlisle_B8_global_rmse",
+      "expected": 0.3527,
+      "observed": 0.3527,
+      "tol": 0.0005,
+      "pass": true,
+      "source": "budget_sweep_true_equal.json"
+    },
+    {
+      "name": "carlisle_B8_actual_modes",
+      "expected": 7.0,
+      "observed": 7.0,
+      "tol": 0.0,
+      "pass": true,
+      "source": "budget_sweep_true_equal.json"
+    },
+    {
+      "name": "manuscript_contains_0.1464",
+      "expected": true,
+      "observed": true,
+      "pass": true,
+      "source": "paper/manuscript.md"
+    },
+    {
+      "name": "manuscript_contains_0.0964",
+      "expected": true,
+      "observed": true,
+      "pass": true,
+      "source": "paper/manuscript.md"
+    },
+    {
+      "name": "manuscript_contains_0.1015",
+      "expected": true,
+      "observed": true,
+      "pass": true,
+      "source": "paper/manuscript.md"
+    },
+    {
+      "name": "manuscript_contains_9/9",
+      "expected": true,
+      "observed": true,
+      "pass": true,
+      "source": "paper/manuscript.md"
+    },
+    {
+      "name": "manuscript_contains_0.057",
+      "expected": true,
+      "observed": true,
+      "pass": true,
+      "source": "paper/manuscript.md"
+    },
+    {
+      "name": "manuscript_contains_0.116",
+      "expected": true,
+      "observed": true,
+      "pass": true,
+      "source": "paper/manuscript.md"
+    },
+    {
+      "name": "manuscript_contains_0.957",
+      "expected": true,
+      "observed": true,
+      "pass": true,
+      "source": "paper/manuscript.md"
+    },
+    {
+      "name": "carlisle_loocv_B4_n_improved",
+      "expected": 9.0,
+      "observed": 9.0,
+      "tol": 0.0,
+      "pass": true,
+      "source": "loocv_results.json"
+    },
+    {
+      "name": "carlisle_loocv_B4_mean_delta",
+      "expected": 0.0821,
+      "observed": 0.0821,
+      "tol": 0.0005,
+      "pass": true,
+      "source": "loocv_results.json"
+    },
+    {
+      "name": "carlisle_loocv_ev1_global",
+      "expected": 0.694,
+      "observed": 0.695,
+      "tol": 0.005,
+      "pass": true,
+      "source": "loocv_results.json"
+    },
+    {
+      "name": "carlisle_loocv_ev1_rule",
+      "expected": 0.166,
+      "observed": 0.167,
+      "tol": 0.005,
+      "pass": true,
+      "source": "loocv_results.json"
+    },
+    {
+      "name": "carlisle_loocv_ci_low",
+      "expected": 0.0155,
+      "observed": 0.0155,
+      "tol": 0.0005,
+      "pass": true,
+      "source": "loocv_bootstrap_ci.json"
+    },
+    {
+      "name": "carlisle_loocv_ci_high",
+      "expected": 0.1987,
+      "observed": 0.1987,
+      "tol": 0.0005,
+      "pass": true,
+      "source": "loocv_bootstrap_ci.json"
+    },
+    {
+      "name": "carlisle_official_2fold_nonsig",
+      "expected": false,
+      "observed": false,
+      "pass": true,
+      "source": "multifold_bootstrap.json"
+    },
+    {
+      "name": "burnett_loocv_global",
+      "expected": 1.7479,
+      "observed": 1.7479,
+      "tol": 0.0005,
+      "pass": true,
+      "source": "burnettrv/loocv_results.json"
+    },
+    {
+      "name": "burnett_loocv_rule",
+      "expected": 1.826,
+      "observed": 1.826,
+      "tol": 0.0005,
+      "pass": true,
+      "source": "burnettrv/loocv_results.json"
+    },
+    {
+      "name": "chowilla_global_rmse",
+      "expected": 2.5606,
+      "observed": 2.5606,
+      "tol": 0.0005,
+      "pass": true,
+      "source": "chowilla/budget_sweep_full.json"
+    },
+    {
+      "name": "chowilla_rule_rmse",
+      "expected": 2.5614,
+      "observed": 2.5614,
+      "tol": 0.0005,
+      "pass": true,
+      "source": "chowilla/budget_sweep_full.json"
+    },
+    {
+      "name": "chowilla_lf_rmse",
+      "expected": 0.3926,
+      "observed": 0.3926,
+      "tol": 0.0005,
+      "pass": true,
+      "source": "chowilla/budget_sweep_full.json"
+    },
+    {
+      "name": "burnett12_global",
+      "expected": 1.612,
+      "observed": 1.612,
+      "tol": 0.0005,
+      "pass": true,
+      "source": "burnettrv/validation_std.json"
+    },
+    {
+      "name": "burnett12_rule",
+      "expected": 1.6122,
+      "observed": 1.6122,
+      "tol": 0.0005,
+      "pass": true,
+      "source": "burnettrv/validation_std.json"
+    },
+    {
+      "name": "burnett12_lf",
+      "expected": 2.2323,
+      "observed": 2.2323,
+      "tol": 0.0005,
+      "pass": true,
+      "source": "burnettrv/validation_std.json"
+    },
+    {
+      "name": "eoi_carlisle",
+      "expected": 0.057,
+      "observed": 0.057,
+      "tol": 0.005,
+      "pass": true,
+      "source": "eoi_all.json"
+    },
+    {
+      "name": "eoi_chowilla",
+      "expected": 0.116,
+      "observed": 0.116,
+      "tol": 0.005,
+      "pass": true,
+      "source": "eoi_all.json"
+    },
+    {
+      "name": "eoi_burnettrv",
+      "expected": 0.957,
+      "observed": 0.957,
+      "tol": 0.005,
+      "pass": true,
+      "source": "eoi_all.json"
+    },
+    {
+      "name": "stage_swap_GG",
+      "expected": 0.18,
+      "observed": 0.18,
+      "tol": 0.005,
+      "pass": true,
+      "source": "stage_swap.json"
+    },
+    {
+      "name": "stage_swap_ZZ",
+      "expected": 0.098,
+      "observed": 0.098,
+      "tol": 0.005,
+      "pass": true,
+      "source": "stage_swap.json"
+    },
+    {
+      "name": "stage_swap_GZ",
+      "expected": 0.098,
+      "observed": 0.098,
+      "tol": 0.005,
+      "pass": true,
+      "source": "stage_swap.json"
+    },
+    {
+      "name": "stage_swap_ZG",
+      "expected": 0.101,
+      "observed": 0.101,
+      "tol": 0.005,
+      "pass": true,
+      "source": "stage_swap.json"
+    },
+    {
+      "name": "manuscript_maxwd_r2_tokens",
+      "expected": true,
+      "observed": true,
+      "pass": true,
+      "source": "manuscript.md tokens vs published contrast"
+    },
+    {
+      "name": "modal_oracle_delta_neg_carlisle",
+      "expected": "<0",
+      "observed": -0.07607728689182575,
+      "pass": true,
+      "source": "modal_eoi.json"
+    },
+    {
+      "name": "modal_oracle_delta_neg_burnettrv",
+      "expected": "<0",
+      "observed": -0.19826653228508545,
+      "pass": true,
+      "source": "modal_eoi.json"
+    },
+    {
+      "name": "modal_oracle_delta_neg_chowilla",
+      "expected": "<0",
+      "observed": -0.06568782454519845,
+      "pass": true,
+      "source": "modal_eoi.json"
+    },
+    {
+      "name": "spatial_maps_manifest_complete",
+      "expected": ">=20 figs",
+      "observed": 20,
+      "pass": true,
+      "source": "spatial_maps_manifest.json",
+      "issues": []
+    }
+  ],
+  "spatial": {
+    "pass": true,
+    "n_figures": 20,
+    "issues": []
+  },
+  "notes": [
+    "Manuscript numbers are rounded to 4 dp in prose; audit uses evaluation JSON as ground truth.",
+    "Spatial maps are representative held-out events, not pooled skill claims.",
+    "Fraehr 2024 full text unavailable (ScienceDirect CAPTCHA); not used as numeric source."
+  ]
+}
