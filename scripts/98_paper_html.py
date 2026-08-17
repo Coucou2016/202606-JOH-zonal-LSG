@@ -25,33 +25,10 @@ HTML_PATH = ROOT / "paper" / "manuscript.html"
 PDF_PATH = ROOT / "paper" / "manuscript.pdf"
 FIG_DIR = ROOT / "outputs" / "figures"
 
-# Journal-style captions keyed by basename (Figure n. …)
-FIGURE_CAPTIONS: dict[str, str] = {
-    "fig01_workflow.png": "Figure 1. Hydrodynamically zoned LSG-Max workflow under equal mode budget.",
-    "fig02_zone_maps_real.png": "Figure 2. Rule and KMeans zone maps on the Carlisle wet floodplain.",
-    "figA1_inundation_maps_carlisle_ev1.png": "Figure A1. Carlisle Run2 LOOCV max-depth maps: HF, LF, Global, and Rule zonal (B=4).",
-    "figA2_csi_hitmiss_carlisle_ev1.png": "Figure A2. Carlisle Run2 wet/dry hit–miss maps (Global vs Rule; thresh=0.03 m).",
-    "figA3_residuals_carlisle_ev1.png": "Figure A3. Carlisle Run2 residuals (Global−HF, Rule−HF) and absolute-error improvement.",
-    "figA4_zones_overlay_carlisle_ev1.png": "Figure A4. Carlisle Run2 rule zones overlaid on the HF depth field.",
-    "figA5_obs_vs_pred_carlisle_ev1.png": "Figure A5. Carlisle Run2 wet-cell observed versus predicted depths.",
-    "figA1_inundation_maps_carlisle_ev0.png": "Figure A1b. Carlisle Run1 LOOCV max-depth maps (milder fold).",
-    "figA1_inundation_maps_burnettrv_ev0.png": "Figure A1c. Burnett event 0 LOOCV max-depth maps (Global ≈ Rule).",
-    "figA1_inundation_maps_chowilla_ev0.png": "Figure A1d. Chowilla Chow_p01 LOOCV max-depth maps (LSG degrades vs LF).",
-    "fig03_mode_budget.png": "Figure 3. Carlisle area-weighted depth RMSE versus total mode budget B.",
-    "fig09_csi_budget.png": "Figure 9. Carlisle area-weighted CSI versus mode budget B.",
-    "fig13_mae_bias.png": "Figure 13. Carlisle MAE and bias versus mode budget.",
-    "fig08_per_event_bootstrap.png": "Figure 8. Carlisle per-event ΔRMSE with bootstrap uncertainty.",
-    "fig11_loocv_scatter.png": "Figure 11. Carlisle LOOCV Global versus Rule RMSE scatter.",
-    "fig12_stat_ci.png": "Figure 12. Statistical confidence intervals for ΔRMSE contrasts.",
-    "fig10_burnett_loocv.png": "Figure 10. Burnett River 30-fold event LOOCV summary.",
-    "fig04_three_case.png": "Figure 4. Three-case RMSE comparison (Carlisle, Chowilla, Burnett).",
-    "fig14_eoi.png": "Figure 14. Max-surface residual organization index (EOI) by case.",
-    "fig15_eoi_vs_delta.png": "Figure 15. EOI versus zoning ΔRMSE (does not rank zoning gains).",
-    "fig19_modal_eoi.png": "Figure 19. Second-order modal EOI / pure-EOF oracle diagnostics.",
-    "fig16_official_maxwd_r2.png": "Figure 16. Official nine-fold MaxWD R² protocol contrast.",
-    "fig17_lf_degradation.png": "Figure 17. LF coarsening robustness probe.",
-    "fig18_channel_distance.png": "Figure 18. Channel-distance zoning robustness probe.",
-}
+# Captions are taken from the manuscript image alt text so that figure numbers
+# cannot drift between manuscript.md and the rendered HTML/PDF. Add an entry here
+# only to override a caption that cannot be expressed in the markdown alt text.
+FIGURE_CAPTIONS: dict[str, str] = {}
 
 CSS = r"""
 :root {
@@ -264,7 +241,7 @@ def figure_html(src: str, alt: str) -> str:
         # Fall back to alt text as caption body.
         cap_body = alt.strip() or name
         if not cap_body.lower().startswith("figure"):
-            m = re.match(r"[Ff]ig\.?\s*(\d+)\s*(.*)", cap_body)
+            m = re.match(r"[Ff]ig\.?\s*(A?\d+[a-z]?)\s*\.?\s*(.*)", cap_body)
             if m:
                 rest = m.group(2).strip(" .-:")
                 cap_body = f"Figure {m.group(1)}. {rest}" if rest else f"Figure {m.group(1)}."

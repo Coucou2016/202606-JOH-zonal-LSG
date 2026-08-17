@@ -73,7 +73,7 @@ def audit() -> dict[str, Any]:
     add("carlisle_B8_actual_modes", 7.0, float(b8g.get("actual_modes", float("nan"))), 0.0, "budget_sweep_true_equal.json")
 
     # manuscript string presence for key numbers
-    for token in ["0.1464", "0.0964", "0.1015", "9/9", "0.057", "0.116", "0.957"]:
+    for token in ["0.1464", "0.0964", "0.1015", "all nine", "0.057", "0.116", "0.957"]:
         checks.append(
             {
                 "name": f"manuscript_contains_{token}",
@@ -274,6 +274,71 @@ def audit() -> dict[str, Any]:
             }
         )
 
+    # Table 1 geometry versus the real processed packs. Added 2026-08-17 after the
+    # manuscript was found to state Burnett HF = 780,825 (actual 780,785) and
+    # Chowilla = 31 available events (actual 29).
+    import numpy as _np
+
+    ms_text = MS.read_text(encoding="utf-8")
+    for pack, case, n_events, n_hf in (
+        ("carlisle_9events.npz", "Carlisle", 9, 581061),
+        ("chowilla_29events.npz", "Chowilla", 29, 109914),
+        ("burnettrv_30events.npz", "Burnett", 30, 780785),
+    ):
+        p = _ROOT / "data" / "processed" / pack
+        if not p.exists():
+            checks.append(
+                {
+                    "name": f"geometry_{case.lower()}_pack_present",
+                    "expected": pack,
+                    "observed": "missing",
+                    "pass": False,
+                    "source": "data/processed",
+                }
+            )
+            continue
+        with _np.load(p, allow_pickle=True) as d:
+            shape = d["hf_max"].shape
+        checks.append(
+            {
+                "name": f"geometry_{case.lower()}_hf_cells_in_manuscript",
+                "expected": f"{shape[1]:,} cells cited",
+                "observed": f"{shape[1]:,}",
+                "pass": f"{shape[1]:,}" in ms_text,
+                "source": f"data/processed/{pack} hf_max{shape}",
+            }
+        )
+        checks.append(
+            {
+                "name": f"geometry_{case.lower()}_event_count_matches_pack",
+                "expected": n_events,
+                "observed": int(shape[0]),
+                "pass": int(shape[0]) == n_events,
+                "source": f"data/processed/{pack}",
+            }
+        )
+        checks.append(
+            {
+                "name": f"geometry_{case.lower()}_hf_cells_match_pack",
+                "expected": n_hf,
+                "observed": int(shape[1]),
+                "pass": int(shape[1]) == n_hf,
+                "source": f"data/processed/{pack}",
+            }
+        )
+
+    # The superseded values must not reappear anywhere in the manuscript.
+    for stale in ("780,825", "12 / 31"):
+        checks.append(
+            {
+                "name": f"stale_value_absent_{stale.replace(' ', '').replace('/', '_')}",
+                "expected": "absent",
+                "observed": "absent" if stale not in ms_text else "PRESENT",
+                "pass": stale not in ms_text,
+                "source": "paper/manuscript.md",
+            }
+        )
+
     n_pass = sum(1 for c in checks if c.get("pass"))
     n_fail = sum(1 for c in checks if not c.get("pass"))
     report = {
@@ -286,7 +351,11 @@ def audit() -> dict[str, Any]:
         "notes": [
             "Manuscript numbers are rounded to 4 dp in prose; audit uses evaluation JSON as ground truth.",
             "Spatial maps are representative held-out events, not pooled skill claims.",
-            "Fraehr 2024 full text unavailable (ScienceDirect CAPTCHA); not used as numeric source.",
+            "Fraehr 2024 full text obtained 2026-08-17 (user-supplied publisher PDF); "
+            "used for structural/length benchmarking only, never as a numeric source "
+            "for our own results.",
+            "Burnett HF cell count (780,785) is the max-surface evaluation subset; the "
+            "benchmark reports a ~3.7M-cell native Burnett grid.",
         ],
     }
     return report
@@ -334,7 +403,10 @@ def write_provenance(report: dict[str, Any]) -> None:
             "- gpflow/SGPR backend not run in this environment (sklearn GPR production numbers).",
             "- Brisbane licensed data absent (`config/cases/brisbane.yaml`).",
             "- Real zonal LSG-TS on Fraehr packs not claimed as Track B headline.",
-            "- Fraehr 2024 full PDF blocked by publisher CAPTCHA; abstract/metadata only.",
+            "- Fraehr 2024 full PDF obtained 2026-08-17 (user-supplied publisher PDF, "
+            "CC BY); used for structure/length benchmarking only, not as a numeric source.",
+            "- Burnett HF cells = 780,785 in the analysed max-surface subset; the "
+            "benchmark reports a ~3.7M-cell native grid.",
             "",
             "## Cell areas",
             "",

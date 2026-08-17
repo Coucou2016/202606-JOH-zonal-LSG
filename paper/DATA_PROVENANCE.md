@@ -2,7 +2,7 @@
 
 Machine audit: `scripts/100_manuscript_data_audit.py` → `outputs/evaluation/manuscript_data_audit.json`.
 
-**Audit result:** 43/43 PASS; ALL PASS
+**Audit result:** 54/54 PASS; ALL PASS
 
 ## Primary numeric sources (Track B)
 
@@ -27,7 +27,8 @@ Machine audit: `scripts/100_manuscript_data_audit.py` → `outputs/evaluation/ma
 - gpflow/SGPR backend not run in this environment (sklearn GPR production numbers).
 - Brisbane licensed data absent (`config/cases/brisbane.yaml`).
 - Real zonal LSG-TS on Fraehr packs not claimed as Track B headline.
-- Fraehr 2024 full PDF blocked by publisher CAPTCHA; abstract/metadata only.
+- Fraehr 2024 full PDF obtained 2026-08-17 (user-supplied publisher PDF, CC BY); used for structure/length benchmarking only, not as a numeric source.
+- Burnett HF cells = 780,785 in the analysed max-surface subset; the benchmark reports a ~3.7M-cell native grid.
 
 ## Cell areas
 

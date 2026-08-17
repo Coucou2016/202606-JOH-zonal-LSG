@@ -1,6 +1,6 @@
 {
-  "n_checks": 43,
-  "n_pass": 43,
+  "n_checks": 54,
+  "n_pass": 54,
   "n_fail": 0,
   "all_pass": true,
   "checks": [
@@ -98,7 +98,7 @@
       "source": "paper/manuscript.md"
     },
     {
-      "name": "manuscript_contains_9/9",
+      "name": "manuscript_contains_all nine",
       "expected": true,
       "observed": true,
       "pass": true,
@@ -335,6 +335,83 @@
       "pass": true,
       "source": "spatial_maps_manifest.json",
       "issues": []
+    },
+    {
+      "name": "geometry_carlisle_hf_cells_in_manuscript",
+      "expected": "581,061 cells cited",
+      "observed": "581,061",
+      "pass": true,
+      "source": "data/processed/carlisle_9events.npz hf_max(9, 581061)"
+    },
+    {
+      "name": "geometry_carlisle_event_count_matches_pack",
+      "expected": 9,
+      "observed": 9,
+      "pass": true,
+      "source": "data/processed/carlisle_9events.npz"
+    },
+    {
+      "name": "geometry_carlisle_hf_cells_match_pack",
+      "expected": 581061,
+      "observed": 581061,
+      "pass": true,
+      "source": "data/processed/carlisle_9events.npz"
+    },
+    {
+      "name": "geometry_chowilla_hf_cells_in_manuscript",
+      "expected": "109,914 cells cited",
+      "observed": "109,914",
+      "pass": true,
+      "source": "data/processed/chowilla_29events.npz hf_max(29, 109914)"
+    },
+    {
+      "name": "geometry_chowilla_event_count_matches_pack",
+      "expected": 29,
+      "observed": 29,
+      "pass": true,
+      "source": "data/processed/chowilla_29events.npz"
+    },
+    {
+      "name": "geometry_chowilla_hf_cells_match_pack",
+      "expected": 109914,
+      "observed": 109914,
+      "pass": true,
+      "source": "data/processed/chowilla_29events.npz"
+    },
+    {
+      "name": "geometry_burnett_hf_cells_in_manuscript",
+      "expected": "780,785 cells cited",
+      "observed": "780,785",
+      "pass": true,
+      "source": "data/processed/burnettrv_30events.npz hf_max(30, 780785)"
+    },
+    {
+      "name": "geometry_burnett_event_count_matches_pack",
+      "expected": 30,
+      "observed": 30,
+      "pass": true,
+      "source": "data/processed/burnettrv_30events.npz"
+    },
+    {
+      "name": "geometry_burnett_hf_cells_match_pack",
+      "expected": 780785,
+      "observed": 780785,
+      "pass": true,
+      "source": "data/processed/burnettrv_30events.npz"
+    },
+    {
+      "name": "stale_value_absent_780,825",
+      "expected": "absent",
+      "observed": "absent",
+      "pass": true,
+      "source": "paper/manuscript.md"
+    },
+    {
+      "name": "stale_value_absent_12_31",
+      "expected": "absent",
+      "observed": "absent",
+      "pass": true,
+      "source": "paper/manuscript.md"
     }
   ],
   "spatial": {
@@ -345,6 +422,7 @@
   "notes": [
     "Manuscript numbers are rounded to 4 dp in prose; audit uses evaluation JSON as ground truth.",
     "Spatial maps are representative held-out events, not pooled skill claims.",
-    "Fraehr 2024 full text unavailable (ScienceDirect CAPTCHA); not used as numeric source."
+    "Fraehr 2024 full text obtained 2026-08-17 (user-supplied publisher PDF); used for structural/length benchmarking only, never as a numeric source for our own results.",
+    "Burnett HF cell count (780,785) is the max-surface evaluation subset; the benchmark reports a ~3.7M-cell native Burnett grid."
   ]
 }
