@@ -38,10 +38,11 @@ For all analyses, wet cells are identified using a water-depth threshold of 0.03
 
 The zonal model differs from the global model only in the spatial organization of the reduced representation. Wet cells are first assigned to hydrodynamic zones, after which separate EOF bases and GP mappings are fitted within each active zone. The reconstructed zonal fields are finally combined on the HF grid.
 
-Two zoning approaches are examined. The Rule partition uses training maximum depth, inundation frequency, and, when residual information is supplied, the mean absolute LF-HF residual. It can produce up to five classes representing deep or near-channel cells, frequently inundated cells, intermittently inundated cells, fringe cells, and an optional residual-error hotspot override. The primary settings use an 80th percentile threshold for the deep and residual-error features, with inundation-frequency thresholds of 0.7 and 0.1 for the frequent and intermittent classes. KMeans zoning uses standardized training features and \(K=4\) in the primary comparisons; \(K=6\) is used only in configuration sweeps. Representative train-only partitions for the Carlisle case are shown in the appendix (Figure 11).
+Two zoning approaches are examined. The Rule partition uses training maximum depth, inundation frequency, and, when residual information is supplied, the mean absolute LF-HF residual. It can produce up to five classes representing deep or near-channel cells, frequently inundated cells, intermittently inundated cells, fringe cells, and an optional residual-error hotspot override. The primary settings use an 80th percentile threshold for the deep and residual-error features, with inundation-frequency thresholds of 0.7 and 0.1 for the frequent and intermittent classes. KMeans zoning uses standardized training features and \(K=4\) in the primary comparisons; \(K=6\) is used only in configuration sweeps. Figure 2 shows representative train-only partitions.
 
 The zonal model is constrained by a total retained-mode budget \(B\). Mode allocation is performed only over nonempty zones. When \(B\) is at least the number of active zones, each zone receives one mode and the remaining modes are distributed according to within-zone variance. The Carlisle matched-capacity artefacts use the requested total budget in the zonal model, with four realized modes at \(B=4\) and six at \(B=6\). Thus, the primary comparison changes the spatial allocation of EOF capacity without increasing the total number of retained modes.
 
+![Figure 2. Representative train-only hydrodynamic partitions for the Rule and KMeans zoning approaches on the Fraehr benchmark grids.](../outputs/figures/fig02_zone_maps_real.png)
 
 ### 2.3. Matched-capacity comparison
 
@@ -124,51 +125,51 @@ Burnett is evaluated with 30-fold event LOOCV at \(B=4\). The 12-event Burnett r
 
 The clearest effect of zoning is observed at Carlisle under the smallest matched mode budget. At \(B=4\), the area-weighted RMSE is 0.1464 m for Global LSG-Max, 0.0964 m for Rule zoning, and 0.1015 m for KMeans zoning. Relative to the global model, Rule zoning reduces RMSE by 34.2%. The LF-only RMSE is 0.1602 m, so the Rule model is also more accurate than the uncorrected LF field under this protocol.
 
-The difference persists at \(B=6\), although both global and zonal RMSE increase. Global RMSE rises from 0.1464 m at \(B=4\) to 0.2588 m at \(B=6\), while Rule RMSE rises from 0.0964 to 0.1256 m. At the nominal \(B=8\) setting, Global and Rule RMSE are 0.3527 and 0.1790 m, respectively. The global \(B=8\) calculation realized seven modes, so that point is shown only as a capacity-audit result and is not used as a strict matched-budget comparison (Figure 2). The non-monotonic change in global error with requested mode count is therefore reported as an observed sensitivity of this implementation rather than evidence that additional EOF modes are generally detrimental.
+The difference persists at \(B=6\), although both global and zonal RMSE increase. Global RMSE rises from 0.1464 m at \(B=4\) to 0.2588 m at \(B=6\), while Rule RMSE rises from 0.0964 to 0.1256 m. At the nominal \(B=8\) setting, Global and Rule RMSE are 0.3527 and 0.1790 m, respectively. The global \(B=8\) calculation realized seven modes, so that point is shown only as a capacity-audit result and is not used as a strict matched-budget comparison (Figure 3). The non-monotonic change in global error with requested mode count is therefore reported as an observed sensitivity of this implementation rather than evidence that additional EOF modes are generally detrimental.
 
-![Figure 2. Carlisle area-weighted depth RMSE as a function of retained-mode budget for Global, Rule, and KMeans LSG-Max. The comparisons at \(B=4\) and \(B=6\) have matched total retained-mode capacity. The nominal \(B=8\) global point realized seven modes and is shown only as a capacity audit.](../outputs/figures/fig03_mode_budget.png)
+![Figure 3. Carlisle area-weighted depth RMSE as a function of retained-mode budget for Global, Rule, and KMeans LSG-Max. The comparisons at \(B=4\) and \(B=6\) have matched total retained-mode capacity. The nominal \(B=8\) global point realized seven modes and is shown only as a capacity audit.](../outputs/figures/fig03_mode_budget.png)
 
-The corresponding CSI results show a different pattern. LF-only CSI is 0.9145, higher than the LSG values at \(B=4\), and no comparable zonal advantage is evident in inundation extent (Figure 3). The RMSE reduction is therefore primarily a water-depth improvement rather than an improvement in wet-dry classification. The MAE and bias results show the same general separation between the global and zonal depth predictions (Figure 4).
+The corresponding CSI results show a different pattern. LF-only CSI is 0.9145, higher than the LSG values at \(B=4\), and no comparable zonal advantage is evident in inundation extent (Figure 4). The RMSE reduction is therefore primarily a water-depth improvement rather than an improvement in wet-dry classification. The MAE and bias results show the same general separation between the global and zonal depth predictions (Figure 5).
 
-![Figure 3. Carlisle area-weighted CSI versus retained-mode budget using a 0.03 m wet-depth threshold.](../outputs/figures/fig09_csi_budget.png)
+![Figure 4. Carlisle area-weighted CSI versus retained-mode budget using a 0.03 m wet-depth threshold.](../outputs/figures/fig09_csi_budget.png)
 
-![Figure 4. Carlisle area-weighted MAE and bias versus retained-mode budget.](../outputs/figures/fig13_mae_bias.png)
+![Figure 5. Carlisle area-weighted MAE and bias versus retained-mode budget.](../outputs/figures/fig13_mae_bias.png)
 
 ### 4.2. Event-to-event consistency and spatial error patterns
 
-The event-level Carlisle comparison shows that the \(B=4\) result is not produced by a single favourable fold. Rule zoning has lower RMSE than the global model in all nine LOOCV folds. The mean paired difference is 0.0821 m, with a 95% bootstrap confidence interval of [0.0155, 0.1987] m (Figures 5–7). At \(B=6\), seven of nine folds favour Rule zoning; the mean difference is 0.0606 m with a 95% interval of [0.0032, 0.1618] m.
+The event-level Carlisle comparison shows that the \(B=4\) result is not produced by a single favourable fold. Rule zoning has lower RMSE than the global model in all nine LOOCV folds. The mean paired difference is 0.0821 m, with a 95% bootstrap confidence interval of [0.0155, 0.1987] m (Figures 6–8). At \(B=6\), seven of nine folds favour Rule zoning; the mean difference is 0.0606 m with a 95% interval of [0.0032, 0.1618] m.
 
 The official two-fold analysis gives a smaller and more uncertain difference. Its mean \(\Delta\mathrm{RMSE}\) is 0.0045 m, with a 95% interval of [-0.0073, 0.0134] m. The interval includes zero. The two analyses use different resampling structures, so they are best read together: the nine-fold LOOCV shows a fold-consistent Carlisle improvement under the matched-capacity protocol, while the official two-fold calculation indicates that the estimated magnitude is sensitive to the much coarser split.
 
-![Figure 5. Carlisle event-level Global and Rule RMSE under \(B=4\) leave-one-out cross-validation.](../outputs/figures/fig08_per_event_bootstrap.png)
+![Figure 6. Carlisle event-level Global and Rule RMSE under \(B=4\) leave-one-out cross-validation.](../outputs/figures/fig08_per_event_bootstrap.png)
 
-![Figure 6. Carlisle held-out RMSE for Global and Rule LSG-Max at \(B=4\). Points below the 1:1 line favour Rule zoning.](../outputs/figures/fig11_loocv_scatter.png)
+![Figure 7. Carlisle held-out RMSE for Global and Rule LSG-Max at \(B=4\). Points below the 1:1 line favour Rule zoning.](../outputs/figures/fig11_loocv_scatter.png)
 
-![Figure 7. Bootstrap confidence intervals for the mean paired \(\Delta\mathrm{RMSE}\) in Carlisle and Burnett. Positive values favour zoning.](../outputs/figures/fig12_stat_ci.png)
+![Figure 8. Bootstrap confidence intervals for the mean paired \(\Delta\mathrm{RMSE}\) in Carlisle and Burnett. Positive values favour zoning.](../outputs/figures/fig12_stat_ci.png)
 
-The largest global error occurs when Carlisle event index 1 (Run2) is held out. On this fold, area-weighted RMSE is 0.233 m for LF-only, 0.694 m for Global LSG-Max, and 0.166 m for Rule zoning. The maximum-depth maps show that the global reconstruction produces broad depth errors across the floodplain, whereas the Rule prediction remains closer to the HF field (Figure 8).
+The largest global error occurs when Carlisle event index 1 (Run2) is held out. On this fold, area-weighted RMSE is 0.233 m for LF-only, 0.694 m for Global LSG-Max, and 0.166 m for Rule zoning. The maximum-depth maps show that the global reconstruction produces broad depth errors across the floodplain, whereas the Rule prediction remains closer to the HF field (Figure 9).
 
-![Figure 8. Carlisle Run2 held-out maximum-depth fields for HF, LF, Global LSG-Max, and Rule zonal LSG-Max under \(B=4\) LOOCV. All panels use a common depth scale.](../outputs/figures/figA1_inundation_maps_carlisle_ev1.png)
+![Figure 9. Carlisle Run2 held-out maximum-depth fields for HF, LF, Global LSG-Max, and Rule zonal LSG-Max under \(B=4\) LOOCV. All panels use a common depth scale.](../outputs/figures/figA1_inundation_maps_carlisle_ev1.png)
 
-The wet-dry comparison for the same fold gives CSI values of 0.591 for Global and 0.816 for Rule. Most of the difference is associated with fewer false alarms in the zonal prediction (Figure 9). Residual maps show a broad positive depth error in the global prediction that is substantially reduced by Rule zoning over much of the wet floodplain (Figure 10). The train-only zone map and the cell-level observed-predicted comparison provide complementary views of the same fold (Figures 11 and 12).
+The wet-dry comparison for the same fold gives CSI values of 0.591 for Global and 0.816 for Rule. Most of the difference is associated with fewer false alarms in the zonal prediction (Figure 10). Residual maps show a broad positive depth error in the global prediction that is substantially reduced by Rule zoning over much of the wet floodplain (Figure 11). The train-only zone map and the cell-level observed-predicted comparison provide complementary views of the same fold (Figures 12 and 13).
 
-![Figure 9. Carlisle Run2 hit, miss, and false-alarm maps for Global and Rule predictions using the 0.03 m wet-depth threshold.](../outputs/figures/figA2_csi_hitmiss_carlisle_ev1.png)
+![Figure 10. Carlisle Run2 hit, miss, and false-alarm maps for Global and Rule predictions using the 0.03 m wet-depth threshold.](../outputs/figures/figA2_csi_hitmiss_carlisle_ev1.png)
 
-![Figure 10. Carlisle Run2 residual fields for Global and Rule predictions and the corresponding change in absolute error.](../outputs/figures/figA3_residuals_carlisle_ev1.png)
+![Figure 11. Carlisle Run2 residual fields for Global and Rule predictions and the corresponding change in absolute error.](../outputs/figures/figA3_residuals_carlisle_ev1.png)
 
-![Figure 11. Train-only Rule zones for the Carlisle Run2 fold and their spatial relation to the HF depth field.](../outputs/figures/figA4_zones_overlay_carlisle_ev1.png)
+![Figure 12. Train-only Rule zones for the Carlisle Run2 fold and their spatial relation to the HF depth field.](../outputs/figures/figA4_zones_overlay_carlisle_ev1.png)
 
-![Figure 12. Wet-cell observed and predicted depths for Global and Rule LSG-Max on the held-out Carlisle Run2 event.](../outputs/figures/figA5_obs_vs_pred_carlisle_ev1.png)
+![Figure 13. Wet-cell observed and predicted depths for Global and Rule LSG-Max on the held-out Carlisle Run2 event.](../outputs/figures/figA5_obs_vs_pred_carlisle_ev1.png)
 
 A less extreme Carlisle fold, event 0 (Run1), gives RMSE values of approximately 0.074, 0.072, and 0.057 m for LF-only, Global, and Rule, respectively. The spatial differences are correspondingly smaller. The same qualitative map checks were also applied to the transfer cases: Burnett event 0 shows little separation between Global and Rule, while Chowilla event 0 shows both LSG predictions farther from HF than the LF field.
 
 ### 4.3. Transfer across benchmark cases
 
-The Carlisle result does not transfer uniformly to the other cases. In Burnett 30-fold LOOCV at \(B=4\), mean RMSE is 1.7479 m for Global and 1.8260 m for Rule, giving a mean \(\Delta\mathrm{RMSE}\) of -0.0781 m. Rule improves six of the 30 folds, and the paired difference is not significant (Figures 7 and 13). Thus, the Burnett leave-one-out analysis provides a direct case in which the same matched-capacity Rule approach does not improve prediction.
+The Carlisle result does not transfer uniformly to the other cases. In Burnett 30-fold LOOCV at \(B=4\), mean RMSE is 1.7479 m for Global and 1.8260 m for Rule, giving a mean \(\Delta\mathrm{RMSE}\) of -0.0781 m. Rule improves six of the 30 folds, and the paired difference is not significant (Figures 8 and 14). Thus, the Burnett leave-one-out analysis provides a direct case in which the same matched-capacity Rule approach does not improve prediction.
 
-![Figure 13. Burnett 30-fold LOOCV RMSE for Global and Rule LSG-Max at \(B=4\).](../outputs/figures/fig10_burnett_loocv.png)
+![Figure 14. Burnett 30-fold LOOCV RMSE for Global and Rule LSG-Max at \(B=4\).](../outputs/figures/fig10_burnett_loocv.png)
 
-The fixed-split three-case comparison gives a related but distinct view (Table 2 and Figure 14). At Carlisle, Rule is more accurate than both Global and LF-only. At Burnett, Global and Rule are nearly identical on the 12-event fixed split. At Chowilla, LF-only RMSE is 0.3926 m, whereas Global and Rule RMSE are 2.5606 and 2.5614 m. Under this protocol, the main issue at Chowilla is therefore not the choice between global and zonal EOF representations; it is the deterioration introduced by the LSG correction relative to the LF field.
+The fixed-split three-case comparison gives a related but distinct view (Table 2 and Figure 15). At Carlisle, Rule is more accurate than both Global and LF-only. At Burnett, Global and Rule are nearly identical on the 12-event fixed split. At Chowilla, LF-only RMSE is 0.3926 m, whereas Global and Rule RMSE are 2.5606 and 2.5614 m. Under this protocol, the main issue at Chowilla is therefore not the choice between global and zonal EOF representations; it is the deterioration introduced by the LSG correction relative to the LF field.
 
 **Table 2.** Area-weighted depth RMSE (m) for the three-case \(B=4\) comparison.
 
@@ -178,58 +179,33 @@ The fixed-split three-case comparison gives a related but distinct view (Table 2
 | Chowilla | 0.3926 | 2.5606 | 2.5614 | LF is most accurate; both LSG variants degrade |
 | Burnett (12-event fixed split) | 2.2323 | 1.6120 | 1.6122 | Global and Rule are nearly identical |
 
-![Figure 14. Three-case area-weighted RMSE at \(B=4\) for LF-only, Global LSG-Max, and Rule zonal LSG-Max. The Burnett values use the 12-event fixed split and are separate from the 30-fold LOOCV analysis in Figure 13.](../outputs/figures/fig04_three_case.png)
+![Figure 15. Three-case area-weighted RMSE at \(B=4\) for LF-only, Global LSG-Max, and Rule zonal LSG-Max. The Burnett values use the 12-event fixed split and are separate from the 30-fold LOOCV analysis in Figure 14.](../outputs/figures/fig04_three_case.png)
 
 ### 4.4. Residual organization and stage diagnostics
 
-The max-surface EOI values are 0.057 for Carlisle, 0.116 for Chowilla, and 0.957 for Burnett (Figure 15). This ordering does not match the observed zoning benefit. Carlisle has the lowest EOI and the clearest matched-capacity improvement, whereas Burnett has the highest EOI and no Rule advantage in the 30-fold analysis. The fold-level comparison in Figure 16 gives the same qualitative result. EOI therefore does not provide a useful first-order ranking of zoning benefit for these cases. This finding is limited to the diagnostic tested here and does not rule out other training-data indicators.
+The max-surface EOI values are 0.057 for Carlisle, 0.116 for Chowilla, and 0.957 for Burnett (Figure 16). This ordering does not match the observed zoning benefit. Carlisle has the lowest EOI and the clearest matched-capacity improvement, whereas Burnett has the highest EOI and no Rule advantage in the 30-fold analysis. The fold-level comparison in Figure 17 gives the same qualitative result. EOI therefore does not provide a useful first-order ranking of zoning benefit for these cases. This finding is limited to the diagnostic tested here and does not rule out other training-data indicators.
 
-![Figure 15. Max-surface error-organization index for Carlisle, Burnett, and Chowilla.](../outputs/figures/fig14_eoi.png)
+![Figure 16. Max-surface error-organization index for Carlisle, Burnett, and Chowilla.](../outputs/figures/fig14_eoi.png)
 
-![Figure 16. In-fold training EOI and matched-capacity zoning \(\Delta\mathrm{RMSE}\) for Carlisle and Burnett folds. Positive \(\Delta\mathrm{RMSE}\) favours zoning.](../outputs/figures/fig15_eoi_vs_delta.png)
+![Figure 17. In-fold training EOI and matched-capacity zoning \(\Delta\mathrm{RMSE}\) for Carlisle and Burnett folds. Positive \(\Delta\mathrm{RMSE}\) favours zoning.](../outputs/figures/fig15_eoi_vs_delta.png)
 
-The pure-EOF analysis also does not support a simple reconstruction-capacity explanation. ZGG is positive for all three cases, but the equal-budget pure-EOF oracle gives negative \(\Delta\mathrm{RMSE}\) for each case (Table 6), meaning that the zonal EOF reconstruction is not more accurate than the global reconstruction before GP mapping. For Chowilla, the area-weighted oracle difference remains negative (-0.0543 m compared with -0.0657 m without weighting). Carlisle and Burnett have uniform cell areas, so weighting leaves their oracle differences unchanged.
+The pure-EOF analysis also does not support a simple reconstruction-capacity explanation. ZGG is positive for all three cases, but the equal-budget pure-EOF oracle gives negative \(\Delta\mathrm{RMSE}\) for each case (Figure 18), meaning that the zonal EOF reconstruction is not more accurate than the global reconstruction before GP mapping. For Chowilla, the area-weighted oracle difference remains negative (-0.0543 m compared with -0.0657 m without weighting). Carlisle and Burnett have uniform cell areas, so weighting leaves their oracle differences unchanged.
 
-**Table 6.** Equal-budget pure-EOF oracle reconstruction comparison. ZGG is the zone-global explained-variance gap (positive values indicate that local modes capture more within-zone variance). Oracle \(\Delta\mathrm{RMSE}\) is positive if the zonal EOF reconstruction is more accurate than the global reconstruction under the same total mode budget. Negative values indicate that the zonal EOF basis alone does not give a more efficient reconstruction of the HF field.
-
-| Case | Mean ZGG | Oracle \(\Delta\mathrm{RMSE}\) (uniform) | Oracle \(\Delta\mathrm{RMSE}\) (area-weighted) |
-|---|---:|---:|---:|
-| Carlisle | 0.0479 | -0.0761 | -0.0761 |
-| Burnett | 0.0287 | -0.1983 | -0.1983 |
-| Chowilla | 0.1071 | -0.0657 | -0.0543 |
+![Figure 18. Local-versus-global modal diagnostic (ZGG) and equal-budget pure-EOF reconstruction comparison. Negative oracle \(\Delta\mathrm{RMSE}\) indicates that the zonal EOF reconstruction is less accurate than the global reconstruction before GP mapping.](../outputs/figures/fig19_modal_eoi.png)
 
 The Carlisle stage-swap analysis further narrows the interpretation. Mean LOOCV RMSE is approximately 0.180 m for GG, 0.098 m for ZZ, 0.098 m for GZ, and 0.101 m for ZG. Both hybrid configurations are therefore close to the fully zonal result and substantially below GG. Because GZ and ZG are approximate substitutions, these values do not identify a unique causal stage. They do show that the Carlisle improvement is not dependent on only one of the two localized components. Taken together with the pure-EOF result, the stage-swap analysis points to the combined representation-mapping problem rather than improved HF truncation alone.
 
 ### 4.5. Secondary sensitivity analyses
 
-Several secondary analyses were used to check whether the primary Carlisle result depends on a single formulation. Under the official nine-fold MaxWD \(R^2\) protocol, Rule LSG-Max reaches 0.988, compared with a published LSG-TS value of 0.990 and a Global Max value of approximately 0.915 (Table 7). This is a protocol comparison rather than a local head-to-head reproduction of LSG-TS.
+Several secondary analyses were used to check whether the primary Carlisle result depends on a single formulation. Under the official nine-fold MaxWD \(R^2\) protocol, Rule LSG-Max reaches 0.988, compared with a published LSG-TS value of 0.990 and a Global Max value of approximately 0.915 (Figure 19). This is a protocol comparison rather than a local head-to-head reproduction of LSG-TS.
 
-**Table 7.** Official nine-fold MaxWD \(R^2\) protocol comparison. Published values from Fraehr et al. (2024, Table 2); this-work values computed under the same official protocol but using LSG-Max rather than LSG-TS.
+![Figure 19. Official MaxWD \(R^2\) protocol comparison. The published LSG-TS value is included as a reference rather than as a locally reproduced baseline.](../outputs/figures/fig16_official_maxwd_r2.png)
 
-| Model | MaxWD \(R^2\) |
-|---|---|
-| LSG-TS (published) | 0.990 |
-| Kabir-1dCNN (published) | 0.984 |
-| LSTM-SRR (published) | 0.690 |
-| GP-EOF (published) | 0.974 |
-| LSTM-EOF (published) | 0.971 |
-| This work–Rule LSG-Max | 0.988 |
-| This work–Global LSG-Max | 0.915 |
-| This work–KMeans LSG-Max | 0.976 |
+LF coarsening and channel-distance zoning were also examined as secondary robustness probes. The coarsening experiment retains the separation between Global and Rule over the tested LF grid factors (Figure 20). Adding channel-distance information changes the zonal result only modestly relative to the primary Rule partition (Figure 21). These analyses support the interpretation of the Carlisle result as a spatial-representation effect under the tested settings, but they are not used to extend the main claim beyond the matched-capacity comparisons.
 
-LF coarsening and channel-distance zoning were also examined as secondary robustness probes. The coarsening experiment retains the separation between Global and Rule over the tested LF grid factors (Figure 17). Adding channel-distance information changes the zonal result only modestly relative to the primary Rule partition (Table 8). These analyses support the interpretation of the Carlisle result as a spatial-representation effect under the tested settings, but they are not used to extend the main claim beyond the matched-capacity comparisons.
+![Figure 20. Carlisle LF-grid coarsening sensitivity for LF-only, Global LSG, and Rule zonal LSG.](../outputs/figures/fig17_lf_degradation.png)
 
-![Figure 17. Carlisle LF-grid coarsening sensitivity for LF-only, Global LSG, and Rule zonal LSG.](../outputs/figures/fig17_lf_degradation.png)
-
-**Table 8.** Carlisle channel-distance zoning sensitivity at \(B=4\). Rule+channel dist. and KMeans+dist. include distance to the main channel as an additional zoning feature. The Rule and Global values are the primary \(B=4\) matched-capacity results.
-
-| Configuration | Area-weighted RMSE (m) |
-|---|---|
-| Global LSG-Max | 0.1464 |
-| Rule zoning | 0.0964 |
-| Rule + channel distance | 0.0937 |
-| Channel-distance only | 0.1118 |
-| KMeans + distance | 0.1027 |
+![Figure 21. Carlisle channel-distance zoning sensitivity.](../outputs/figures/fig18_channel_distance.png)
 
 ---
 
