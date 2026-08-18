@@ -4,7 +4,7 @@
 **Figure/data baseline:** `60b2e18` (figures + numbers unchanged since R19)
 **R21 core-revision commit:** `e608559` (manuscript + eoi.py + audit-pack body)
 **Canonical figure↔code pack:** `paper/chatgpt/figure_code_audit_pack.md`
-  → https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/e608559/paper/chatgpt/figure_code_audit_pack.md
+  → https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/6462f90/paper/chatgpt/figure_code_audit_pack.md
 
 All four items from your R20 reply are addressed below. No EOI value or figure
 changed — every change is wording / provenance only.

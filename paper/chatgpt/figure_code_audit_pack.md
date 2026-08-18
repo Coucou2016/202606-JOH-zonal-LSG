@@ -322,7 +322,7 @@ Burnett 2.2323/1.6117/1.6122.
 Chowilla. EOI is the ratio of the unweighted variance across zone means of the
 event-averaged absolute-residual field \(\bar{r}_i(S)\) to its spatial variance
 over active cells, and is not by construction bounded by [0,1]. The pooled
-values are computed over all available events (Carlisle \(n=9\),
+values are computed over all events in the analysis extract (Carlisle \(n=9\),
 Burnett \(n=30\), Chowilla \(n=29\)) on the residual-free hydrodynamic rule (up
 to four active classes).
 
