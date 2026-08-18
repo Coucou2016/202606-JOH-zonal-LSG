@@ -319,8 +319,7 @@ def fig_inundation(pack: dict, pred: dict, event_idx: int, tag: str) -> str:
     cb.set_label("Max. water depth (m)")
     eid = pack["event_ids"][event_idx]
     fig.suptitle(
-        f"{pack['case'].title()} LOOCV held-out {eid} (event {event_idx}); "
-        f"source={pack['source']}",
+        f"{pack['case'].title()} LOOCV held-out {eid} (event {event_idx})",
         fontsize=9,
         y=0.995,
     )
@@ -460,7 +459,7 @@ def fig_zones_overlay(pack: dict, pred: dict, event_idx: int, tag: str) -> str:
     axes[0].set_title("(a) Rule zones (train-fit)", fontsize=9)
     axes[0].set_xlabel("Easting (m)")
     axes[0].set_ylabel("Northing (m)")
-    cb0 = fig.colorbar(im0, ax=axes[0], fraction=0.046, pad=0.04)
+    cb0 = fig.colorbar(im0, ax=axes[0], fraction=0.046, pad=0.04, ticks=range(n_z))
     cb0.set_label("Zone id")
 
     # (b) HF depth with zone edges via contour of labels (if regular)
@@ -477,7 +476,7 @@ def fig_zones_overlay(pack: dict, pred: dict, event_idx: int, tag: str) -> str:
             xx = np.linspace(extent[0], extent[1], grid_l.shape[1])
             XX, YY = np.meshgrid(xx, yy)
             axes[1].contour(XX, YY, grid_l, levels=np.arange(-0.5, n_z, 1.0),
-                            colors="k", linewidths=0.3, alpha=0.55)
+                            colors="k", linewidths=0.15, alpha=0.3)
         except Exception:
             pass
     fig.colorbar(im1, ax=axes[1], fraction=0.046, pad=0.04).set_label("Depth (m)")
@@ -505,20 +504,22 @@ def fig_obs_pred_scatter(pack: dict, pred: dict, event_idx: int, tag: str) -> st
         idx = rng.choice(idx, size=40_000, replace=False)
 
     fig, axes = plt.subplots(1, 2, figsize=(W2, W2 * 0.45))
-    for ax, field, title, color in (
-        (axes[0], pred["global"], "Global LSG-Max", "#2c7bb6"),
-        (axes[1], pred["rule"], "Rule zonal LSG-Max", "#d7191c"),
+    fields = {"global": pred["global"], "rule": pred["rule"]}
+    lim = float(max(hf[idx].max(), *(f[idx].max() for f in fields.values()), WET))
+    for ax, key, title, color in (
+        (axes[0], "global", "Global LSG-Max", "#2c7bb6"),
+        (axes[1], "rule", "Rule zonal LSG-Max", "#d7191c"),
     ):
+        field = fields[key]
         ax.scatter(hf[idx], field[idx], s=2, alpha=0.25, linewidths=0, rasterized=True, color=color)
-        lim = float(max(hf[idx].max(), field[idx].max(), WET))
         ax.plot([0, lim], [0, lim], "k--", lw=0.8, label="1:1")
         ax.set_xlim(0, lim)
         ax.set_ylim(0, lim)
         ax.set_aspect("equal")
         ax.set_xlabel("HF observed depth (m)")
         ax.set_ylabel("Predicted depth (m)")
-        met = pred["metrics"]["global" if "Global" in title else "rule"]
-        ax.set_title(f"{title}\nRMSE={met['rmse_area']:.3f} m", fontsize=8)
+        met = pred["metrics"][key]
+        ax.set_title(f"{title}\nall-cell area-wtd RMSE={met['rmse_area']:.3f} m", fontsize=8)
         ax.legend(frameon=False, fontsize=7, loc="upper left")
     eid = pack["event_ids"][event_idx]
     fig.suptitle(

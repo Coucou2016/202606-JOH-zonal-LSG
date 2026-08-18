@@ -187,6 +187,12 @@ class ZonalLSG:
         else:
             budget = None
 
+        # Enforce the total-mode budget at the zoning level: if the zoning
+        # produced more active zones than the budget, merge the smallest zones
+        # so the zonal model never exceeds its global counterpart's capacity.
+        if budget is not None:
+            zone_labels = zoning.merge_zones_to_budget(zone_labels, active, budget)
+
         eof_state = zonal_eof.fit_zonal_eof(
             hf_wet, lf_wet,
             zone_labels=zone_labels,

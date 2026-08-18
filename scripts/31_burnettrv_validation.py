@@ -133,6 +133,7 @@ def main():
 
         if name == "Global":
             g = GlobalLSG(variant="max", max_eof_modes=20, eof_variance=0.99, wet_threshold=0.03)
+            g.force_n_modes = 4  # match the zonal B=4 budget for equal-capacity comparison
             g.fit(hf_tr, lf_tr, terrain, sd, sd, lf_already_interpolated=True)
             g_p = g.predict(lf_te, terrain, sd, sd, lf_already_interpolated=True)
             g_as = [area_weighted_metrics(g_p[i], hf_te[i], areas, 0.03) for i in range(n_te)]

@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 
 import numpy as np
 
-from lsg import eof
+from lsg import eof, zoning
 
 
 @dataclass
@@ -57,6 +57,14 @@ def fit_zonal_eof(
     -------
     ZonalEOFState with fitted EOF per zone
     """
+    # Respect the total-mode budget: if there are more zones than the budget,
+    # merge the smallest zones first so that the total number of retained modes
+    # can never exceed the budget.
+    if mode_budget is not None and len(set(zone_labels[active_mask])) > mode_budget:
+        zone_labels = zoning.merge_zones_to_budget(
+            zone_labels, active_mask, mode_budget
+        )
+
     unique_zones = sorted(set(zone_labels[active_mask]))
     n_zones = len(unique_zones)
 
@@ -99,31 +107,32 @@ def fit_zonal_eof(
     # Each zone gets at least 1 mode; remaining allocated by variance share
     if mode_budget is not None and len(zone_results) > 1:
         K = len(zone_results)
-        if mode_budget < K:
-            # Cannot allocate: merge smallest zones or cap at 1 per zone
-            # For fairness: allocate exactly 1 per zone (total = K)
-            allocations = [1] * K
-        else:
-            total_var = sum(zone_variances) + 1e-12
-            # Each zone gets 1 base mode
-            base = [1] * K
-            remaining = mode_budget - K
-            # Allocate remaining modes by variance share
-            var_shares = [v / total_var for v in zone_variances]
-            extra = [max(0, round(remaining * s)) for s in var_shares]
-            # Adjust to match budget exactly
-            diff = remaining - sum(extra)
-            sorted_idx = sorted(range(K), key=lambda i: extra[i] - round(remaining * var_shares[i]),
-                               reverse=True)
-            i = 0
-            while diff != 0 and i < len(sorted_idx) * 10:
-                idx = sorted_idx[i % K]
-                if diff > 0:
-                    extra[idx] += 1; diff -= 1
-                elif extra[idx] > 0:
-                    extra[idx] -= 1; diff += 1
-                i += 1
-            allocations = [b + e for b, e in zip(base, extra)]
+        # After the merge step above, K <= mode_budget is guaranteed. This
+        # branch remains as a defensive guard only.
+        assert K <= mode_budget, (
+            f"Zonal zones ({K}) exceed mode budget ({mode_budget}); "
+            "merge_zones_to_budget should have reduced the zone count"
+        )
+        total_var = sum(zone_variances) + 1e-12
+        # Each zone gets 1 base mode
+        base = [1] * K
+        remaining = mode_budget - K
+        # Allocate remaining modes by variance share
+        var_shares = [v / total_var for v in zone_variances]
+        extra = [max(0, round(remaining * s)) for s in var_shares]
+        # Adjust to match budget exactly
+        diff = remaining - sum(extra)
+        sorted_idx = sorted(range(K), key=lambda i: extra[i] - round(remaining * var_shares[i]),
+                           reverse=True)
+        i = 0
+        while diff != 0 and i < len(sorted_idx) * 10:
+            idx = sorted_idx[i % K]
+            if diff > 0:
+                extra[idx] += 1; diff -= 1
+            elif extra[idx] > 0:
+                extra[idx] -= 1; diff += 1
+            i += 1
+        allocations = [b + e for b, e in zip(base, extra)]
 
         for zr, alloc in zip(zone_results, allocations):
             alloc = min(alloc, zr.eof_result.n_components_)

@@ -174,7 +174,9 @@ def train_sparse_gp_sklearn(
     y_sc = scaler_y.fit_transform(y_train.reshape(-1, 1))
 
     kernel = RBF(length_scale=1.0) + WhiteKernel(noise_level=0.05)
-    gpr = GaussianProcessRegressor(kernel=kernel, n_restarts_optimizer=3, alpha=1e-6)
+    gpr = GaussianProcessRegressor(
+        kernel=kernel, n_restarts_optimizer=3, alpha=1e-6, random_state=42,
+    )
     gpr.fit(x_sc, y_sc.ravel())
     return SparseGPMode(model=gpr, scaler_x=scaler_x, scaler_y=scaler_y)
 

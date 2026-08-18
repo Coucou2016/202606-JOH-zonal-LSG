@@ -236,6 +236,35 @@ def channel_distance_zones(
     return labels
 
 
+def merge_zones_to_budget(
+    zone_labels: np.ndarray,
+    active_mask: np.ndarray,
+    budget: int,
+) -> np.ndarray:
+    """Merge the smallest zones into the largest until the number of active
+    zones is at most ``budget``.
+
+    Used to guarantee that a zonal model never consumes more EOF modes than its
+    global counterpart when the zoning algorithm produces more zones than the
+    retained-mode budget (e.g. rule-based zoning yielding 5 zones under B=4).
+    Zone IDs are otherwise preserved.
+    """
+    labels = zone_labels.copy()
+    active = np.asarray(active_mask, dtype=bool)
+    active_labels = labels[active]
+    while True:
+        zids = np.unique(active_labels)
+        zids = zids[zids >= 0]
+        if len(zids) <= budget:
+            break
+        counts = {int(z): int((active_labels == z).sum()) for z in zids}
+        smallest = min(counts, key=counts.get)
+        largest = max(counts, key=counts.get)
+        labels[active & (labels == smallest)] = largest
+        active_labels = labels[active]
+    return labels
+
+
 # ---------------------------------------------------------------------------
 # Zone labelling (for interpretable zone naming)
 # ---------------------------------------------------------------------------

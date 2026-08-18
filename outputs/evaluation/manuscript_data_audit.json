@@ -182,16 +182,16 @@
     },
     {
       "name": "burnett_loocv_global",
-      "expected": 1.7479,
-      "observed": 1.7479,
+      "expected": 1.7192,
+      "observed": 1.7192,
       "tol": 0.0005,
       "pass": true,
       "source": "burnettrv/loocv_results.json"
     },
     {
       "name": "burnett_loocv_rule",
-      "expected": 1.826,
-      "observed": 1.826,
+      "expected": 1.8164,
+      "observed": 1.8164,
       "tol": 0.0005,
       "pass": true,
       "source": "burnettrv/loocv_results.json"
@@ -222,8 +222,8 @@
     },
     {
       "name": "burnett12_global",
-      "expected": 1.612,
-      "observed": 1.612,
+      "expected": 1.6117,
+      "observed": 1.6117,
       "tol": 0.0005,
       "pass": true,
       "source": "burnettrv/validation_std.json"

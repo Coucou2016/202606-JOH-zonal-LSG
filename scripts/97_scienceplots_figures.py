@@ -104,9 +104,9 @@ def fig01_workflow():
         "Reconstruct max. inundation",
     ]
     steps_z = [
+        "LF interpolate to HF grid",
         "Hydrodynamic zoning (train only)",
-        "Zonal EOF",
-        "Zonal GP mapping",
+        "Zonal EOF + zonal GP mapping",
         "Stitch zonal max. surfaces",
     ]
     yg = [0.82, 0.58, 0.34, 0.10]
@@ -143,6 +143,8 @@ def fig03_mode_budget(cb: dict):
     ax.set_ylabel("Area-weighted RMSE (m)")
     ax.set_xticks(Bs)
     ax.legend(frameon=False, fontsize=7)
+    ax.annotate("7 modes\nrealized", (8, g[2]), textcoords="offset points",
+                xytext=(8, 10), fontsize=6, color="0.35", ha="center")
     save(fig, "fig03_mode_budget.png")
 
     fig, ax = plt.subplots(figsize=(W1, 2.55))
@@ -154,6 +156,9 @@ def fig03_mode_budget(cb: dict):
     ax.set_ylabel("Area-weighted CSI")
     ax.set_xticks(Bs)
     ax.legend(frameon=False, fontsize=7)
+    ax.annotate("7 modes\nrealized", (8, cb["budgets"]["8"]["global"]["csi_area"]),
+                textcoords="offset points", xytext=(8, 10), fontsize=6,
+                color="0.35", ha="center")
     save(fig, "fig09_csi_budget.png")
 
 
@@ -274,23 +279,14 @@ def fig_mae_bias(cb: dict):
 def fig_eoi(eoi_all: dict):
     cases = ["carlisle", "burnettrv", "chowilla"]
     labels = ["Carlisle", "Burnett", "Chowilla"]
-    vals, colors = [], []
+    vals = []
     for c in cases:
         rec = eoi_all.get("cases", {}).get(c)
-        if rec is None:
-            vals.append(np.nan)
-            colors.append("#888888")
-            continue
-        e = rec["pooled"]["eoi"]
-        vals.append(e)
-        colors.append("#1e7a4a" if e > 0.3 else ("#c47a12" if e > 0.15 else "#a33"))
+        vals.append(np.nan if rec is None else rec["pooled"]["eoi"])
     fig, ax = plt.subplots(figsize=(W1, 2.4))
-    ax.bar(labels, vals, color=colors, edgecolor="0.2", lw=0.4)
-    ax.axhline(0.30, color="0.4", ls="--", lw=0.7, label="High structure 0.30")
-    ax.axhline(0.15, color="0.6", ls=":", lw=0.7, label="Moderate 0.15")
+    ax.bar(labels, vals, color="#4d6a8f", edgecolor="0.2", lw=0.4)
     ax.set_ylabel("Error organization index (EOI)")
     ax.set_ylim(0, 1.05)
-    ax.legend(frameon=False, fontsize=6)
     save(fig, "fig14_eoi.png")
 
 
@@ -311,7 +307,6 @@ def fig_eoi_vs_delta(eoi_all: dict):
             continue
         ax.scatter(xs, ys, s=14, marker=markers.get(case, "o"), label=names.get(case, case), alpha=0.75)
     ax.axhline(0.0, color="0.5", lw=0.6)
-    ax.axvline(0.30, color="0.5", ls="--", lw=0.6)
     ax.set_xlabel("In-fold training EOI")
     ax.set_ylabel(r"$\Delta$RMSE (global$-$zonal, m)")
     ax.legend(frameon=False, fontsize=6)

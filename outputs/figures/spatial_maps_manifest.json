@@ -6,8 +6,8 @@
       "event_idx": 1,
       "event_id": "Run2",
       "cache": "I:\\Projects\\202606-JOH-zonal-LSG\\data\\processed\\carlisle_9events.npz",
-      "rmse_global": 0.6944543403596599,
-      "rmse_rule": 0.16624882749258107
+      "rmse_global": 0.6944544070610511,
+      "rmse_rule": 0.1662488327915445
     },
     {
       "figure": "figA2_csi_hitmiss_carlisle_ev1.png",
@@ -22,7 +22,7 @@
       "case": "carlisle",
       "event_idx": 1,
       "event_id": "Run2",
-      "residual_lim_m": 1.5406950483057804
+      "residual_lim_m": 1.540695176449475
     },
     {
       "figure": "figA4_zones_overlay_carlisle_ev1.png",
@@ -44,8 +44,8 @@
       "event_idx": 0,
       "event_id": "Run1",
       "cache": "I:\\Projects\\202606-JOH-zonal-LSG\\data\\processed\\carlisle_9events.npz",
-      "rmse_global": 0.07225079469151688,
-      "rmse_rule": 0.05674616588017585
+      "rmse_global": 0.07225080844918043,
+      "rmse_rule": 0.05712543227068069
     },
     {
       "figure": "figA2_csi_hitmiss_carlisle_ev0.png",
@@ -60,7 +60,7 @@
       "case": "carlisle",
       "event_idx": 0,
       "event_id": "Run1",
-      "residual_lim_m": 0.2521054165006624
+      "residual_lim_m": 0.252828007102733
     },
     {
       "figure": "figA4_zones_overlay_carlisle_ev0.png",
@@ -82,8 +82,8 @@
       "event_idx": 0,
       "event_id": "ev0",
       "cache": "I:\\Projects\\202606-JOH-zonal-LSG\\data\\processed\\burnettrv_30events.npz",
-      "rmse_global": 0.615053425347019,
-      "rmse_rule": 0.6236931048466104
+      "rmse_global": 0.6150534254849841,
+      "rmse_rule": 0.45645642019406024
     },
     {
       "figure": "figA2_csi_hitmiss_burnettrv_ev0.png",
@@ -91,14 +91,14 @@
       "event_idx": 0,
       "event_id": "ev0",
       "csi_global": 0.5399400650415245,
-      "csi_rule": 0.5627380100365129
+      "csi_rule": 0.6655215195450773
     },
     {
       "figure": "figA3_residuals_burnettrv_ev0.png",
       "case": "burnettrv",
       "event_idx": 0,
       "event_id": "ev0",
-      "residual_lim_m": 1.584711032672271
+      "residual_lim_m": 1.5353985885093924
     },
     {
       "figure": "figA4_zones_overlay_burnettrv_ev0.png",
@@ -120,8 +120,8 @@
       "event_idx": 0,
       "event_id": "Chow_p01",
       "cache": "I:\\Projects\\202606-JOH-zonal-LSG\\data\\processed\\chowilla_29events.npz",
-      "rmse_global": 2.5573616087270725,
-      "rmse_rule": 2.5574990806812634
+      "rmse_global": 2.5573616087231397,
+      "rmse_rule": 2.5574992374533476
     },
     {
       "figure": "figA2_csi_hitmiss_chowilla_ev0.png",
@@ -129,7 +129,7 @@
       "event_idx": 0,
       "event_id": "Chow_p01",
       "csi_global": 0.33556089636248243,
-      "csi_rule": 0.3354756654613118
+      "csi_rule": 0.33526064876605355
     },
     {
       "figure": "figA3_residuals_chowilla_ev0.png",

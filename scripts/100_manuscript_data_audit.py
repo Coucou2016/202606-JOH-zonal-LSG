@@ -162,8 +162,8 @@ def audit() -> dict[str, Any]:
     rule_sum = ((br.get("summary") or {}).get("rule") or {})
     g = rule_sum.get("mean_global_rmse")
     r = rule_sum.get("mean_zonal_rmse")
-    add("burnett_loocv_global", 1.7479, round(float(g), 4) if g is not None else None, 5e-4, "burnettrv/loocv_results.json")
-    add("burnett_loocv_rule", 1.8260, round(float(r), 4) if r is not None else None, 5e-4, "burnettrv/loocv_results.json")
+    add("burnett_loocv_global", 1.7192, round(float(g), 4) if g is not None else None, 5e-4, "burnettrv/loocv_results.json")
+    add("burnett_loocv_rule", 1.8164, round(float(r), 4) if r is not None else None, 5e-4, "burnettrv/loocv_results.json")
 
     # Chowilla / three-case — prefer budget_sweep_full (has explicit rule arm)
     ch = _load(_ROOT / "outputs/evaluation/chowilla/budget_sweep_full.json")
@@ -189,7 +189,7 @@ def audit() -> dict[str, Any]:
     bg = float(vs["global"]["rmse_area"])
     brule = float(vs["Rule_B4"]["rmse_area"])
     blf = float(vs["lf_only"]["rmse_area"])
-    add("burnett12_global", 1.6120, round(bg, 4), 5e-4, "burnettrv/validation_std.json")
+    add("burnett12_global", 1.6117, round(bg, 4), 5e-4, "burnettrv/validation_std.json")
     add("burnett12_rule", 1.6122, round(brule, 4), 5e-4, "burnettrv/validation_std.json")
     add("burnett12_lf", 2.2323, round(blf, 4), 5e-4, "burnettrv/validation_std.json")
 
