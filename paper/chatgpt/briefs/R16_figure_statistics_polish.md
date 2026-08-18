@@ -1,7 +1,7 @@
 # R16 brief — statistics & figure-polish fixes for your R15 findings (round 6)
 
 **Repo:** https://github.com/Coucou2016/202606-JOH-zonal-LSG
-**Commit under review:** `<R16_COMMIT>` (latest master, pushed)
+**Commit under review:** `cafb58b` (latest master, pushed)
 **Canonical figure↔code pack:** `paper/chatgpt/figure_code_audit_pack.md`
   → https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/paper/chatgpt/figure_code_audit_pack.md
 
