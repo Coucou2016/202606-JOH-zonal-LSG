@@ -491,6 +491,36 @@ def fig_zones_overlay(pack: dict, pred: dict, event_idx: int, tag: str) -> str:
     return name
 
 
+def _canonical_loocv_rmse(case: str, event_idx: int, budget: int = BUDGET) -> dict[str, float] | None:
+    """Return the canonical LOOCV RMSE for one held-out event from the saved
+    evaluation JSON, so figure titles quote exactly the numbers used in prose.
+
+    Carlisle stores a flat per-event record; Burnett stores nested global/rule
+    dicts. Returns None if the file or event is not found (caller falls back to
+    the freshly refit metrics).
+    """
+    try:
+        path = ROOT / "outputs" / "evaluation" / case / "loocv_results.json"
+        if not path.exists():
+            return None
+        data = json.loads(path.read_text(encoding="utf-8"))
+        for e in data.get("per_event", []):
+            if int(e.get("test_event", e.get("fold", -1))) != int(event_idx):
+                continue
+            if int(e.get("B", budget)) != int(budget):
+                continue
+            if "global_rmse" in e:
+                return {"global": float(e["global_rmse"]), "rule": float(e["zonal_rmse"])}
+            if "global" in e and "rule" in e:
+                return {
+                    "global": float(e["global"].get("rmse_area")),
+                    "rule": float(e["rule"].get("rmse_area")),
+                }
+        return None
+    except Exception:
+        return None
+
+
 def fig_obs_pred_scatter(pack: dict, pred: dict, event_idx: int, tag: str) -> str:
     name = f"figA5_obs_vs_pred_{tag}.png"
     hf = pred["hf"]
@@ -502,6 +532,8 @@ def fig_obs_pred_scatter(pack: dict, pred: dict, event_idx: int, tag: str) -> st
     rng = np.random.default_rng(42)
     if idx.size > 40_000:
         idx = rng.choice(idx, size=40_000, replace=False)
+
+    canon = _canonical_loocv_rmse(pack["case"], event_idx)
 
     fig, axes = plt.subplots(1, 2, figsize=(W2, W2 * 0.45))
     fields = {"global": pred["global"], "rule": pred["rule"]}
@@ -518,8 +550,14 @@ def fig_obs_pred_scatter(pack: dict, pred: dict, event_idx: int, tag: str) -> st
         ax.set_aspect("equal")
         ax.set_xlabel("HF observed depth (m)")
         ax.set_ylabel("Predicted depth (m)")
-        met = pred["metrics"][key]
-        ax.set_title(f"{title}\nall-cell area-wtd RMSE={met['rmse_area']:.3f} m", fontsize=8)
+        # Quote the canonical LOOCV RMSE (identical to prose) when available;
+        # otherwise fall back to the freshly refit area-weighted metric.
+        if canon is not None:
+            rmse = canon[key]
+            ax.set_title(f"{title}\ncanonical LOOCV all-cell area-wtd RMSE={rmse:.3f} m", fontsize=8)
+        else:
+            met = pred["metrics"][key]
+            ax.set_title(f"{title}\nall-cell area-wtd RMSE={met['rmse_area']:.3f} m", fontsize=8)
         ax.legend(frameon=False, fontsize=7, loc="upper left")
     eid = pack["event_ids"][event_idx]
     fig.suptitle(
@@ -533,6 +571,7 @@ def fig_obs_pred_scatter(pack: dict, pred: dict, event_idx: int, tag: str) -> st
         "event_idx": event_idx,
         "event_id": eid,
         "n_scatter_points": int(idx.size),
+        "rmse_source": "canonical" if canon is not None else "refit",
     })
     return name
 

@@ -262,6 +262,15 @@ def merge_zones_to_budget(
         largest = max(counts, key=counts.get)
         labels[active & (labels == smallest)] = largest
         active_labels = labels[active]
+
+    # Re-map active zone IDs to a contiguous 0..K-1 range so that any IDs
+    # dropped by the merge above do not leave "ghost" entries in downstream
+    # visuals (e.g. a zone colorbar showing an empty, merged-away zone ID).
+    unique_active = sorted(int(z) for z in np.unique(active_labels) if z >= 0)
+    if unique_active != list(range(len(unique_active))):
+        remap = {old_id: new_id for new_id, old_id in enumerate(unique_active)}
+        for old_id, new_id in remap.items():
+            labels[active & (labels == old_id)] = new_id
     return labels
 
 

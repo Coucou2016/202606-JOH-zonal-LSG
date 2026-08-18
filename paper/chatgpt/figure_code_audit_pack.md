@@ -1,7 +1,7 @@
 # Figure ↔ Code Correspondence Audit Pack (for ChatGPT visual + code review)
 
 **Repo:** https://github.com/Coucou2016/202606-JOH-zonal-LSG
-**Commit under review:** `bbdb46d` (latest master; figures + numbers as of R13 sync)
+**Commit under review:** `e8d012a` (latest master; figures + numbers as of R14 sync)
 **Manuscript:** https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/paper/manuscript.md
 
 This pack pairs every manuscript figure with (a) the figure image, (b) the exact

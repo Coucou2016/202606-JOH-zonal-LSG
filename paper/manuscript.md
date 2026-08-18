@@ -135,9 +135,9 @@ The difference persists at \(B=6\), although both global and zonal RMSE increase
 
 The corresponding CSI results show a different pattern. LF-only CSI is 0.9145, higher than the LSG values at \(B=4\), and no comparable zonal advantage is evident in inundation extent (Figure 3). The RMSE reduction is therefore primarily a water-depth improvement rather than an improvement in wet-dry classification. The MAE and bias results show the same general separation between the global and zonal depth predictions (Figure 4). A notable feature of the bias curves is that Global LSG-Max at \(B=4\) carries a systematic positive bias of +0.047 m, whereas Rule zonal bias is 0.001 m, effectively unbiased. At \(B=6\), the global bias reverses to \(-0.064\) m, while Rule zonal bias stays modest at +0.018 m. The zonal configuration therefore reduces the systematic depth bias in addition to RMSE.
 
-![Figure 3. Carlisle area-weighted CSI versus retained-mode budget using a 0.03 m wet-depth threshold.](../outputs/figures/fig09_csi_budget.png)
+![Figure 3. Carlisle area-weighted CSI versus retained-mode budget using a 0.03 m wet-depth threshold. As in Figure 2, the nominal \(B=8\) global point realized seven modes.](../outputs/figures/fig09_csi_budget.png)
 
-![Figure 4. Carlisle area-weighted MAE and bias versus retained-mode budget.](../outputs/figures/fig13_mae_bias.png)
+![Figure 4. Carlisle area-weighted MAE and bias versus retained-mode budget. As in Figure 2, the nominal \(B=8\) global point realized seven modes.](../outputs/figures/fig13_mae_bias.png)
 
 ### 4.2. Event-to-event consistency and spatial error patterns
 
@@ -149,17 +149,17 @@ The official two-fold analysis gives a smaller and more uncertain difference. It
 
 ![Figure 6. Carlisle held-out RMSE for Global and Rule LSG-Max at \(B=4\). Points below the 1:1 line favour Rule zoning.](../outputs/figures/fig11_loocv_scatter.png)
 
-![Figure 7. Bootstrap confidence intervals for the mean paired \(\Delta\mathrm{RMSE}\) in Carlisle and Burnett. Positive values favour zoning.](../outputs/figures/fig12_stat_ci.png)
+![Figure 7. 95% bootstrap confidence intervals for the mean paired \(\Delta\mathrm{RMSE}\) in Carlisle and Burnett. Positive values favour zoning.](../outputs/figures/fig12_stat_ci.png)
 
 The largest global error occurs when Carlisle event index 1 (Run2) is held out. On this fold, area-weighted RMSE is 0.233 m for LF-only, 0.695 m for Global LSG-Max, and 0.167 m for Rule zoning. The maximum-depth maps show that the global reconstruction produces broad depth errors across the floodplain, whereas the Rule prediction remains closer to the HF field (Figure 8).
 
-![Figure 8. Carlisle Run2 held-out maximum-depth fields for HF, LF, Global LSG-Max, and Rule zonal LSG-Max under \(B=4\) LOOCV. All panels use a common depth scale.](../outputs/figures/figA1_inundation_maps_carlisle_ev1.png)
+![Figure 8. Carlisle Run2 held-out maximum-depth fields for HF, LF, Global LSG-Max, and Rule zonal LSG-Max under \(B=4\) LOOCV. All panels use a common depth scale capped at the pooled 99th percentile of wet-cell depth for display.](../outputs/figures/figA1_inundation_maps_carlisle_ev1.png)
 
 The wet-dry comparison for the same fold gives CSI values of 0.591 for Global and 0.816 for Rule. Most of the difference is associated with fewer false alarms in the zonal prediction (Figure 9). Residual maps show a broad positive depth error in the global prediction that is substantially reduced by Rule zoning over much of the wet floodplain (Figure 10). The train-only zone map and the cell-level observed-predicted comparison provide complementary views of the same fold (Figures 11 and 12).
 
 ![Figure 9. Carlisle Run2 hit, miss, and false-alarm maps for Global and Rule predictions using the 0.03 m wet-depth threshold.](../outputs/figures/figA2_csi_hitmiss_carlisle_ev1.png)
 
-![Figure 10. Carlisle Run2 residual fields for Global and Rule predictions and the corresponding change in absolute error.](../outputs/figures/figA3_residuals_carlisle_ev1.png)
+![Figure 10. Carlisle Run2 residual fields for Global and Rule predictions and the corresponding change in absolute error; colour limits are symmetric and capped at the 98th percentile of wet-cell absolute residual magnitude.](../outputs/figures/figA3_residuals_carlisle_ev1.png)
 
 ![Figure 11. Train-only Rule zones for the Carlisle Run2 fold and their spatial relation to the HF depth field.](../outputs/figures/figA4_zones_overlay_carlisle_ev1.png)
 
@@ -233,7 +233,7 @@ Several secondary analyses were used to check whether the primary Carlisle resul
 
 LF coarsening and channel-distance zoning were also examined as secondary robustness probes. The coarsening experiment retains the separation between Global and Rule over the tested LF grid factors (Figure 17). Adding channel-distance information changes the zonal result only modestly relative to the primary Rule partition (Table 6). These analyses support the interpretation of the Carlisle result as a spatial-representation effect under the tested settings, but they are not used to extend the main claim beyond the matched-capacity comparisons.
 
-![Figure 17. Carlisle LF-grid coarsening sensitivity for LF-only, Global LSG, and Rule zonal LSG.](../outputs/figures/fig17_lf_degradation.png)
+![Figure 17. Carlisle LF-grid coarsening sensitivity for LF-only, Global LSG, and Rule zonal LSG. The factor-1 point is an independently refitted uncoarsened baseline.](../outputs/figures/fig17_lf_degradation.png)
 
 **Table 6.** Carlisle channel-distance zoning sensitivity at \(B=4\). Rule+channel dist. and KMeans+dist. include distance to the main channel as an additional zoning feature. The Rule and Global values are the primary \(B=4\) matched-capacity results.
 

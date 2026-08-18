@@ -29,14 +29,15 @@
       "case": "carlisle",
       "event_idx": 1,
       "event_id": "Run2",
-      "n_zones": 5
+      "n_zones": 4
     },
     {
       "figure": "figA5_obs_vs_pred_carlisle_ev1.png",
       "case": "carlisle",
       "event_idx": 1,
       "event_id": "Run2",
-      "n_scatter_points": 40000
+      "n_scatter_points": 40000,
+      "rmse_source": "canonical"
     },
     {
       "figure": "figA1_inundation_maps_carlisle_ev0.png",
@@ -67,14 +68,15 @@
       "case": "carlisle",
       "event_idx": 0,
       "event_id": "Run1",
-      "n_zones": 5
+      "n_zones": 4
     },
     {
       "figure": "figA5_obs_vs_pred_carlisle_ev0.png",
       "case": "carlisle",
       "event_idx": 0,
       "event_id": "Run1",
-      "n_scatter_points": 40000
+      "n_scatter_points": 40000,
+      "rmse_source": "canonical"
     },
     {
       "figure": "figA1_inundation_maps_burnettrv_ev0.png",
@@ -105,14 +107,15 @@
       "case": "burnettrv",
       "event_idx": 0,
       "event_id": "ev0",
-      "n_zones": 5
+      "n_zones": 4
     },
     {
       "figure": "figA5_obs_vs_pred_burnettrv_ev0.png",
       "case": "burnettrv",
       "event_idx": 0,
       "event_id": "ev0",
-      "n_scatter_points": 40000
+      "n_scatter_points": 40000,
+      "rmse_source": "canonical"
     },
     {
       "figure": "figA1_inundation_maps_chowilla_ev0.png",
@@ -143,14 +146,15 @@
       "case": "chowilla",
       "event_idx": 0,
       "event_id": "Chow_p01",
-      "n_zones": 5
+      "n_zones": 4
     },
     {
       "figure": "figA5_obs_vs_pred_chowilla_ev0.png",
       "case": "chowilla",
       "event_idx": 0,
       "event_id": "Chow_p01",
-      "n_scatter_points": 40000
+      "n_scatter_points": 40000,
+      "rmse_source": "refit"
     }
   ],
   "skipped": [],
