@@ -1,7 +1,7 @@
 # Figure ↔ Code Correspondence Audit Pack (for ChatGPT visual + code review)
 
 **Repo:** https://github.com/Coucou2016/202606-JOH-zonal-LSG
-**Commit under review:** `dd010a0`
+**Commit under review:** `0f9dc22`
 **Manuscript:** https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/paper/manuscript.md
 
 This pack pairs every manuscript figure with (a) the figure image, (b) the exact
@@ -174,7 +174,7 @@ in Carlisle and Burnett. Positive values favour zoning.
 
 **Data:** Carlisle B=4 mean 0.0821 CI [0.0155, 0.1987]; B=6 mean 0.0606 CI
 [0.0032, 0.1618]; official 2-fold mean 0.0045 CI [−0.0073, 0.0134]; Burnett
-30-fold mean −0.0781 CI [−0.2116, 0.0405].
+30-fold mean −0.0972 CI [−0.2249, +0.0014].
 
 ---
 
@@ -245,7 +245,7 @@ the held-out Carlisle Run2 event.
 
 ![Figure 13](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/fig10_burnett_loocv.png)
 
-**Data:** mean Global 1.7479, mean Rule 1.8260, Δ = −0.0781, 6/30 folds improved.
+**Data:** mean Global 1.7192, mean Rule 1.8164, Δ = −0.0972, 13/30 folds improved.
 
 ---
 
@@ -258,7 +258,7 @@ separate from the 30-fold LOOCV analysis in Figure 13.
 ![Figure 14](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/fig04_three_case.png)
 
 **Data:** Carlisle LF 0.1602/Global 0.1464/Rule 0.0964; Chowilla 0.3926/2.5606/2.5614;
-Burnett 2.2323/1.6120/1.6122.
+Burnett 2.2323/1.6117/1.6122.
 
 ---
 
@@ -268,8 +268,9 @@ Burnett 2.2323/1.6120/1.6122.
 
 ![Figure 15](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/fig14_eoi.png)
 
-**Data:** Carlisle 0.057, Chowilla 0.116, Burnett 0.957. Color thresholds: >0.30
-green "High", 0.15–0.30 amber, <0.15 red.
+**Data:** Carlisle 0.057, Chowilla 0.116, Burnett 0.957. Bars use a uniform
+colour; EOI is presented as an exploratory diagnostic with no calibrated
+threshold (the 0.15/0.30 reference lines were removed).
 
 ---
 
