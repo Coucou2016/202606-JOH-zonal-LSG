@@ -278,13 +278,14 @@ def fig_stat_ci(car_b4, car_b6, official: dict, burn: dict):
     ax.errorbar(means, y, xerr=xerr, fmt="o", capsize=2.5, markersize=4)
     ax.axvline(0.0, color="0.4", lw=0.7, ls="--")
     for yy, m, l, h in zip(y, means, lo, hi):
-        ax.text(m, yy, f"  {m:+.3f}  [{l:+.3f}, {h:+.3f}]",
-                va="center", ha="left", fontsize=6, color="0.25")
+        ax.text(m, yy + 0.3, f"{m:+.3f}  [{l:+.3f}, {h:+.3f}]",
+                va="bottom", ha="left", fontsize=6, color="0.25")
     ax.set_yticks(y)
     ax.set_yticklabels(names)
     ax.set_xlabel(r"Mean $\Delta$RMSE (m)  (global $-$ zonal; $>0$ zonal better)")
-    xmax = 1.15 * max(abs(v) for v in means + lo + hi)
+    xmax = 1.55 * max(abs(v) for v in means + lo + hi)
     ax.set_xlim(-xmax, xmax)
+    ax.set_ylim(-0.7, len(names) - 0.5 + 1.1)
     save(fig, "fig12_stat_ci.png")
 
 

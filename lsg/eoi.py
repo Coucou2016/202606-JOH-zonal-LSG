@@ -18,17 +18,8 @@ from lsg.spatial import wet_cell_mask
 from lsg.zoning import rule_based_zones
 
 
-# Descriptive bins only — not validated decision thresholds for zoning.
-EOI_HIGH = 0.30
-EOI_MODERATE = 0.15
-
-
-def interpret_eoi(eoi: float) -> str:
-    if eoi > EOI_HIGH:
-        return "HIGH_structured_residual"
-    if eoi > EOI_MODERATE:
-        return "MODERATE_partially_structured"
-    return "LOW_diffuse_residual"
+# EOI is an exploratory diagnostic only. No calibrated thresholds are defined:
+# the value is reported as a continuous quantity and is never used as a switch.
 
 
 def compute_eoi(
@@ -78,7 +69,7 @@ def compute_eoi(
         between_zone_var=between,
         total_var=total_var,
         n_zones=len(zone_ids),
-        interpretation=interpret_eoi(eoi),
+        interpretation="exploratory_diagnostic_no_threshold",
     )
     return out
 

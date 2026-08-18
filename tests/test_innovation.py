@@ -3,7 +3,7 @@ import numpy as np
 import pytest
 
 from lsg.adaptive_resolution import coarsen_unstructured_mesh
-from lsg.eoi import compute_eoi, eoi_from_max_surfaces, interpret_eoi
+from lsg.eoi import compute_eoi, eoi_from_max_surfaces
 from lsg.fraehr_metrics import (
     convert_depth_to_binary,
     fidelity_index,
@@ -22,7 +22,7 @@ def test_eoi_high_when_zones_separated():
     labels = np.concatenate([np.zeros(100, dtype=int), np.ones(100, dtype=int)])
     out = compute_eoi(resid, labels)
     assert out["eoi"] > 0.9
-    assert interpret_eoi(out["eoi"]).startswith("HIGH")
+    assert out["interpretation"] == "exploratory_diagnostic_no_threshold"
 
 
 def test_eoi_low_when_residual_is_noise():

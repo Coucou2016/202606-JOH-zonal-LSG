@@ -117,9 +117,9 @@ Carlisle is evaluated primarily by event leave-one-out cross-validation (LOOCV).
 \mathrm{RMSE}_{\mathrm{zonal}},
 \]
 
-so positive values favour zoning. A percentile bootstrap confidence interval is calculated for the mean paired difference by resampling the nine event-level differences with replacement. The calculation uses 10,000 bootstrap replicates and seed 42. The same procedure is applied to the \(B=6\) Carlisle result. The official two-fold benchmark split is retained as a separate sensitivity analysis because it contains much less event-level information than the nine-fold LOOCV.
+so positive values favour zoning. A percentile bootstrap confidence interval is calculated for the mean paired difference by resampling the nine event-level differences with replacement. The calculation uses 10,000 bootstrap replicates and seed 42. The same procedure is applied to the \(B=6\) Carlisle result. The official two-fold benchmark split is retained as a separate sensitivity analysis because it contains much less event-level information than the nine-fold LOOCV; for this split, the bootstrap resamples the four held-out event-level differences (two per fold) with replacement.
 
-Burnett is evaluated with 30-fold event LOOCV at \(B=4\). The 12-event Burnett result shown in the three-case comparison is a separate fixed-split calculation and is not combined with the 30-fold statistics. Representative spatial maps are drawn from held-out events and are used to illustrate error patterns rather than to estimate pooled performance.
+Burnett is evaluated with 30-fold event LOOCV at \(B=4\), with the same 10,000-replicate, seed-42 percentile bootstrap applied to the thirty fold-level paired differences. The 12-event Burnett result shown in the three-case comparison is a separate fixed-split calculation and is not combined with the 30-fold statistics. Representative spatial maps are drawn from held-out events and are used to illustrate error patterns rather than to estimate pooled performance.
 
 ---
 
@@ -137,7 +137,7 @@ The corresponding CSI results show a different pattern. LF-only CSI is 0.9145, h
 
 ![Figure 3. Carlisle area-weighted CSI versus retained-mode budget using a 0.03 m wet-depth threshold. As in Figure 2, the nominal \(B=8\) global point realized seven modes.](../outputs/figures/fig09_csi_budget.png)
 
-![Figure 4. Carlisle area-weighted MAE and bias versus retained-mode budget. As in Figure 2, the nominal \(B=8\) global point realized seven modes.](../outputs/figures/fig13_mae_bias.png)
+![Figure 4. Carlisle area-weighted (a) MAE and (b) bias versus retained-mode budget. As in Figure 2, the nominal \(B=8\) global point realized seven modes.](../outputs/figures/fig13_mae_bias.png)
 
 ### 4.2. Event-to-event consistency and spatial error patterns
 
@@ -159,11 +159,11 @@ The wet-dry comparison for the same fold gives CSI values of 0.591 for Global an
 
 ![Figure 9. Carlisle Run2 hit, miss, and false-alarm maps for Global and Rule predictions using the 0.03 m wet-depth threshold.](../outputs/figures/figA2_csi_hitmiss_carlisle_ev1.png)
 
-![Figure 10. Carlisle Run2 residual fields for Global and Rule predictions and the corresponding change in absolute error; colour limits are symmetric and capped at the 98th percentile of wet-cell absolute residual magnitude.](../outputs/figures/figA3_residuals_carlisle_ev1.png)
+![Figure 10. Carlisle Run2 residual fields for Global and Rule predictions (a, b) and the change in absolute error \(|G-HF| - |R-HF|\) (c), where positive values indicate that the Rule absolute error is smaller; colour limits are symmetric and capped at the 98th percentile of wet-cell absolute residual magnitude.](../outputs/figures/figA3_residuals_carlisle_ev1.png)
 
 ![Figure 11. Train-only Rule zones for the Carlisle Run2 fold and their spatial relation to the HF depth field.](../outputs/figures/figA4_zones_overlay_carlisle_ev1.png)
 
-![Figure 12. Wet-cell observed and predicted depths for Global and Rule LSG-Max on the held-out Carlisle Run2 event. Points are a seed-42 random subsample of the wet cells (at most 40,000); the RMSE quoted in each panel title is the canonical LOOCV all-cell area-weighted value, not a statistic of the displayed subsample.](../outputs/figures/figA5_obs_vs_pred_carlisle_ev1.png)
+![Figure 12. Wet-cell observed and predicted depths for Global and Rule LSG-Max on the held-out Carlisle Run2 event. Points are a seed-42 random subsample of the HF wet cells (depth \(\ge 0.03\) m, at most 40,000); the RMSE quoted in each panel title is the canonical LOOCV all-cell area-weighted value, not a statistic of the displayed subsample.](../outputs/figures/figA5_obs_vs_pred_carlisle_ev1.png)
 
 A less extreme Carlisle fold, event 0 (Run1), gives RMSE values of approximately 0.074, 0.072, and 0.057 m for LF-only, Global, and Rule, respectively. The spatial differences are correspondingly smaller. The same qualitative map checks were also applied to the transfer cases: Burnett event 0 shows little separation between Global and Rule, while Chowilla event 0 shows both LSG predictions farther from HF than the LF field alone.
 
@@ -189,7 +189,7 @@ The fixed-split three-case comparison gives a related but distinct view (Table 2
 
 The max-surface EOI values are 0.057 for Carlisle, 0.116 for Chowilla, and 0.957 for Burnett (Figure 15). This ordering does not match the observed zoning benefit. Carlisle has the lowest EOI and the clearest matched-capacity improvement, whereas Burnett has the highest EOI and no Rule advantage in the 30-fold analysis. The fold-level comparison in Figure 16 gives the same qualitative result. EOI therefore does not provide a useful first-order ranking of zoning benefit for these cases. This finding is limited to the diagnostic tested here and does not rule out other training-data indicators.
 
-![Figure 15. Max-surface error-organization index for Carlisle, Burnett, and Chowilla.](../outputs/figures/fig14_eoi.png)
+![Figure 15. Max-surface error-organization index (EOI) for Carlisle, Burnett, and Chowilla. EOI is the ratio of the unweighted across-zone-mean residual variance to the cellwise residual variance and is not by construction bounded by [0,1].](../outputs/figures/fig14_eoi.png)
 
 ![Figure 16. In-fold training EOI and matched-capacity zoning \(\Delta\mathrm{RMSE}\) for Carlisle and Burnett folds. Positive \(\Delta\mathrm{RMSE}\) favours zoning.](../outputs/figures/fig15_eoi_vs_delta.png)
 

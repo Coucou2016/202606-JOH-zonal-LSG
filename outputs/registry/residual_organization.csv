@@ -1,4 +1,4 @@
 case,n_events,between_zone_var,total_var,EOI,n_zones,interpretation
-burnettrv,30,2.170766,2.268912,0.957,4,HIGH_structured_residual
-chowilla,29,0.014846,0.128003,0.116,4,LOW_diffuse_residual
-carlisle,9,0.000631,0.011028,0.057,3,LOW_diffuse_residual
+burnettrv,30,2.170766,2.268912,0.957,4,exploratory_diagnostic_no_threshold
+chowilla,29,0.014846,0.128003,0.116,4,exploratory_diagnostic_no_threshold
+carlisle,9,0.000631,0.011028,0.057,3,exploratory_diagnostic_no_threshold

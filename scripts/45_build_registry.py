@@ -335,7 +335,7 @@ else:
 
     print(f"\nResidual Organization Index (Carlisle):")
     print(f"  Zones: {len(zone_ids)}, Between-zone var: {between_var:.6f}, Total var: {total_var:.6f}")
-    print(f"  EOI = {EOI:.3f} -> {'HIGH - zonal EOF likely beneficial' if EOI > 0.3 else 'LOW'}")
+    print(f"  EOI = {EOI:.3f} (exploratory diagnostic; no threshold)")
     for z in zone_ids:
         n = (zone_labels[active] == z).sum()
         m = np.mean(mean_resid[active][zone_labels[active] == z])
@@ -345,7 +345,7 @@ else:
         w = csv.writer(f)
         w.writerow(["case", "between_zone_var", "total_var", "EOI", "n_zones", "interpretation"])
         w.writerow(["Carlisle", f"{between_var:.6f}", f"{total_var:.6f}", f"{EOI:.3f}", len(zone_ids),
-                    "HIGH_structured_residual" if EOI > 0.3 else "LOW_diffuse_residual"])
+                    "exploratory_diagnostic_no_threshold"])
     print("EOI saved")
 
 # ---- Final summary for report ----

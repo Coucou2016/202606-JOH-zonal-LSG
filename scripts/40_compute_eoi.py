@@ -21,7 +21,7 @@ import numpy as np
 _ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_ROOT))
 
-from lsg.eoi import eoi_from_max_surfaces, eoi_loocv_folds, interpret_eoi
+from lsg.eoi import eoi_from_max_surfaces, eoi_loocv_folds
 from lsg.experiment import jsonable
 from lsg.fraehr import (
     load_burnett_max_pack,
@@ -145,7 +145,7 @@ def main():
     print("Saved", CSV)
     for case, rec in payload["cases"].items():
         p_ = rec["pooled"]
-        print(f"  {case}: EOI={p_['eoi']:.3f} {interpret_eoi(p_['eoi'])}")
+        print(f"  {case}: EOI={p_['eoi']:.3f} {p_['interpretation']}")
 
 
 if __name__ == "__main__":
