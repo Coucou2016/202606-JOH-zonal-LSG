@@ -2,9 +2,9 @@
 
 **Repo:** https://github.com/Coucou2016/202606-JOH-zonal-LSG
 **Figure/data baseline:** `60b2e18` (figures + numbers, unchanged since R19)
-**Manuscript revision:** this commit (R21 wording)
-**Audit-pack revision:** this commit (R21 pack body)
-**Manuscript:** https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/60b2e18/paper/manuscript.md
+**Manuscript revision:** `e608559` (R21 wording)
+**Audit-pack revision:** `e608559` (R21 pack body)
+**Manuscript:** https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/e608559/paper/manuscript.md
 
 This pack pairs every manuscript figure with (a) the figure image, (b) the exact
 generating code, and (c) the underlying data values, so you can do a **visual
