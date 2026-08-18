@@ -148,10 +148,10 @@ EOI = Var(zone-mean |LF-HF|) / Var(cellwise |LF-HF|)
 
 | 论文中的数字 | 来源 | 审计 |
 |---|---|---|
-| Global mean RMSE = 1.7479 m | `loocv_results.json` → `summary.rule.mean_global_rmse` | PASS |
-| Rule mean RMSE = 1.8260 m | `loocv_results.json` → `summary.rule.mean_zonal_rmse` | PASS |
-| Mean ΔRMSE = -0.0781 m | `loocv_results.json` → `summary.rule.mean_delta_rmse` | PASS |
-| Improved 6/30 folds | `loocv_results.json` → `summary.rule.n_improved` | PASS |
+| Global mean RMSE = 1.7192 m | `loocv_results.json` → `summary.rule.mean_global_rmse` | PASS |
+| Rule mean RMSE = 1.8164 m | `loocv_results.json` → `summary.rule.mean_zonal_rmse` | PASS |
+| Mean ΔRMSE = -0.0972 m | `loocv_results.json` → `summary.rule.mean_delta_rmse` | PASS |
+| Improved 13/30 folds | `loocv_results.json` → `summary.rule.n_improved` | PASS |
 
 ### 3.7 三案例对照表
 
@@ -166,8 +166,8 @@ EOI = Var(zone-mean |LF-HF|) / Var(cellwise |LF-HF|)
 | Chowilla Global = 2.5606 m | `budget_sweep_full.json` → `budgets.4.global.rmse_area` | PASS |
 | Chowilla Rule = 2.5614 m | `budget_sweep_full.json` → `budgets.4.rule.rmse_area` | PASS |
 | Burnett12 LF-only = 2.2323 m | `validation_std.json` → `lf_only.rmse_area` | PASS |
-| Burnett12 Global = 1.6120 m | `validation_std.json` → `global.rmse_area` | PASS |
-| Burnett12 Rule = 1.6122 m | `validation_std.json` → `rule.rmse_area` | PASS |
+| Burnett12 Global = 1.6117 m | `validation_std.json` → `global.rmse_area` | PASS |
+| Burnett12 Rule = 1.6122 m | `validation_std.json` → `Rule_B4.rmse_area` | PASS |
 
 ### 3.8 几何数据（Table 1）
 

@@ -71,7 +71,7 @@ for tag in ["global", "KMeans_B4", "Rule_B4", "Rule_B8"]:
             case="BurnettRV", events_used=_bv_n, events_available=74,
             split_type="random_10_2", fold_id="fold_a",
             model=tag, zoning="none" if tag == "global" else tag.split("_")[0],
-            B_requested=4 if "B4" in tag else (8 if "B8" in tag else "auto"),
+            B_requested=8 if "B8" in tag else 4,
             modes_actual=d.get("total_modes", d.get("n_modes", "?")),
             area_weighted=True, leakage_audit="PENDING",
             gp_backend="sklearn_GPR", lf_data_type="real_HDF5",

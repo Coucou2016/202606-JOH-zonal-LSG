@@ -17,12 +17,12 @@ Chowilla,12,31,random_10_2,fold_a,rule,rule,8,unknown,True,PENDING,sklearn_GPR,r
 Chowilla,12,31,random_10_2,fold_a,global,none,12,unknown,True,PENDING,sklearn_GPR,real_HDF5,2.5607,0.2678,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real; LF quality boundary."
 Chowilla,12,31,random_10_2,fold_a,kmeans,kmeans,12,unknown,True,PENDING,sklearn_GPR,real_HDF5,2.5642,0.2649,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real; LF quality boundary."
 Chowilla,12,31,random_10_2,fold_a,rule,rule,12,unknown,True,PENDING,sklearn_GPR,real_HDF5,2.5622,0.2619,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real; LF quality boundary."
-BurnettRV,12,74,random_10_2,fold_a,global,none,auto,3,True,PENDING,sklearn_GPR,real_HDF5,1.612,0.6312,partial_12of74,RMSE from validation_std.json (12-event single split). Event LOOCV: scripts/32_burnettrv_loocv.py.
+BurnettRV,12,74,random_10_2,fold_a,global,none,4,4,True,PENDING,sklearn_GPR,real_HDF5,1.6117,0.6317,partial_12of74,RMSE from validation_std.json (12-event single split). Event LOOCV: scripts/32_burnettrv_loocv.py.
 BurnettRV,12,74,random_10_2,fold_a,KMeans_B4,KMeans,4,4,True,PENDING,sklearn_GPR,real_HDF5,1.6122,0.6307,partial_12of74,RMSE from validation_std.json (12-event single split). Event LOOCV: scripts/32_burnettrv_loocv.py.
 BurnettRV,12,74,random_10_2,fold_a,Rule_B4,Rule,4,4,True,PENDING,sklearn_GPR,real_HDF5,1.6122,0.6307,partial_12of74,RMSE from validation_std.json (12-event single split). Event LOOCV: scripts/32_burnettrv_loocv.py.
 BurnettRV,12,74,random_10_2,fold_a,Rule_B8,Rule,8,8,True,PENDING,sklearn_GPR,real_HDF5,1.6158,0.6263,partial_12of74,RMSE from validation_std.json (12-event single split). Event LOOCV: scripts/32_burnettrv_loocv.py.
-BurnettRV,30,74,loocv_event,loocv,global_loocv,none,4,4,True,PENDING,sklearn_GPR,real_HDF5,1.7479,,loocv_30,Mean over 30 LOOCV folds. Rule dRMSE=-0.0781; improved 6/30; significant=False.
-BurnettRV,30,74,loocv_event,loocv,rule_loocv,rule,4,4,True,PENDING,sklearn_GPR,real_HDF5,1.826,,loocv_30,Mean Rule RMSE over 30 folds from burnettrv_30events.npz.
+BurnettRV,30,74,loocv_event,loocv,global_loocv,none,4,4,True,PENDING,sklearn_GPR,real_HDF5,1.7192,,loocv_30,Mean over 30 LOOCV folds. Rule dRMSE=-0.0972; improved 13/30; significant=False.
+BurnettRV,30,74,loocv_event,loocv,rule_loocv,rule,4,4,True,PENDING,sklearn_GPR,real_HDF5,1.8164,,loocv_30,Mean Rule RMSE over 30 folds from burnettrv_30events.npz.
 Carlisle,9,9,official_loocv_event,official,global_official,none,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5,0.1802,0.8688,complete,Official 9-fold LSG-Max. MaxWD_R2=0.9149.
 Carlisle,9,9,official_loocv_event,official,rule_official,rule,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5,0.0982,0.9054,complete,Official 9-fold LSG-Max. MaxWD_R2=0.9883.
 Carlisle,9,9,official_loocv_event,official,kmeans_official,kmeans,4,4,True,CLEAN_PASS,sklearn_GPR,real_HDF5,0.1233,0.8923,complete,Official 9-fold LSG-Max. MaxWD_R2=0.9761.

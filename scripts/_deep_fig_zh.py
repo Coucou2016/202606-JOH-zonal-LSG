@@ -165,7 +165,7 @@ def deep_explains(d: dict) -> dict[str, str]:
 <li>Carlisle B=4：[{fmt(L4['ci'][0])}, {fmt(L4['ci'][1])}]，不含 0，{L4['improved']}/{L4['n']} 折改善。</li>
 <li>Carlisle B=6：[{fmt(L6['ci'][0])}, {fmt(L6['ci'][1])}]，仍显著但均值更小。</li>
 <li>官方 2 折：均值 {fmt(official['mean_delta_rmse'])}，区间 [{fmt(official['ci_95_lower'])}, {fmt(official['ci_95_upper'])}]，跨 0，significant=false。</li>
-<li>Burnett 30 折：均值 {fmt(bloo['mean_delta_rmse'])}，区间跨 0，仅 6/30 折分区更好。</li>
+<li>Burnett 30 折：均值 {fmt(bloo['mean_delta_rmse'])}，区间跨 0，仅 {bloo['n_improved']}/{bloo['n_folds']} 折分区更好。</li>
 </ul></p>
 <p><strong>（d）结论。</strong>可辩护的主声称是 Carlisle 事件级 9 折；官方 2 折与 Burnett 不得改写成“也显著”。</p>
 <p><strong>（e）日常语言。</strong>像四场比赛的净胜分：前两场稳定赢且置信区间不碰平局线；后两场可能略赢或略输，但统计上分不清。</p>
@@ -182,7 +182,7 @@ def deep_explains(d: dict) -> dict[str, str]:
     out["fig10_burnett_loocv.png"] = f"""
 <p><strong>（a）作用。</strong>负例主图：高一阶 EOI（{eoi_bmax:.3f}）并不保证等预算分区获益。</p>
 <p><strong>（b）读法。</strong>对照 Carlisle 图 6：这里两条线应纠缠而非系统分离。纵轴到数米是洪水尺度使然。</p>
-<p><strong>（c）数值。</strong>30 折均值：全局 {fmt(bloo['mean_global_rmse'])} m，规则 {fmt(bloo['mean_zonal_rmse'])} m，Δ={fmt(bloo['mean_delta_rmse'])} m（负=分区更差），6/30 折，区间含 0。</p>
+<p><strong>（c）数值。</strong>30 折均值：全局 {fmt(bloo['mean_global_rmse'])} m，规则 {fmt(bloo['mean_zonal_rmse'])} m，Δ={fmt(bloo['mean_delta_rmse'])} m（负=分区更差），{bloo['n_improved']}/{bloo['n_folds']} 折，区间含 0。</p>
 <p><strong>（d）结论。</strong>高 EOI 在此度量的是 LF 系统性偏移的空间组织；Burnett 表明强组织残差不足以保证等预算分区收益，现有诊断<strong>未唯一识别</strong>原因。一阶 EOI 不能当分区开关。</p>
 <p><strong>（e）日常语言。</strong>误差虽然“成块”，但每块错得太深、样本又被切碎，分区反而帮倒忙或无益。</p>
 """

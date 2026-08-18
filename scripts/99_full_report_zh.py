@@ -584,12 +584,12 @@ def build(data: dict) -> tuple[str, str, list[str], list[str]]:
     vs = d["burnett_std"]
     t10_r = [
         ["仅用 LF", fmt(vs["lf_only"]["rmse_area"]), fmt(vs["lf_only"]["csi_area"]), "0", "12 事件单次划分基线"],
-        ["全局", fmt(vs["global"]["rmse_area"]), fmt(vs["global"]["csi_area"]), str(vs["global"]["n_modes"]), "自动选模态，实际为 3"],
+        ["全局", fmt(vs["global"]["rmse_area"]), fmt(vs["global"]["csi_area"]), str(vs["global"]["n_modes"]), "强制 B=4（与分区等容量）"],
         ["KMeans B=4", fmt(vs["KMeans_B4"]["rmse_area"]), fmt(vs["KMeans_B4"]["csi_area"]), str(vs["KMeans_B4"]["total_modes"]), "与规则几乎相同"],
         ["规则 B=4", fmt(vs["Rule_B4"]["rmse_area"]), fmt(vs["Rule_B4"]["csi_area"]), str(vs["Rule_B4"]["total_modes"]), "与 KMeans 数值重合"],
         ["规则 B=8", fmt(vs["Rule_B8"]["rmse_area"]), fmt(vs["Rule_B8"]["csi_area"]), str(vs["Rule_B8"]["total_modes"]), "略差于 B=4"],
         ["全局 30 折均值", fmt(bloo["mean_global_rmse"]), fmt(d["bloo_means"]["csi_g"]), "4", "事件 LOOCV"],
-        ["规则 30 折均值", fmt(bloo["mean_zonal_rmse"]), fmt(d["bloo_means"]["csi_z"]), "4", "6/30 折优于全局"],
+        ["规则 30 折均值", fmt(bloo["mean_zonal_rmse"]), fmt(d["bloo_means"]["csi_z"]), "4", f"{bloo['n_improved']}/{bloo['n_folds']} 折优于全局"],
         ["仅用 LF 的 30 折均值", fmt(d["bloo_means"]["rmse_lf"]), fmt(d["bloo_means"]["csi_lf"]), "0", "与 12 事件划分基线不同协议"],
     ]
 
@@ -720,7 +720,7 @@ def build(data: dict) -> tuple[str, str, list[str], list[str]]:
 <p>针对这一问题，本文在 Fraehr 等人（2024）公开基准上实现<strong>水动力分区的 LSG-Max</strong>。LSG 是「低保真—空间分析—高斯过程」（Low-fidelity, Spatial analysis, Gaussian Process）的缩写，指先用粗网格水动力模型给出快速但粗糙的淹没面，再在高保真网格上学一层修正。LSG-Max 只预测一场洪水的<strong>最大淹没水深面</strong>，而不是全时段过程。分区在经验正交函数（Empirical Orthogonal Function，EOF：把高维淹没场分解成少数空间模态与时间/事件系数）和高斯过程回归（Gaussian Process，GP：在低维系数空间学习低保真系数到高保真系数的映射）之前完成。评价使用<strong>真等模态预算 B</strong>（Global 与分区模型的总模态数相同）、<strong>面积加权指标</strong>（按网格单元面积加权，而不是把大小格子一视同仁）以及<strong>仅用训练事件做分区</strong>（检验事件不参与画区、拟合 EOF 或 GP）。</p>
 <div class="kf"><strong>Carlisle（卡莱尔）主结果。</strong>在真等预算 B = 4 时，规则分区把面积加权均方根误差（Root Mean Square Error，RMSE：水深误差，单位米）从全局模型的 {fmt(G4)} m 降到 {fmt(R4)} m，相对降幅 {impr4:.1f}%。9 折事件留一交叉验证（Leave-One-Out Cross-Validation，LOOCV：每次留出一场事件做检验）中 9/9 折分区更优，ΔRMSE 均值 {fmt(L4['mean'])} m，95% 自助法区间 [{fmt(L4['ci'][0])}, {fmt(L4['ci'][1])}] m。历史<strong>时序</strong>残差组织指数为 {eoi_ts:.2f}；与 LSG-Max 同一协议的<strong>最大淹没面</strong> EOI 仅为 {eoi_c:.3f}。全局模型随 B 增大而变差（{fmt(G4)} → {fmt(G6)} → {fmt(G8)} m），规则分区更稳健（{fmt(R4)} → {fmt(R6)} → {fmt(R8)} m）。</div>
 <div class="warn"><strong>官方 2 折并不显著。</strong>Fraehr 官方两折划分上的自助法给出平均 ΔRMSE = {fmt(official['mean_delta_rmse'])} m，95% 区间 [{fmt(official['ci_95_lower'])}, {fmt(official['ci_95_upper'])}]，<code>significant=false</code>。这是小样本官方划分的局限，不是把不显著结果改写成显著。事件级 9 折 LOOCV 才是本文的统计主声称。</div>
-<div class="warn"><strong>Burnett 30 折：分区没有帮忙。</strong>B = 4 时，30 折平均全局 RMSE {fmt(bloo['mean_global_rmse'])} m，规则分区 {fmt(bloo['mean_zonal_rmse'])} m，平均 ΔRMSE = {fmt(bloo['mean_delta_rmse'])} m（负值表示分区更差），仅 6/30 折分区更好，区间 [{fmt(bloo['ci_95_lower'])}, {fmt(bloo['ci_95_upper'])}]，<code>significant=false</code>。最大面 EOI 却高达 {eoi_bmax:.3f}：一阶残差成块<strong>并不保证</strong>等预算分区 EOF 获益。</div>
+<div class="warn"><strong>Burnett 30 折：分区没有帮忙。</strong>B = 4 时，30 折平均全局 RMSE {fmt(bloo['mean_global_rmse'])} m，规则分区 {fmt(bloo['mean_zonal_rmse'])} m，平均 ΔRMSE = {fmt(bloo['mean_delta_rmse'])} m（负值表示分区更差），仅 {bloo['n_improved']}/{bloo['n_folds']} 折分区更好，区间 [{fmt(bloo['ci_95_lower'])}, {fmt(bloo['ci_95_upper'])}]，<code>significant=false</code>。最大面 EOI 却高达 {eoi_bmax:.3f}：一阶残差成块<strong>并不保证</strong>等预算分区 EOF 获益。</div>
 <p>Chowilla（乔维拉）是边界情形：LSG 的 RMSE 约 {fmt(ch_g)} m，而仅用低保真（Low-Fidelity，LF：粗网格或简化水动力模型）为 {fmt(ch_lf)} m。低保真网格仅 1,434 格，相对高保真（High-Fidelity，HF）约 77:1。本文<strong>不把 Chowilla 写成成功案例</strong>。高斯过程后端是 scikit-learn 的 GPR，不是 gpflow 的稀疏高斯过程（SGPR），这一点记为方法局限。</p>
 </section>
 """
@@ -833,7 +833,7 @@ RMSE<sub>area</sub> = {{ Σ<sub>i</sub> A<sub>i</sub> (ĥ<sub>i</sub> − h<sub>
   <div class="metric good"><div class="v">{L4['improved']}/{L4['n']}</div><div class="l">B=4 LOOCV 改善折数</div></div>
   <div class="metric"><div class="v">{eoi_c:.3f}</div><div class="l">Carlisle 最大面 EOI（非开关）</div></div>
   <div class="metric bad"><div class="v">不显著</div><div class="l">官方 2 折自助法</div></div>
-  <div class="metric bad"><div class="v">6/30</div><div class="l">Burnett 分区更优的折数</div></div>
+  <div class="metric bad"><div class="v">{bloo['n_improved']}/{bloo['n_folds']}</div><div class="l">Burnett 分区更优的折数</div></div>
 </div>
 <h3 id="s5-0">5.1　直观空间结果（定性先行）</h3>
 <p>主图事件取 Carlisle LOOCV 事件 1（Run2）：该折全局 RMSE 尖峰最大（表 6 / <code>loocv_results.json</code> B=4）。本折面积加权 RMSE：LF ≈ 0.2330 / 全局 {fmt(ev1['global_rmse'])} / 规则 {fmt(ev1['zonal_rmse'])} m（LF 来自同折真实面重算；全局与规则与 JSON 一致）。同色标最大水深四联图、命中/漏报/空报空间图、残差与改善图、分区叠加与湿单元 obs–pred 散点如下。</p>
@@ -875,7 +875,7 @@ f"<p>纵轴是临界成功指数，越大越好。灰点划线是仅用低保真
 "<p>左图纵轴为面积加权平均绝对误差（Mean Absolute Error，MAE：绝对误差的面积平均，对极端格子不如 RMSE 敏感）。右图纵轴为面积加权偏差（正值表示预测偏深）。左图形态与 RMSE 图相似：全局随 B 上升最快。右图更有诊断价值：全局在 B=6、B=8 变成明显的负偏差（整体偏浅），规则分区的偏差始终靠近零线。这说明多出来的全局模态不是把局部峰值补准，而是把整个水面推离高保真。</p>")}
 <h3 id="s5-2">5.3　事件级 LOOCV 与官方 2 折：主声称与诚实的不显著</h3>
 {html_table(t4_h, t4_r, "表 4　ΔRMSE 的事件级检验。Δ = 全局 RMSE − 分区 RMSE；正值表示分区更好。", "tbl4")}
-<p class="tbl-explain">表 4 把四种协议放在同一口径下。Carlisle B=4：9/9 折改善，均值 {fmt(L4['mean'])} m，区间 [{fmt(L4['ci'][0])}, {fmt(L4['ci'][1])}]，不含 0。B=6：7/9 折改善，区间仍不含 0，但均值从 {fmt(L4['mean'])} 降到 {fmt(L6['mean'])}，与“更大 B 并不自动更好”一致。官方 2 折：平均 Δ 只有 {fmt(official['mean_delta_rmse'])} m，区间跨过 0，<code>significant=false</code>。Burnett 30 折：均值 {fmt(bloo['mean_delta_rmse'])} m，区间跨过 0，仅 6/30 折分区更好。自助法重复 10,000 次、种子 42，与英文稿 <code>95_*.py</code> 相同。</p>
+<p class="tbl-explain">表 4 把四种协议放在同一口径下。Carlisle B=4：9/9 折改善，均值 {fmt(L4['mean'])} m，区间 [{fmt(L4['ci'][0])}, {fmt(L4['ci'][1])}]，不含 0。B=6：7/9 折改善，区间仍不含 0，但均值从 {fmt(L4['mean'])} 降到 {fmt(L6['mean'])}，与“更大 B 并不自动更好”一致。官方 2 折：平均 Δ 只有 {fmt(official['mean_delta_rmse'])} m，区间跨过 0，<code>significant=false</code>。Burnett 30 折：均值 {fmt(bloo['mean_delta_rmse'])} m，区间跨过 0，仅 {bloo['n_improved']}/{bloo['n_folds']} 折分区更好。自助法重复 10,000 次、种子 42，与英文稿 <code>95_*.py</code> 相同。</p>
 {html_table(t6_h, t6_r, "表 6　Carlisle B=4 九折 LOOCV 逐事件 RMSE（loocv_results.json）。", "tbl6")}
 <p class="tbl-explain">逐事件看，分区在每一折都更低。事件 1 是全局的灾难点：全局 RMSE {fmt(L4['items'][1]['global_rmse'])} m，规则分区 {fmt(L4['items'][1]['zonal_rmse'])} m，单折 Δ 约 {fmt(L4['items'][1]['delta_rmse'])} m。若只做官方 2 折且不幸没抽到这类事件，均值会被拉平——这正是表 4 里官方 2 折不显著、9 折显著可以同时成立的原因。事件 0、4、7 上两者都已经很小（约 0.05–0.07 m），分区仍有分厘米级改善，但不是故事的主角。</p>
 {fig_block(6, "Carlisle 九折事件 LOOCV（B=4）：逐场 RMSE", "fig08_per_event_bootstrap.png",
@@ -895,7 +895,7 @@ f"<p>横轴是平均 ΔRMSE（全局减分区），竖虚线为 0。须向右表
 <p class="tbl-explain">表 5 是全文的“地图”。Carlisle：分区 &gt; 全局 &gt; 仅用 LF（就 RMSE）。Burnett 12 事件单次划分：全局 {fmt(b_g)} m 与规则 {fmt(b_r)} m 几乎相同，二者都明显低于仅用 LF 的 {fmt(b_lf)} m——LSG 有用，但分区没有额外好处。Chowilla：仅用 LF {fmt(ch_lf)} m，LSG 约 {fmt(ch_g)} m，差一个数量级。把三列都说成“分区成功”会直接与数据冲突。</p>
 {fig_block(9, "三案例面积加权 RMSE（registry v4 / SciencePlots）", "fig04_three_case.png",
 "图9 三案例柱状图",
-f"<p>每组三根柱：蓝为仅用 LF，橙为全局 LSG（B=4，Burnett 全局为自动模态、实际 3 个），绿为规则分区 B=4。Carlisle 组最矮，绿柱明显低于橙柱与蓝柱，对应 {fmt(LF)} / {fmt(G4)} / {fmt(R4)} m。Chowilla 组蓝柱约 {fmt(ch_lf)} m，橙绿两柱冲到约 2.56 m，几乎重叠——分区救不了低保真与高保真之间的结构性错位。Burnett 组蓝柱约 {fmt(b_lf)} m，橙绿都在约 1.61 m，肉眼难分。</p>"
+f"<p>每组三根柱：蓝为仅用 LF，橙为全局 LSG（B=4，Burnett 全局强制 B=4 与分区等容量），绿为规则分区 B=4。Carlisle 组最矮，绿柱明显低于橙柱与蓝柱，对应 {fmt(LF)} / {fmt(G4)} / {fmt(R4)} m。Chowilla 组蓝柱约 {fmt(ch_lf)} m，橙绿两柱冲到约 2.56 m，几乎重叠——分区救不了低保真与高保真之间的结构性错位。Burnett 组蓝柱约 {fmt(b_lf)} m，橙绿都在约 1.61 m，肉眼难分。</p>"
 + "<p>纵轴到 2.5 m 是为了容纳 Chowilla 与 Burnett；因此 Carlisle 的 0.05 m 级差异看起来很小，必须回到表 3 读精确值。本图来自 registry，属于可引用配图。</p>")}
 {html_table(t9_h, t9_r, "表 9　Chowilla 预算扫描（budget_sweep_full.json）。LSG 在 B=4/8/12 均约 2.56 m。", "tbl9")}
 <p class="tbl-explain">无论 B 取 4、8 还是 12，全局、规则、KMeans 都停在约 2.56 m，CSI 约 0.26，而仅用 LF 的 CSI 为 {fmt(d['ch_full']['lf_only']['csi_area'])}。加模态、换分区都改变不了“LSG 重建面远离高保真”这一事实。粗网格 1,434 格相对 109,914 格约 77:1；JSON 备注写明会产生极端水位。加上历史上 MD5 失败与未做的基准修正，Chowilla 只作为边界情形。</p>
@@ -944,7 +944,7 @@ f"<p>横轴为训练+预测时间（秒），纵轴为面积加权 RMSE。叉号
 <p>强迫全局使用更大 B，RMSE 从 {fmt(G4)} m 升到 {fmt(G8)} m（+{rise_g:.0f}%），偏差由略正变为 {fmt(cb['budgets']['8']['global']['bias_area'])} m。伴随检验偏差翻转与 RMSE 升高，与 capacity-misallocation / 过拟合假说相容，但<strong>尚未被唯一识别</strong>。规则分区同一区间只升高 {rise_r:.0f}%（{fmt(R4)} → {fmt(R8)} m）。审计表显示全局 B=8 实际只有 7 个模态（audit exception），即便少用 1 个仍最差，因此不能用“模态不够”开脱，也不宜把分区写成已证实的隐式正则。</p>
 <p><strong>给非专业读者：</strong>“多背一点”在这里像把噪音细节也背进答案；按章节分配有限复习时间，反而更稳。</p>
 <h3 id="s6-3">6.3　为何 Burnett / Chowilla 不然</h3>
-<p><strong>Burnett：高一阶 EOI，但等预算分区无益。</strong>最大面 EOI={eoi_bmax:.3f}，深槽与边缘残差可差到数米量级，误差极度成块。然而 30 折 LOOCV 上规则平均更差（{fmt(bloo['mean_zonal_rmse'])} vs {fmt(bloo['mean_global_rmse'])} m），仅 6/30 折占优，区间跨 0。解读：高 EOI 度量 LF 残差的空间组织；Burnett 表明强组织残差不足以保证等预算分区收益，现有诊断<strong>未唯一识别</strong>原因。12 事件单次划分上全局≈规则≈{fmt(b_g)} m，也说明“LSG 有用 ≠ 分区额外有用”。</p>
+<p><strong>Burnett：高一阶 EOI，但等预算分区无益。</strong>最大面 EOI={eoi_bmax:.3f}，深槽与边缘残差可差到数米量级，误差极度成块。然而 30 折 LOOCV 上规则平均更差（{fmt(bloo['mean_zonal_rmse'])} vs {fmt(bloo['mean_global_rmse'])} m），仅 {bloo['n_improved']}/{bloo['n_folds']} 折占优，区间跨 0。解读：高 EOI 度量 LF 残差的空间组织；Burnett 表明强组织残差不足以保证等预算分区收益，现有诊断<strong>未唯一识别</strong>原因。12 事件单次划分上全局≈规则≈{fmt(b_g)} m，也说明“LSG 有用 ≠ 分区额外有用”。</p>
 <p><strong>Chowilla：LSG 相对仅用 LF 帮倒忙。</strong>仅用 LF {fmt(ch_lf)} m 并不荒唐；LSG≈{fmt(ch_g)} m、CSI 从约 0.88 掉到约 0.26，说明 LSG 校正相对 LF-only 帮倒忙（上游适用性边界）。最大面 EOI={eoi_w:.3f}（低）。网格比约 77:1；历史上 MD5 失败与未做的高程基准修正【正式局限】；失败来源未在此隔离，不编造更细故事。</p>
 <p><strong>对照一句话。</strong>Carlisle = LF 可修正 + 等预算下全局表示非中性；Burnett = 残差成块但分区容量不够修；Chowilla = 先别做 LSG，LF 与 HF 还没站在同一物理故事里。</p>
 <h3 id="s6-4">6.4　官方 2 折、CSI 与投稿策略</h3>
@@ -995,7 +995,7 @@ f"<p>横虚线为预先设定的高结构阈值 0.30。Burnett {eoi_bmax:.3f} �
 <ol>
 <li><strong>在 Carlisle、真等预算 B=4 时，全局 EOF 降维不是水动力中性的。</strong>规则分区将面积加权 RMSE 从 {fmt(G4)} m 降至 {fmt(R4)} m（{impr4:.1f}%），9/9 折 LOOCV 改善。时序 EOI = {eoi_ts:.2f}；最大面 EOI = {eoi_c:.3f}，二者不可混用。</li>
 <li><strong>用分区消化有限容量，比把全局 B 加大更稳健。</strong>全局 {fmt(G4)} → {fmt(G8)} m（+{rise_g:.0f}%），规则 {fmt(R4)} → {fmt(R8)} m（+{rise_r:.0f}%）。加模态不是自动正则。</li>
-<li><strong>收益依案例而定；最大面 EOI 不能单独预测分区增益。</strong>Chowilla EOI={eoi_w:.3f}（低）且 LSG 相对仅用 LF 退化（约 {fmt(ch_g)} vs {fmt(ch_lf)} m）。Burnett EOI={eoi_bmax:.3f}（高）但 30 折规则不优于全局（ΔRMSE {fmt(bloo['mean_delta_rmse'])} m，6/30，区间含 0）。</li>
+<li><strong>收益依案例而定；最大面 EOI 不能单独预测分区增益。</strong>Chowilla EOI={eoi_w:.3f}（低）且 LSG 相对仅用 LF 退化（约 {fmt(ch_g)} vs {fmt(ch_lf)} m）。Burnett EOI={eoi_bmax:.3f}（高）但 30 折规则不优于全局（ΔRMSE {fmt(bloo['mean_delta_rmse'])} m，{bloo['n_improved']}/{bloo['n_folds']}，区间含 0）。</li>
 <li><strong>官方 2 折自助法不显著，不能当作主声称。</strong>均值 {fmt(official['mean_delta_rmse'])} m，区间跨 0。事件级 9 折才是可辩护的统计陈述。</li>
 <li><strong>官方 9 折最大水深 R²：</strong>规则分区 LSG-Max 0.988，已发表 LSG-TS 0.990；全局 LSG-Max 0.915。CSI 上已发表 LSG-TS 仍高（0.937 vs 0.905）。</li>
 <li><strong>外推、LF 加粗、主槽距离：</strong>分区改善 p10/p11 相对全局，但未击败仅用 LF；规则分区对 LF 网格×2/×4 加粗稳健；主槽距离带可替代残差热点，规则+距离 0.094 m 略优于纯规则 0.096 m。</li>
@@ -1168,7 +1168,7 @@ synthetic=True)}
 
 > **官方 2 折并不显著。** 平均 ΔRMSE = {fmt(official['mean_delta_rmse'])} m，95% 区间 [{fmt(official['ci_95_lower'])}, {fmt(official['ci_95_upper'])}]，`significant=false`。9 折 LOOCV 才是统计主声称。
 
-> **Burnett 30 折：分区没有帮忙。** 全局均值 {fmt(bloo['mean_global_rmse'])} m，规则 {fmt(bloo['mean_zonal_rmse'])} m，ΔRMSE = {fmt(bloo['mean_delta_rmse'])} m，6/30 折，区间 [{fmt(bloo['ci_95_lower'])}, {fmt(bloo['ci_95_upper'])}]，`significant=false`。最大面 EOI 却高达 {eoi_bmax:.3f}。
+> **Burnett 30 折：分区没有帮忙。** 全局均值 {fmt(bloo['mean_global_rmse'])} m，规则 {fmt(bloo['mean_zonal_rmse'])} m，ΔRMSE = {fmt(bloo['mean_delta_rmse'])} m，{bloo['n_improved']}/{bloo['n_folds']} 折，区间 [{fmt(bloo['ci_95_lower'])}, {fmt(bloo['ci_95_upper'])}]，`significant=false`。最大面 EOI 却高达 {eoi_bmax:.3f}。
 
 > **机制。** 纯 EOF oracle ΔRMSE&lt;0；stage-swap LOOCV 均值 GG/ZZ/GZ/ZG ≈ 0.180/0.098/0.098/0.101 → GZ≈ZG≈ZZ≪GG。收益来自分区结构进入表示→映射管线。
 

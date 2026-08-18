@@ -5,5 +5,5 @@ true_equal_budget,B=8,0.3527,0.1790,0.2980,+49.3%,n/a (single split)
 loocv_9fold,B=4,,,,9/9 folds improved,see report (B=4 CI excludes 0)
 loocv_9fold,B=6,,,,7/9 folds improved,see report (B=4 CI excludes 0)
 official_2fold,n_folds=2,,,,"mean_delta=0.0045; CI=[-0.0073,0.0134]",NO
-burnett_loocv,n=30 B=4,1.7479,1.8260,,mean_dRMSE=-0.0781; 6/30 improved,NO
+burnett_loocv,n=30 B=4,1.7192,1.8164,,mean_dRMSE=-0.0972; 13/30 improved,NO
 chowilla_boundary,B=4,2.5606,2.5614,2.5619,LSG degrades vs LF-only 0.3926,n/a (boundary case)

@@ -1,6 +1,6 @@
 # When Is Global EOF Reduction Insufficient for Multi-Fidelity Flood Inundation Emulation?
 
-*A Hydrodynamically Zoned LSG-Max Approach — Final Report v4, 2026-08-16 11:09*
+*A Hydrodynamically Zoned LSG-Max Approach — Final Report v4, 2026-08-18 23:26*
 
 ## 1. Abstract
 
@@ -9,7 +9,7 @@ This study asks whether EOF reduction in multi-fidelity flood emulation is hydro
 > **Primary result (Carlisle, 9-fold LOOCV):** At equal budget B=4, zonal Rule LSG-Max reduces area-weighted RMSE from 0.1464 m (Global) to 0.0964 m (34.2% improvement; 9/9 folds improved; 95% CI [0.0155, 0.1987] m). Global LSG degrades as B grows (0.1464 → 0.2588 → 0.3527) while zonal Rule stays more robust (0.0964 → 0.1256 → 0.1790). Max-surface EOI = 0.057 (LOW). First-order EOI is not a zoning switch.
 > **Official 2-fold split is not significant.** `multifold_bootstrap.json`: NOT significant (mean Delta RMSE = 0.0045 m, 95% CI [-0.0073, 0.0134], improved fraction 75%). The 9-fold event LOOCV is the primary statistical claim.
 
-> **Burnett 30-fold event LOOCV:** Burnett 30-fold event LOOCV at B=4: mean Global RMSE 1.7479 m vs Rule 1.8260 m (mean Delta RMSE -0.0781 m; 6/30 folds zonal better; significant=false). Zonal Rule does not improve on Global (not significant).
+> **Burnett 30-fold event LOOCV:** Burnett 30-fold event LOOCV at B=4: mean Global RMSE 1.7192 m vs Rule 1.8164 m (mean Delta RMSE -0.0972 m; 13/30 folds zonal better; significant=false). Zonal Rule does not improve on Global (not significant).
 
 ## 2. Data and methods
 
@@ -50,7 +50,7 @@ Finding 1: Global RMSE rises 141% from B=4 to B=8. Rule zonal rises 86%. Finding
 | B=4 LOOCV | 9/9 | 0.0821 | [0.0155, 0.1987] | YES |
 | B=6 LOOCV | 7/9 | 0.0606 | [0.0032, 0.1618] | YES |
 | Official 2-fold | 75% of test events | 0.0045 | [-0.0073, 0.0134] | NO |
-| Burnett B=4 LOOCV | 6/30 | -0.0781 | [-0.2116, 0.0405] | NO |
+| Burnett B=4 LOOCV | 13/30 | -0.0972 | [-0.2249, 0.0014] | NO |
 
 The official 2-fold bootstrap CI includes zero (`significant=false`). Report the 9-fold LOOCV as the event-level result.
 
@@ -60,13 +60,13 @@ The official 2-fold bootstrap CI includes zero (`significant=false`). Report the
 |---|---|---|---|---|
 | Carlisle | 0.1602 | 0.1464 | 0.0964 (+34.2%) | Zonal > Global > LF |
 | Chowilla | 0.3926 | 2.5606 | 2.5614 | LF-only best; LSG degrades |
-| BurnettRV | 2.2323 | 1.6120 | 1.6122 | 12-event split: Global ~ zonal |
+| BurnettRV | 2.2323 | 1.6117 | 1.6122 | 12-event split: Global ~ zonal |
 
-Chowilla is a **boundary case**: LSG RMSE ~2.5606 m versus LF-only 0.3926 m (LSG degrades). Burnett River (12-event split): Global 1.6120 m versus LF-only 2.2323 m; zonal Rule 1.6122 m is comparable to Global. Burnett 30-fold event LOOCV at B=4: mean Global RMSE 1.7479 m vs Rule 1.8260 m (mean Delta RMSE -0.0781 m; 6/30 folds zonal better; significant=false).
+Chowilla is a **boundary case**: LSG RMSE ~2.5606 m versus LF-only 0.3926 m (LSG degrades). Burnett River (12-event split): Global 1.6117 m versus LF-only 2.2323 m; zonal Rule 1.6122 m is comparable to Global. Burnett 30-fold event LOOCV at B=4: mean Global RMSE 1.7192 m vs Rule 1.8164 m (mean Delta RMSE -0.0972 m; 13/30 folds zonal better; significant=false).
 
 ## 4. Discussion
 
-Carlisle (max-surface EOI = 0.057 LOW; B=4: 34.2% RMSE reduction, 9/9 LOOCV folds) shows zoning can help under equal B even when max-surface EOI is low. Burnett EOI = 0.957 yet Rule does not beat Global on 30-fold LOOCV. Burnett 30-fold event LOOCV at B=4: mean Global RMSE 1.7479 m vs Rule 1.8260 m (mean Delta RMSE -0.0781 m; 6/30 folds zonal better; significant=false). ZGG>0 with oracle EOF DeltaRMSE<0 rules out pure HF-EOF truncation. Stage-swap LOOCV means GG/ZZ/GZ/ZG ≈ 0.180/0.098/0.098/0.101 m: zone structure via EOF coordinates or mapping locality recovers nearly the ZZ gain; not a unique GP-only localization. Chowilla shows LSG can degrade when LF is a poor match to HF.
+Carlisle (max-surface EOI = 0.057 LOW; B=4: 34.2% RMSE reduction, 9/9 LOOCV folds) shows zoning can help under equal B even when max-surface EOI is low. Burnett EOI = 0.957 yet Rule does not beat Global on 30-fold LOOCV. Burnett 30-fold event LOOCV at B=4: mean Global RMSE 1.7192 m vs Rule 1.8164 m (mean Delta RMSE -0.0972 m; 13/30 folds zonal better; significant=false). ZGG>0 with oracle EOF DeltaRMSE<0 rules out pure HF-EOF truncation. Stage-swap LOOCV means GG/ZZ/GZ/ZG ≈ 0.180/0.098/0.098/0.101 m: zone structure via EOF coordinates or mapping locality recovers nearly the ZZ gain; not a unique GP-only localization. Chowilla shows LSG can degrade when LF is a poor match to HF.
 
 SI: historical temporal EOI (0.51) is a different protocol and is excluded from main claims.
 Limitations: LSG-Max only; sklearn GPR (gpflow not used); Chowilla archive MD5 not re-verified; Brisbane not run; Burnett KMeans LOOCV skipped (not cheap vs Rule).

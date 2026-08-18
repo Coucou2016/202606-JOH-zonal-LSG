@@ -8,6 +8,24 @@ Carlisle,rule,6,0.1256,0.8795,complete,TRUE equal budget: force_n_modes for Glob
 Carlisle,global,8,0.3527,0.8732,complete,TRUE equal budget: force_n_modes for Global
 Carlisle,kmeans,8,0.298,0.8736,complete,TRUE equal budget: force_n_modes for Global
 Carlisle,rule,8,0.179,0.8746,complete,TRUE equal budget: force_n_modes for Global
+Carlisle,global_official,4,0.1802,0.8688,complete,Official 9-fold LSG-Max. MaxWD_R2=0.9149.
+Carlisle,rule_official,4,0.0982,0.9054,complete,Official 9-fold LSG-Max. MaxWD_R2=0.9883.
+Carlisle,kmeans_official,4,0.1233,0.8923,complete,Official 9-fold LSG-Max. MaxWD_R2=0.9761.
+Carlisle,global_degraded_x1,4,0.1464,0.884,complete,"B5 LF coarsen factor=1, n_lf=5681."
+Carlisle,rule_degraded_x1,4,0.0939,0.8964,complete,"B5 LF coarsen factor=1, n_lf=5681."
+Carlisle,global_degraded_x2,4,0.148,0.8827,complete,"B5 LF coarsen factor=2, n_lf=1487."
+Carlisle,rule_degraded_x2,4,0.0942,0.8975,complete,"B5 LF coarsen factor=2, n_lf=1487."
+Carlisle,global_degraded_x4,4,0.1528,0.8809,complete,"B5 LF coarsen factor=4, n_lf=384."
+Carlisle,rule_degraded_x4,4,0.1029,0.8909,complete,"B5 LF coarsen factor=4, n_lf=384."
+Carlisle,global,4,0.1464,0.884,complete,B6 distance-to-Carlisle_MCL zoning.
+Carlisle,rule,4,0.0964,0.8832,complete,B6 distance-to-Carlisle_MCL zoning.
+Carlisle,rule_channel,4,0.0937,0.8974,complete,B6 distance-to-Carlisle_MCL zoning.
+Carlisle,channel,4,0.1118,0.8885,complete,B6 distance-to-Carlisle_MCL zoning.
+Carlisle,kmeans,4,0.1027,0.8808,complete,B6 distance-to-Carlisle_MCL zoning.
+Carlisle,global,4,1.0847,0.8674,complete,"A4 extrap; HF truth from raw NPZ not stored MaxWD[:,0]."
+Carlisle,rule,4,0.6089,0.8771,complete,"A4 extrap; HF truth from raw NPZ not stored MaxWD[:,0]."
+Carlisle,global,4,1.6329,0.8077,complete,"A4 extrap; HF truth from raw NPZ not stored MaxWD[:,0]."
+Carlisle,rule,4,1.1238,0.8178,complete,"A4 extrap; HF truth from raw NPZ not stored MaxWD[:,0]."
 Carlisle,LF-only,0,0.1602,0.9145,complete,Baseline from budget_sweep_true_equal.json
 ,,,,,,
 Chowilla,global,4,2.5606,0.2689,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real"
@@ -21,10 +39,10 @@ Chowilla,kmeans,12,2.5642,0.2649,valid_boundary_case,"Coarse LF (1434 cells, 77:
 Chowilla,rule,12,2.5622,0.2619,valid_boundary_case,"Coarse LF (1434 cells, 77:1 ratio) produces extreme WSE. LSG degradation is real"
 Chowilla,LF-only,0,0.3926,0.8767,valid_boundary_case,LF-only is best on Chowilla; LSG degrades.
 ,,,,,,
-BurnettRV,global,auto,1.612,0.6312,partial_12of74,RMSE from validation_std.json (12-event single split). Event LOOCV: scripts/32_b
+BurnettRV,global,4,1.6117,0.6317,partial_12of74,RMSE from validation_std.json (12-event single split). Event LOOCV: scripts/32_b
 BurnettRV,KMeans_B4,4,1.6122,0.6307,partial_12of74,RMSE from validation_std.json (12-event single split). Event LOOCV: scripts/32_b
 BurnettRV,Rule_B4,4,1.6122,0.6307,partial_12of74,RMSE from validation_std.json (12-event single split). Event LOOCV: scripts/32_b
 BurnettRV,Rule_B8,8,1.6158,0.6263,partial_12of74,RMSE from validation_std.json (12-event single split). Event LOOCV: scripts/32_b
-BurnettRV,global_loocv,4,1.7479,,loocv_30,Mean over 30 LOOCV folds. Rule dRMSE=-0.0781; improved 6/30; significant=False.
-BurnettRV,rule_loocv,4,1.826,,loocv_30,Mean Rule RMSE over 30 folds from burnettrv_30events.npz.
+BurnettRV,global_loocv,4,1.7192,,loocv_30,Mean over 30 LOOCV folds. Rule dRMSE=-0.0972; improved 13/30; significant=False.
+BurnettRV,rule_loocv,4,1.8164,,loocv_30,Mean Rule RMSE over 30 folds from burnettrv_30events.npz.
 BurnettRV,LF-only,0,2.2323,0.6911,partial_12of74,Baseline from validation_std.json
