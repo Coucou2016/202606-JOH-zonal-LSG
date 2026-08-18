@@ -1,15 +1,17 @@
 """Error Organisation Index (EOI) — residual-organisation diagnostic.
 
-EOI = Var(zone-mean |LF−HF|) / Var(cell |LF−HF|) on the training wet mask.
+EOI = Var(zone-mean |LF−HF|) / Var(cell |LF−HF|) on the active wet mask of the
+chosen event set (all events pooled, or a train-only subset).
 The numerator is the **unweighted** variance across active-zone means (each zone
 weighted equally regardless of cell count), so EOI is not by construction
 confined to [0, 1].
 
-The zone partition used for EOI is the **residual-free four-class hydrodynamic
-partition** (maximum depth + inundation frequency, no residual-error hotspot
-override). This keeps the partition independent of the residual being measured,
-so EOI cannot be inflated by construction (using the residual to define the
-zones would trivially organise it). The production Rule LSG partition may add
+The zone partition used for EOI is a **residual-free hydrodynamic rule with up
+to four active classes** (maximum depth + inundation frequency, no
+residual-error hotspot override; empty classes are omitted). This keeps the
+partition independent of the residual being measured, so EOI cannot be inflated
+by construction (using the residual to define the zones would trivially
+organise it). The production Rule LSG partition may add
 the hotspot override and a budget merge, so its zone map is not identical to the
 EOI partition.
 

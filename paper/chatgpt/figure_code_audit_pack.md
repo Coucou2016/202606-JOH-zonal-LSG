@@ -1,13 +1,14 @@
 # Figure ↔ Code Correspondence Audit Pack (for ChatGPT visual + code review)
 
 **Repo:** https://github.com/Coucou2016/202606-JOH-zonal-LSG
-**Commit under review:** `60b2e18` (the commit containing the R19 figures + numbers)
+**Figure/manuscript baseline:** `60b2e18` (the commit containing the R19 figures + numbers)
+**Audit-pack revision:** `4dd8800` (this pack body; links below pin to the baseline)
 **Manuscript:** https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/60b2e18/paper/manuscript.md
 
 This pack pairs every manuscript figure with (a) the figure image, (b) the exact
 generating code, and (c) the underlying data values, so you can do a **visual
 review** and a **code review** simultaneously. All links below are pinned to
-commit `9e5887d` (not the drifting `master`). Please check each figure for:
+commit `60b2e18` (not the drifting `master`). Please check each figure for:
 
 1. **Internal consistency** — does the figure match the caption and the numbers
    quoted in the manuscript text?
@@ -223,7 +224,7 @@ the whiskers.
 
 **Caption:** Carlisle Run2 held-out maximum-depth fields for HF, LF, Global
 LSG-Max, and Rule zonal LSG-Max under \(B=4\) LOOCV. All panels use a common
-depth scale.
+depth scale capped at the pooled 99th percentile of wet-cell depth for display.
 
 ![Figure 8](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/60b2e18/outputs/figures/figA1_inundation_maps_carlisle_ev1.png)
 
@@ -318,16 +319,16 @@ Burnett 2.2323/1.6117/1.6122.
 Chowilla. EOI is the ratio of the unweighted across-zone-mean residual variance
 to the cellwise residual variance and is not by construction bounded by [0,1].
 The pooled values are computed over all available events (Carlisle \(n=9\),
-Burnett \(n=30\), Chowilla \(n=29\)) on the residual-free four-class hydrodynamic
-partition.
+Burnett \(n=30\), Chowilla \(n=29\)) on the residual-free hydrodynamic rule (up
+to four active classes).
 
 ![Figure 15](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/60b2e18/outputs/figures/fig14_eoi.png)
 
 **Data:** Carlisle 0.057, Chowilla 0.116, Burnett 0.957. Bars use a uniform
 colour; each bar carries its value label; EOI is presented as an exploratory
 diagnostic with no calibrated threshold. The zone partition is the residual-free
-four-class hydrodynamic partition (maximum depth + inundation frequency, no
-residual-error hotspot override), so it is independent of the residual being
+hydrodynamic rule (maximum depth + inundation frequency, up to four active
+classes; empty classes omitted), so it is independent of the residual being
 measured. `eoi_all.json` metadata now records `n_events_used` and
 `scope="all_event_pooled"` for the pooled bars (and `scope="train_only"` for the
 per-fold values in Fig 16), replacing the ambiguous `n_train_events`.
@@ -336,8 +337,8 @@ per-fold values in Fig 16), replacing the ambiguous `n_train_events`.
 
 ## Figure 16 — EOI vs ΔRMSE (per fold)
 
-**Caption:** In-fold train-only EOI (residual-free four-class hydrodynamic
-partition) and matched-capacity zoning \(\Delta\mathrm{RMSE}\) for Carlisle and
+**Caption:** In-fold train-only EOI (residual-free hydrodynamic rule, up to four
+active classes) and matched-capacity zoning \(\Delta\mathrm{RMSE}\) for Carlisle and
 Burnett folds. Positive \(\Delta\mathrm{RMSE}\) favours zoning.
 
 ![Figure 16](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/60b2e18/outputs/figures/fig15_eoi_vs_delta.png)
@@ -351,7 +352,8 @@ remains readable.
 ## Figure 17 — Carlisle LF-grid coarsening
 
 **Caption:** Carlisle LF-grid coarsening sensitivity for LF-only, Global LSG, and
-Rule zonal LSG, evaluated on the random 7/2 train-test split (seed 42).
+Rule zonal LSG, evaluated on the random 7/2 train-test split (seed 42). The
+factor-1 point is an independently refitted uncoarsened baseline.
 
 ![Figure 17](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/60b2e18/outputs/figures/fig17_lf_degradation.png)
 

@@ -2,9 +2,9 @@
 
 **Repo:** https://github.com/Coucou2016/202606-JOH-zonal-LSG
 **Figure/manuscript baseline (figures + numbers):** `60b2e18` (pushed)
-**Audit-pack revision:** this commit (pack body rebuilt below, links pinned to `60b2e18`)
+**Audit-pack revision:** `4dd8800` (this brief's commit; pack links pin to `60b2e18`)
 **Canonical figure↔code pack:** `paper/chatgpt/figure_code_audit_pack.md`
-  → https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/60b2e18/paper/chatgpt/figure_code_audit_pack.md
+  → https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/4dd8800/paper/chatgpt/figure_code_audit_pack.md
 
 > Note on the version-chain fix you asked for (#1 last round): I now separate
 > **figure/manuscript baseline = `60b2e18`** from **audit-pack revision = this
