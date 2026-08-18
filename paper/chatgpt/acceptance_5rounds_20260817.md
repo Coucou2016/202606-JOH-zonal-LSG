@@ -43,7 +43,7 @@ No “first zonal LSG”. Contribution = equal-budget conditional diagnosis (Tan
 
 ## Remaining risks
 
-- Main figure IDs still non-contiguous (1,2,3,8–19 + A1–A5); captions improved; full renumber HOLD for churn.
+- ~~Main figure IDs still non-contiguous~~ **RESOLVED (2026-08-17):** Results reordered to spatial-first per user decision, and all main-text figures renumbered contiguously in citation order (Figure 1–21) via `scripts/101_restructure_and_renumber.py`. The hardcoded caption table in `scripts/98_paper_html.py` was removed so HTML/PDF captions derive from `manuscript.md`, preventing future drift. Chinese report series also made contiguous (图 1–17 statistical, 图 S1–S8 spatial). Guarded by `scripts/_check_fig_numbering.py`.
 - Carlisle-only clear zoning win; gpflow/Brisbane/LSG-TS/selector out of scope (Limitations).
 - Chowilla checksum/datum caveat remains.
 - When Rule labels >B classes, code may allocate 1 mode per nonempty zone; headline artefacts report `actual_modes` matching B — disclosed in Methods.

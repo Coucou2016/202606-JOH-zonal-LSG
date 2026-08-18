@@ -28,6 +28,38 @@ JOBS = [
         "doi": "10.5194/hess-29-3833-2025",
         "source": "Copernicus publisher OA PDF (CC BY)",
     },
+    # Supplied by the user on 2026-08-17; identity confirmed from the PDF text
+    # layer (title + DOI) rather than from the file name.
+    {
+        "pdf": "1-s2.0-S0043135424001027-main.pdf",
+        "md": "fraehr2024_watres_lsg_fulltext.md",
+        "shortname": "fraehr2024_watres_lsg",
+        "cite": "Fraehr et al. (2024) Water Research 252, 121202",
+        "doi": "10.1016/j.watres.2024.121202",
+        "source": "user-supplied publisher PDF (Elsevier open access, CC BY)",
+    },
+    {
+        "pdf": (
+            "Water Resources Research - 2023 - Fraehr - "
+            "Development of a Fast and Accurate Hybrid Model for Floodplain Inundation.pdf"
+        ),
+        "md": "fraehr2023a_wrr_floodplain.md",
+        "shortname": "fraehr2023a_wrr_floodplain",
+        "cite": "Fraehr et al. (2023a) Water Resources Research 59, e2022WR033836",
+        "doi": "10.1029/2022WR033836",
+        "source": "user-supplied publisher PDF",
+    },
+    {
+        "pdf": "1-s2.0-S0301479724035564-main.pdf",
+        "md": "fraehr2025_jem_training_events.md",
+        "shortname": "fraehr2025_jem_training_events",
+        "cite": (
+            "Fraehr et al. Generation and selection of training events for "
+            "surrogate flood inundation models, Journal of Environmental Management"
+        ),
+        "doi": "10.1016/j.jenvman.2024.123570",
+        "source": "user-supplied publisher PDF",
+    },
 ]
 
 

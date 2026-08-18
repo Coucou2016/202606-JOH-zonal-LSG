@@ -396,7 +396,7 @@ def build(data: dict) -> tuple[str, str, list[str], list[str]]:
         ["低保真（LF）模型", "HEC-RAS 2D", "MIKE 21（粗网格）", "HEC-RAS 2D"],
         ["HF 网格单元数", "581,061", "109,914", "780,785"],
         ["LF 网格单元数", "5,681", "1,434", "15,256"],
-        ["本文使用 / 库中可用事件数", "9 / 9", "12 / 31", "12（单次划分）或 30（LOOCV） / 74"],
+        ["本文使用 / 库中可用事件数", "9 / 9", "12 / 29", "12（单次划分）或 30（LOOCV） / 74"],
         ["在本文中的角色", "主证据：9 折事件 LOOCV", "边界情形：LSG 劣于仅用 LF", "对照：分区未优于全局"],
         ["仅用 LF 的面积加权 RMSE（m）", fmt(LF), fmt(ch_lf), fmt(b_lf)],
         ["残差组织指数 EOI（最大淹没面，本次）", f"{eoi_c:.3f}（低）", f"{eoi_w:.3f}（低）", f"{eoi_bmax:.3f}（高）"],
@@ -737,7 +737,7 @@ def build(data: dict) -> tuple[str, str, list[str], list[str]]:
 <p>Fraehr 等人把这一思路写成 LSG：对高保真淹没场做 EOF 降维，把低保真场投影到同一套空间基上得到伪展开系数，再用 GP 学习「低保真系数 → 高保真系数」。代理一旦离线训练好，新一场低保真模拟可以在数秒内映射成高保真风格的淹没面。Wang 等人（2026）在复杂泛滥平原上比较了 LSG-TS（全时段序列）与 LSG-Max（最大面）等变体。</p>
 <p>若低保真相对高保真的残差在空间上成块，全局模态就可能把不同力学区的信号平均掉——但这只是<strong>动机</strong>，不是充分条件。一阶 EOI（最大面）事后被证明不能单独预测分区增益。本文的问题因此可以写成一句：</p>
 <div class="note"><strong>核心问题：</strong>当模态预算 B 被公平地限制、指标按面积加权、分区只用训练事件时，全局 EOF 降维在什么条件下已经不够，而水动力分区能够稳定地降低水深 RMSE？</div>
-<p>相应的工作假说原先写成：分区收益是<strong>一阶残差空间组织 × 有限模态容量</strong>的合取。最大面 EOI 重算后，该合取被证伪为充分条件。修订叙事：Carlisle 是“分区 LSG 有用、但最大面一阶 EOI 并不高”的正例；Burnett 是“最大面一阶 EOI 极高、等预算分区仍无益”的反例；Chowilla 是“低保真与高保真匹配过差、LSG 会帮倒忙”的边界。二阶 oracle（图 19）排除“等预算纯 EOF 截断变好”；stage-swap（E13）进一步表明：在耦合的 LF→HF 管线里引入分区结构（EOF 坐标或映射局部性）即可收回几乎全部 ZZ 增益，但<strong>不能</strong>把收益唯一钉死在区私有 GP 上。</p>
+<p>相应的工作假说原先写成：分区收益是<strong>一阶残差空间组织 × 有限模态容量</strong>的合取。最大面 EOI 重算后，该合取被证伪为充分条件。修订叙事：Carlisle 是“分区 LSG 有用、但最大面一阶 EOI 并不高”的正例；Burnett 是“最大面一阶 EOI 极高、等预算分区仍无益”的反例；Chowilla 是“低保真与高保真匹配过差、LSG 会帮倒忙”的边界。二阶 oracle（图 14）排除“等预算纯 EOF 截断变好”；stage-swap（E13）进一步表明：在耦合的 LF→HF 管线里引入分区结构（EOF 坐标或映射局部性）即可收回几乎全部 ZZ 增益，但<strong>不能</strong>把收益唯一钉死在区私有 GP 上。</p>
 <h3 id="s2-2">2.3　术语约定（首次出现时的读法）</h3>
 <ul>
 <li><span class="term">EOF</span>（经验正交函数，Empirical Orthogonal Function）：把多场淹没水深矩阵分解为空间模态与系数。模态数越多，重建越细，也越容易在小样本上过拟合。</li>
@@ -762,7 +762,7 @@ def build(data: dict) -> tuple[str, str, list[str], list[str]]:
 <section id="s3">
 <h2>3　数据与方法</h2>
 <h3 id="s3-1">3.1　三个案例</h3>
-<p>数据来自 Fraehr（2024）公开基准（Figshare 记录 24312658）。网格单元数来自几何文件，而不是合成 30×40 玩具网格：Carlisle 581,061 / 5,681，Chowilla 109,914 / 1,434，Burnett River 780,785 / 15,256。Carlisle 的 LF 格点数 5,681 由几何直接读取，不是凭记忆填写。</p>
+<p>数据来自 Fraehr（2024）公开基准（Figshare 记录 24312658）。网格单元数来自几何文件，而不是合成 30×40 玩具网格：Carlisle 581,061 / 5,681，Chowilla 109,914 / 1,434，Burnett River 780,785 / 15,256。Carlisle 的 LF 格点数 5,681 由几何直接读取，不是凭记忆填写。<strong>需要注意</strong>：Fraehr 2024 表 1 把 Burnett 高保真网格记为约 3,697,597 格，而本文分析的 780,785 格是最大面评价<strong>子集</strong>（数据包 <code>burnettrv_30events.npz</code> 实测 30×780,785），并非原生全网格；Burnett 结论应在此前提下阅读。</p>
 {html_table(t1_h, t1_r, "表 1　案例摘要。HF/LF 格点来自 Fraehr 几何；RMSE 来自 registry v4 与对应 JSON。", "tbl1")}
 <p class="tbl-explain">请这样读表 1。每一列是一个独立流域，不可把三列的 RMSE 直接比大小来论输赢：Carlisle 的误差在分米量级，Burnett 在米量级，这首先反映洪水尺度与模型结构，而不是分区算法的绝对精度。真正要横着看的是<strong>同一列内部</strong>：仅用 LF、全局 LSG、分区 LSG 谁更好。最大淹没面 EOI 已三案齐全：Carlisle {eoi_c:.3f}、Chowilla {eoi_w:.3f}、Burnett {eoi_bmax:.3f}。历史时序 EOI（Carlisle {eoi_ts:.2f}）与最大面 EOI 不是同一个量，正文 6.1 节分开解释。</p>
 {html_table(t2_h, t2_r, "表 2　实验矩阵。E1–E3 共享真等预算；E4 为统计主声称；E5 必须如实写不显著；E8–E12 为本次平行推进的诊断与扩展。", "tbl2")}
@@ -807,7 +807,7 @@ RMSE<sub>area</sub> = {{ Σ<sub>i</sub> A<sub>i</sub> (ĥ<sub>i</sub> − h<sub>
 <p>仓库里同时存在两条历史轨道，读者若把它们叠在一起，会得到互相矛盾的 RMSE。必须先分清。</p>
 <p><strong>轨道 A（合成冒烟，scripts/03–09，<code>--synthetic</code>）。</strong>在 30×40 的玩具网格上生成高斯型洪水过程，用来在真实 HDF5 到来之前把 EOF、GP、分区、作图跑通。这些 RMSE 往往在数厘米量级，箱线图、分区柱状图、训练比例曲线多半来自这里。它们<strong>不是</strong> Fraehr 真实案例的结果，本文凡引用轨道 A 配图，都会在图注标明“不可当作论文数字”。</p>
 <p><strong>轨道 B（真实数据，可引用）。</strong>Carlisle 由 <code>30_carlisle_proper.py</code> 读取 LISFLOOD-FP 高保真 npz 与 HEC-RAS HDF5 低保真；Burnett 由 <code>31_</code> 与 <code>32_</code> 读取标准网格与 30 场事件 npz；登记表由 <code>45_build_registry.py</code> 从 JSON 重建。英文投稿稿由 <code>95_final_submission_report.py</code> 生成 <code>report.html</code>。本中文报告是平行文档，不覆盖那三件英文产物。</p>
-<p>Chowilla 压缩包历史上 MD5 校验失败；分析使用已解压的 31 场 HF + 31 场 LF，并保留损坏副本（Chowilla.bad）以免再次误用。本文评价子集为 12/31 场。高程基准是否错位，尚未做专门对照，故 LSG 退化的机制解释到“粗网格 LF 与可能的基准问题”为止，不往更具体的故事里编。</p>
+<p>Chowilla 压缩包历史上 MD5 校验失败；分析使用已解压的 29 场 HF + 29 场 LF（数据包 <code>chowilla_29events.npz</code> 实测 <code>hf_max</code> 形状为 29×109,914，与 Fraehr 2024 表 1 所载 29 场一致；早期稿曾误记为 31 场，已按实测更正），并保留损坏副本（Chowilla.bad）以免再次误用。本文评价子集为 12/29 场。高程基准是否错位，尚未做专门对照，故 LSG 退化的机制解释到“粗网格 LF 与可能的基准问题”为止，不往更具体的故事里编。</p>
 <h3 id="s4-2">4.2　泄漏审计</h3>
 {html_table(t8_h, t8_r, "表 8　Carlisle 泄漏审计摘要（outputs/audit/carlisle_leakage_audit.json）。", "tbl8")}
 <p class="tbl-explain">审计文件记录时间戳 2026-08-14 21:05:55，<code>passed=true</code>。官方划分文件中训练 1893 个时间步、检验 211 步、重叠为零。分区特征、EOF 基与 GP 均不得看见检验事件。面积权来自几何。随机种子 42。若没有这一步，分区模型可能通过“用检验洪水的最大水深来画区”而偷看答案；那会把表 3 的 34.2% 变成不可信的数字。</p>
@@ -894,7 +894,7 @@ f"<p>横轴是平均 ΔRMSE（全局减分区），竖虚线为 0。须向右表
 {html_table(t5_h, t5_r, "表 5　三案例面积加权 RMSE（registry v4）。Chowilla 为边界情形。", "tbl5")}
 <p class="tbl-explain">表 5 是全文的“地图”。Carlisle：分区 &gt; 全局 &gt; 仅用 LF（就 RMSE）。Burnett 12 事件单次划分：全局 {fmt(b_g)} m 与规则 {fmt(b_r)} m 几乎相同，二者都明显低于仅用 LF 的 {fmt(b_lf)} m——LSG 有用，但分区没有额外好处。Chowilla：仅用 LF {fmt(ch_lf)} m，LSG 约 {fmt(ch_g)} m，差一个数量级。把三列都说成“分区成功”会直接与数据冲突。</p>
 {fig_block(9, "三案例面积加权 RMSE（registry v4 / SciencePlots）", "fig04_three_case.png",
-"图5 三案例柱状图",
+"图9 三案例柱状图",
 f"<p>每组三根柱：蓝为仅用 LF，橙为全局 LSG（B=4，Burnett 全局为自动模态、实际 3 个），绿为规则分区 B=4。Carlisle 组最矮，绿柱明显低于橙柱与蓝柱，对应 {fmt(LF)} / {fmt(G4)} / {fmt(R4)} m。Chowilla 组蓝柱约 {fmt(ch_lf)} m，橙绿两柱冲到约 2.56 m，几乎重叠——分区救不了低保真与高保真之间的结构性错位。Burnett 组蓝柱约 {fmt(b_lf)} m，橙绿都在约 1.61 m，肉眼难分。</p>"
 + "<p>纵轴到 2.5 m 是为了容纳 Chowilla 与 Burnett；因此 Carlisle 的 0.05 m 级差异看起来很小，必须回到表 3 读精确值。本图来自 registry，属于可引用配图。</p>")}
 {html_table(t9_h, t9_r, "表 9　Chowilla 预算扫描（budget_sweep_full.json）。LSG 在 B=4/8/12 均约 2.56 m。", "tbl9")}
@@ -951,29 +951,29 @@ f"<p>横轴为训练+预测时间（秒），纵轴为面积加权 RMSE。叉号
 <p>官方两折只有四场检验事件，平均 ΔRMSE = {fmt(official['mean_delta_rmse'])} m，区间跨 0。事件 1 那种半米级差异若没被抽中，显著性就消失。这是功效问题。英文稿因此把 9 折作为统计主声称，并把 2 折不显著写进摘要——中文完整版保持同一纪律。</p>
 <p>Carlisle 上 RMSE 大降、CSI 却略低于仅用低保真。LSG 倾向宁湿勿干。若产品形态是淹没范围多边形，仅用低保真在 Carlisle 仍有竞争力。主指标选 RMSE，是因为假说针对局部水深结构，不是二值湿干图。</p>
 <h3 id="s6-5">6.5　EOI 证伪、官方 9 折、外推、LF 加粗与主槽距离</h3>
-<p>最大面一阶 EOI 与已有 9/30 折 ΔRMSE 的折级相关分别为 Carlisle −0.58、Burnett −0.43：EOI 更高的折并不对应更大的分区增益。结合图 14–15，一阶 EOI 被明确证伪为分区开关。</p>
-{fig_block(14, "三案例最大淹没面残差组织指数", "fig14_eoi.png",
-"图14 三案例 EOI",
+<p>最大面一阶 EOI 与已有 9/30 折 ΔRMSE 的折级相关分别为 Carlisle −0.58、Burnett −0.43：EOI 更高的折并不对应更大的分区增益。结合图 12–13，一阶 EOI 被明确证伪为分区开关。</p>
+{fig_block(12, "三案例最大淹没面残差组织指数", "fig14_eoi.png",
+"图12 三案例 EOI",
 f"<p>横虚线为预先设定的高结构阈值 0.30。Burnett {eoi_bmax:.3f} 远高于阈值，Chowilla {eoi_w:.3f} 与 Carlisle {eoi_c:.3f} 低于阈值。若以该图为先验筛选，会预测 Burnett 该分区、Carlisle 不该分区——与表 3 / 30 折 LOOCV 恰好相反。因此一阶 EOI 只能作为残差地图的描述统计，不能单独充当“是否分区”的开关。</p>")}
-{fig_block(15, "折内训练期 EOI 与规则分区 ΔRMSE", "fig15_eoi_vs_delta.png",
-"图15 EOI 对增益散点",
+{fig_block(13, "折内训练期 EOI 与规则分区 ΔRMSE", "fig15_eoi_vs_delta.png",
+"图13 EOI 对增益散点",
 "<p>纵轴为正表示分区优于全局。点云不呈正斜率。这是对“高 EOI → 分区获益”的直接否证（在最大面、等预算 B=4 协议下）。</p>")}
 {html_table(t_modal_h, t_modal_r, "表 E8b　二阶模态诊断：区–全局解释方差缺口（ZGG）与等预算纯 EOF 重建（无 GP）。正 ΔRMSE 表示分区更好。", "tblE8b") if t_modal_r else ""}
-{fig_block(19, "二阶诊断：ZGG 与等预算纯 EOF", "fig19_modal_eoi.png",
-"图19 模态 EOI",
+{fig_block(14, "二阶诊断：ZGG 与等预算纯 EOF", "fig19_modal_eoi.png",
+"图14 模态 EOI",
 "<p>三案例 ZGG 均为正：各区局部基解释的方差高于同秩全局基在该区的限制。但等预算纯 EOF 重建的 ΔRMSE 均为<strong>负</strong>（Carlisle −0.076 m，Burnett −0.198 m，Chowilla −0.066 m）——把总预算 B=4 切开会损失全局秩。因此 Carlisle 上 LSG 分区的增益不是来自“分区 EOF 把高保真场重建得更好”。</p>")}
 {html_table(t_off_h, t_off_r, "表 E9　官方 9 折（一场一折）上已发表五模型的最大水深 R² / CSI，对照本文 LSG-Max。已发表 RMSE 为湿网格时序指标，不可与 LSG-Max 的面积加权 RMSE 混比。", "tblE9") if t_off_r else ""}
-{fig_block(16, "官方湿网格上的最大水深 R²", "fig16_official_maxwd_r2.png",
-"图16 官方协议 MaxWD R2",
+{fig_block(15, "官方湿网格上的最大水深 R²", "fig16_official_maxwd_r2.png",
+"图15 官方协议 MaxWD R2",
 "<p>已发表 LSG-TS 的最大水深 R² 为 0.990。本文规则分区 LSG-Max 为 0.988，在最大面协议上接近其时序模型；全局 LSG-Max 被事件 1 拉到 0.915。CSI 上已发表 LSG-TS（0.937）仍高于本文规则分区（0.905），因其另有独立的淹没范围模型。</p>")}
 <p>外推事件 p10（50%）与 p11（100%）的高保真真值从原始 NPZ 重算；库内 <code>MaxWD[:,0]</code> 两场完全相同，已弃用。训练期湿网格 239,482 格，官方外推湿网格 290,458 格（+21.3%）。p10 上规则分区面积加权 RMSE 0.609 m、训练湿网格 R² 0.735，全局为 1.085 m / 0.104；p11 上规则 1.124 m、全局 1.633 m（R² 为负）。分区改善外推，但绝对误差仍远大于插值事件，且两场上仅用 LF 的面积加权 RMSE 约 0.10 m——外推时 LSG-Max 尚未打败低保真。湿掩膜放宽后 R² 上升，因为多进来的格子更容易被“预测为干/浅”蒙对；比较外推必须预先登记掩膜，不能事后选用。</p>
 {html_table(t_deg_h, t_deg_r, "表 E11　Carlisle 低保真网格空间加粗（B=4，7/2 划分，种子 42）。", "tblE11") if t_deg_r else ""}
-{fig_block(17, "低保真网格加粗后的面积加权 RMSE", "fig17_lf_degradation.png",
-"图17 LF 分辨率退化",
+{fig_block(16, "低保真网格加粗后的面积加权 RMSE", "fig17_lf_degradation.png",
+"图16 LF 分辨率退化",
 "<p>×1：仅用 LF 0.160 m，全局 0.146 m，规则 0.094 m。×2：LF 恶化到 0.274 m，规则几乎不动（0.094 m）。×4：LF 0.667 m，规则 0.103 m。分区 LSG 对低保真网格变粗不敏感，因为 EOF+GP 学的是系统偏差，不是复制低保真细节。</p>")}
 {html_table(t_ch_h, t_ch_r, "表 E12　距 Carlisle_MCL 主槽线的物理分区（同一 7/2 划分）。", "tblE12") if t_ch_r else ""}
-{fig_block(18, "主槽距离分区与规则分区", "fig18_channel_distance.png",
-"图18 主槽距离",
+{fig_block(17, "主槽距离分区与规则分区", "fig18_channel_distance.png",
+"图17 主槽距离",
 "<p>规则+主槽距离 0.094 m，略优于纯规则 0.096 m；仅用距离四分位带 0.112 m，仍明显优于全局 0.146 m。物理河道距离不使用检验期残差，泄漏风险低于残差热点叠加，是可公开复现的备选切区。</p>")}
 <h3 id="s6-6">6.6　stage-swap 揭示的机制是什么</h3>
 {expl.get('_stage_swap_html', '')}
@@ -1311,12 +1311,12 @@ LOOCV 均值：GG≈0.180、ZZ≈0.098、GZ≈0.098、ZG≈0.101 m → **GZ≈ZG
 
 **EOI 证伪 + stage-swap：** 一阶 EOI 不能当开关；oracle 排除纯截断；stage-swap 显示表示或映射任一段分区化即可收回大部分收益。
 
-{md_fig(14, "三案例最大淹没面 EOI", "fig14_eoi.png", "Burnett 高、Carlisle/Chowilla 低；与分区是否获益方向相反。")}
-{md_fig(15, "EOI vs Δ", "fig15_eoi_vs_delta.png", "点云无正斜率。")}
-{md_fig(19, "二阶 ZGG/oracle", "fig19_modal_eoi.png", "ZGG>0 但 oracle ΔRMSE<0。")}
-{md_fig(16, "官方 MaxWD R²", "fig16_official_maxwd_r2.png", "规则 LSG-Max 0.988 vs 已发表 LSG-TS 0.990。")}
-{md_fig(17, "LF 加粗", "fig17_lf_degradation.png", "规则对 LF 变粗稳健。")}
-{md_fig(18, "主槽距离", "fig18_channel_distance.png", "物理切区可替代残差热点。")}
+{md_fig(12, "三案例最大淹没面 EOI", "fig14_eoi.png", "Burnett 高、Carlisle/Chowilla 低；与分区是否获益方向相反。")}
+{md_fig(13, "EOI vs Δ", "fig15_eoi_vs_delta.png", "点云无正斜率。")}
+{md_fig(14, "二阶 ZGG/oracle", "fig19_modal_eoi.png", "ZGG>0 但 oracle ΔRMSE<0。")}
+{md_fig(15, "官方 MaxWD R²", "fig16_official_maxwd_r2.png", "规则 LSG-Max 0.988 vs 已发表 LSG-TS 0.990。")}
+{md_fig(16, "LF 加粗", "fig17_lf_degradation.png", "规则对 LF 变粗稳健。")}
+{md_fig(17, "主槽距离", "fig18_channel_distance.png", "物理切区可替代残差热点。")}
 
 ## 7 主要结论
 

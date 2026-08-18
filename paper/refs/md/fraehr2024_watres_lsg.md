@@ -1,6 +1,12 @@
-# Fraehr et al. (2024) Water Research — abstract-only entry
+# Fraehr et al. (2024) Water Research — abstract-only entry (SUPERSEDED)
 
-> **全文未获取（自动化访问遇 ScienceDirect 机器人验证码；未绕过）。**  
+> **本条目已被取代（2026-08-17）。全文现已在本地：**  
+> - PDF: `paper/refs/pdf/1-s2.0-S0043135424001027-main.pdf`（用户手工下载提供）  
+> - 全文 Markdown: `paper/refs/md/fraehr2024_watres_lsg_fulltext.md`  
+>
+> 本文件仅保留当时的获取尝试记录与书目核验轨迹，**不代表当前获取状态**。
+
+> 原始说明（历史记录）：**全文未获取（自动化访问遇 ScienceDirect 机器人验证码；未绕过）。**  
 > Crossref / Semantic Scholar 标注该文 **CC BY 4.0 / hybrid OA**，官方页面可人工下载，但本机自动化未拿到合法 PDF。
 
 ## Bibliographic record (DOI verified)

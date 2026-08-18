@@ -11,7 +11,7 @@
 | Branch | `master` @ `0677209` (origin/master) |
 | Uncommitted before | manuscript HTML/MD/PDF + 98/99/_deep_fig_zh + spatial figs (untracked) |
 | Python | `D:\miniforge3\envs\hydromodel\python.exe` |
-| Fraehr 2024 full text | ScienceDirect CAPTCHA stopped; Adelaide OA claimed by advisor but local URL probes 404 — **cannot claim exact full-text length matching** |
+| Fraehr 2024 full text | ~~ScienceDirect CAPTCHA stopped; cannot claim exact full-text length matching~~ **RESOLVED 2026-08-17:** user supplied the publisher PDF (`1-s2.0-S0043135424001027-main.pdf`, identity verified from title + DOI). Template body measured directly at **9,599 words** vs ours 3,593 (0.37×) via `paper/refs/_length_benchmark.py`; measured outline recorded in the reading pack. |
 
 ## 2. Section length (EN words; approximate)
 
@@ -42,7 +42,7 @@
 | Transferable selector | **SCIENCE-SHOULD-NOT-FORCE** | EOI falsified |
 | Burnett KMeans/74 | **FORMALIZED LIMITATION** | 30-fold Rule LOOCV sufficient for non-benefit claim |
 | Chowilla MD5/datum | **FORMALIZED LIMITATION** | no authoritative hash |
-| Fraehr 2024 full PDF | **BLOCKED/HOLD** | CAPTCHA; Adelaide probe unverified |
+| Fraehr 2024 full PDF | **COMPLETED (2026-08-17)** | User-supplied publisher PDF; full text + measured outline + length benchmark now local. Two Table 1 errors it exposed (Burnett 780,825→780,785; Chowilla 31→29 available) are corrected and guarded by new audit checks. |
 
 ## 4. Data authenticity
 
