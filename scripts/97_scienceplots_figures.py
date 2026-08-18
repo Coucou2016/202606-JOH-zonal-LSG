@@ -331,6 +331,7 @@ def fig_eoi(eoi_all: dict):
 def fig_eoi_vs_delta(eoi_all: dict):
     fig, ax = plt.subplots(figsize=(W1, 2.5))
     markers = {"carlisle": "o", "burnettrv": "s", "chowilla": "^"}
+    colors = {"carlisle": "#2c7bb6", "burnettrv": "#d7191c", "chowilla": "#4d6a8f"}
     names = {"carlisle": "Carlisle", "burnettrv": "Burnett", "chowilla": "Chowilla"}
     for case, rec in eoi_all.get("cases", {}).items():
         folds = rec.get("per_fold") or []
@@ -343,9 +344,13 @@ def fig_eoi_vs_delta(eoi_all: dict):
             ys.append(d)
         if not xs:
             continue
-        ax.scatter(xs, ys, s=14, marker=markers.get(case, "o"), label=names.get(case, case), alpha=0.75)
+        ax.scatter(
+            xs, ys, s=22, marker=markers.get(case, "o"),
+            facecolors="none", edgecolors=colors.get(case, "0.3"),
+            linewidths=0.7, label=names.get(case, case), alpha=0.9,
+        )
     ax.axhline(0.0, color="0.5", lw=0.6)
-    ax.set_xlabel("In-fold training EOI")
+    ax.set_xlabel("In-fold train-only EOI (residual-free partition)")
     ax.set_ylabel(r"$\Delta$RMSE (global$-$zonal, m)")
     ax.legend(frameon=False, fontsize=6)
     save(fig, "fig15_eoi_vs_delta.png")

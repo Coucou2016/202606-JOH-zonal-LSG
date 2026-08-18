@@ -4,6 +4,15 @@ EOI = Var(zone-mean |LF−HF|) / Var(cell |LF−HF|) on the training wet mask.
 The numerator is the **unweighted** variance across active-zone means (each zone
 weighted equally regardless of cell count), so EOI is not by construction
 confined to [0, 1].
+
+The zone partition used for EOI is the **residual-free four-class hydrodynamic
+partition** (maximum depth + inundation frequency, no residual-error hotspot
+override). This keeps the partition independent of the residual being measured,
+so EOI cannot be inflated by construction (using the residual to define the
+zones would trivially organise it). The production Rule LSG partition may add
+the hotspot override and a budget merge, so its zone map is not identical to the
+EOI partition.
+
 High EOI indicates stronger between-zone organisation of LF–HF residual magnitude
 relative to total cell-scale variance. It does **not** imply that zoning will
 improve downstream LSG skill (Track B falsifies EOI-as-switch).
@@ -80,10 +89,15 @@ def eoi_from_max_surfaces(
     wet_threshold: float = 0.03,
     event_index: np.ndarray | slice | None = None,
 ) -> dict[str, Any]:
-    """Train-only EOI on LSG-Max surfaces using rule-based zones.
+    """EOI on LSG-Max surfaces using the residual-free hydrodynamic partition.
+
+    The zone partition is ``rule_based_zones(max_depth, inund_freq)`` with **no**
+    residual-error hotspot override, keeping the partition independent of the
+    residual being measured.
 
     hf_max, lf_max: (n_events, n_cells), LF already on the HF mesh.
-    event_index: which events count as training (default: all).
+    event_index: which events are used. Default (None) uses all events, i.e. a
+        retrospective pooled estimate rather than a strictly train-only value.
     """
     if event_index is None:
         hf = np.asarray(hf_max, dtype=np.float64)

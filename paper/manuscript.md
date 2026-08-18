@@ -54,7 +54,7 @@ All fitted quantities are derived from the training events. This includes zoning
 
 Three complementary diagnostics are used to examine why zoning changes prediction skill.
 
-First, an error-organization index (EOI) measures how strongly the magnitude of the training LF-HF residual varies between zones. For a given zone partition, EOI is defined as
+First, an error-organization index (EOI) measures how strongly the magnitude of the training LF-HF residual varies between zones. EOI uses the four-class hydrodynamic partition (maximum depth and inundation frequency) without the residual-error hotspot override, so the partition is independent of the residual being measured and the index cannot be inflated by construction. For a given zone partition, EOI is defined as
 
 \[
 \mathrm{EOI} = \frac{\mathrm{Var}_k(\bar{r}_k)}{\mathrm{Var}_i(|h_{\mathrm{LF},i} - h_{\mathrm{HF},i}|)},
@@ -183,15 +183,15 @@ The fixed-split three-case comparison gives a related but distinct view (Table 2
 | Chowilla | 0.3926 | 2.5606 | 2.5614 | LF is most accurate; both LSG variants degrade |
 | Burnett (12-event fixed split) | 2.2323 | 1.6117 | 1.6122 | Global and Rule are nearly identical |
 
-![Figure 14. Three-case area-weighted RMSE at \(B=4\) for LF-only, Global LSG-Max, and Rule zonal LSG-Max. The Burnett values use the 12-event fixed split and are separate from the 30-fold LOOCV analysis in Figure 13.](../outputs/figures/fig04_three_case.png)
+![Figure 14. Three-case area-weighted RMSE at \(B=4\) for LF-only, Global LSG-Max, and Rule zonal LSG-Max. The Burnett values use the 12-event fixed split and are separate from the 30-fold LOOCV analysis in Figure 13. The inset magnifies the Carlisle bars to resolve the smaller between-model differences.](../outputs/figures/fig04_three_case.png)
 
 ### 4.4. Residual organization and stage diagnostics
 
-The max-surface EOI values are 0.057 for Carlisle, 0.116 for Chowilla, and 0.957 for Burnett (Figure 15). This ordering does not match the observed zoning benefit. Carlisle has the lowest EOI and the clearest matched-capacity improvement, whereas Burnett has the highest EOI and no Rule advantage in the 30-fold analysis. The fold-level comparison in Figure 16 gives the same qualitative result. EOI therefore does not provide a useful first-order ranking of zoning benefit for these cases. This finding is limited to the diagnostic tested here and does not rule out other training-data indicators.
+The max-surface EOI values are 0.057 for Carlisle, 0.116 for Chowilla, and 0.957 for Burnett (Figure 15). These pooled values are retrospective descriptors computed over all available events for each case (Carlisle \(n=9\), Burnett \(n=30\), Chowilla \(n=29\)); the fold-level values in Figure 16 are the strictly train-only counterparts. This ordering does not match the observed zoning benefit. Carlisle has the lowest EOI and the clearest matched-capacity improvement, whereas Burnett has the highest EOI and no Rule advantage in the 30-fold analysis. The fold-level comparison in Figure 16 gives the same qualitative result. EOI therefore does not provide a useful first-order ranking of zoning benefit for these cases. This finding is limited to the diagnostic tested here and does not rule out other training-data indicators.
 
-![Figure 15. Max-surface error-organization index (EOI) for Carlisle, Burnett, and Chowilla. EOI is the ratio of the unweighted across-zone-mean residual variance to the cellwise residual variance and is not by construction bounded by [0,1].](../outputs/figures/fig14_eoi.png)
+![Figure 15. Max-surface error-organization index (EOI) for Carlisle, Burnett, and Chowilla. EOI is the ratio of the unweighted across-zone-mean residual variance to the cellwise residual variance and is not by construction bounded by [0,1]. The pooled values are computed over all available events (Carlisle \(n=9\), Burnett \(n=30\), Chowilla \(n=29\)) on the residual-free four-class hydrodynamic partition.](../outputs/figures/fig14_eoi.png)
 
-![Figure 16. In-fold training EOI and matched-capacity zoning \(\Delta\mathrm{RMSE}\) for Carlisle and Burnett folds. Positive \(\Delta\mathrm{RMSE}\) favours zoning.](../outputs/figures/fig15_eoi_vs_delta.png)
+![Figure 16. In-fold train-only EOI (residual-free four-class hydrodynamic partition) and matched-capacity zoning \(\Delta\mathrm{RMSE}\) for Carlisle and Burnett folds. Positive \(\Delta\mathrm{RMSE}\) favours zoning.](../outputs/figures/fig15_eoi_vs_delta.png)
 
 The pure-EOF analysis gives a more nuanced result than the ZGG values alone would suggest. ZGG is positive for all three cases (Table 3), indicating that local modes capture more within-zone variance than the same number of restricted global modes. However, the equal-budget pure-EOF oracle gives negative \(\Delta\mathrm{RMSE}\) for each case, meaning that the zonal EOF reconstruction is not more accurate than the global reconstruction before GP mapping. This apparent paradox arises because ZGG measures within-zone variance explained, whereas the oracle RMSE depends on the total reconstruction error summed over all zones. The zonal oracle loses variance that is shared across zones, which the global oracle captures in its leading modes. For Chowilla, the area-weighted oracle difference remains negative (-0.0543 m compared with -0.0657 m without weighting). Carlisle and Burnett have uniform cell areas, so weighting leaves their oracle differences unchanged.
 
