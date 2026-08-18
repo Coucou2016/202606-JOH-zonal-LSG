@@ -93,8 +93,8 @@ def audit() -> dict[str, Any]:
     add("carlisle_loocv_B4_mean_delta", 0.0821, round(mean_d, 4), 5e-4, "loocv_results.json")
     # fold1 spike cited in ms
     f1 = next(r for r in rows4 if int(r["test_event"]) == 1)
-    add("carlisle_loocv_ev1_global", 0.694, round(f1["global_rmse"], 3), 5e-3, "loocv_results.json")
-    add("carlisle_loocv_ev1_rule", 0.166, round(f1["zonal_rmse"], 3), 5e-3, "loocv_results.json")
+    add("carlisle_loocv_ev1_global", 0.695, round(f1["global_rmse"], 3), 5e-3, "loocv_results.json")
+    add("carlisle_loocv_ev1_rule", 0.167, round(f1["zonal_rmse"], 3), 5e-3, "loocv_results.json")
 
     ci = _load(_ROOT / "outputs/evaluation/carlisle/loocv_bootstrap_ci.json")
     # tolerate nested shapes

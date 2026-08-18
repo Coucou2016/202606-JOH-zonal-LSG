@@ -505,11 +505,11 @@ def fig_obs_pred_scatter(pack: dict, pred: dict, event_idx: int, tag: str) -> st
         idx = rng.choice(idx, size=40_000, replace=False)
 
     fig, axes = plt.subplots(1, 2, figsize=(W2, W2 * 0.45))
-    for ax, field, title in (
-        (axes[0], pred["global"], "Global LSG-Max"),
-        (axes[1], pred["rule"], "Rule zonal LSG-Max"),
+    for ax, field, title, color in (
+        (axes[0], pred["global"], "Global LSG-Max", "#2c7bb6"),
+        (axes[1], pred["rule"], "Rule zonal LSG-Max", "#d7191c"),
     ):
-        ax.scatter(hf[idx], field[idx], s=2, alpha=0.25, linewidths=0, rasterized=True)
+        ax.scatter(hf[idx], field[idx], s=2, alpha=0.25, linewidths=0, rasterized=True, color=color)
         lim = float(max(hf[idx].max(), field[idx].max(), WET))
         ax.plot([0, lim], [0, lim], "k--", lw=0.8, label="1:1")
         ax.set_xlim(0, lim)

@@ -165,13 +165,14 @@ def fig04_three_case(cb: dict, ch: dict, vs: dict):
     x = np.arange(len(labels))
     w = 0.26
     fig, ax = plt.subplots(figsize=(W2, 2.8))
-    ax.bar(x - w, lf, w, label="LF only")
-    ax.bar(x, glob, w, label="Global LSG-Max")
-    ax.bar(x + w, zonal, w, label="Rule zonal $B{=}4$")
+    colors = ["#abd9e9", "#2c7bb6", "#d7191c"]  # Nature-style: LF, Global, Zonal
+    ax.bar(x - w, lf, w, label="LF only", color=colors[0])
+    ax.bar(x, glob, w, label="Global LSG-Max", color=colors[1])
+    ax.bar(x + w, zonal, w, label="Rule zonal $B{=}4$", color=colors[2])
     ax.set_xticks(x)
     ax.set_xticklabels(labels)
     ax.set_ylabel("Area-weighted RMSE (m)")
-    ax.legend(frameon=False, ncol=3, fontsize=7, loc="upper left")
+    ax.legend(frameon=False, ncol=1, fontsize=7, loc="upper left")
     save(fig, "fig04_three_case.png")
 
 
@@ -272,7 +273,7 @@ def fig_mae_bias(cb: dict):
 
 def fig_eoi(eoi_all: dict):
     cases = ["carlisle", "burnettrv", "chowilla"]
-    labels = ["Carlisle", "BurnettRV", "Chowilla"]
+    labels = ["Carlisle", "Burnett", "Chowilla"]
     vals, colors = [], []
     for c in cases:
         rec = eoi_all.get("cases", {}).get(c)
@@ -296,7 +297,7 @@ def fig_eoi(eoi_all: dict):
 def fig_eoi_vs_delta(eoi_all: dict):
     fig, ax = plt.subplots(figsize=(W1, 2.5))
     markers = {"carlisle": "o", "burnettrv": "s", "chowilla": "^"}
-    names = {"carlisle": "Carlisle", "burnettrv": "BurnettRV", "chowilla": "Chowilla"}
+    names = {"carlisle": "Carlisle", "burnettrv": "Burnett", "chowilla": "Chowilla"}
     for case, rec in eoi_all.get("cases", {}).items():
         folds = rec.get("per_fold") or []
         xs, ys = [], []
@@ -383,7 +384,7 @@ def fig_channel(ch: dict):
 
 def fig_modal_eoi(modal: dict):
     cases = ["carlisle", "burnettrv", "chowilla"]
-    labels = ["Carlisle", "BurnettRV", "Chowilla"]
+    labels = ["Carlisle", "Burnett", "Chowilla"]
     zggs, deltas = [], []
     for c in cases:
         rec = modal.get("cases", {}).get(c)

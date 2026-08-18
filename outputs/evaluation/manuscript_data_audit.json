@@ -143,7 +143,7 @@
     },
     {
       "name": "carlisle_loocv_ev1_global",
-      "expected": 0.694,
+      "expected": 0.695,
       "observed": 0.695,
       "tol": 0.005,
       "pass": true,
@@ -151,7 +151,7 @@
     },
     {
       "name": "carlisle_loocv_ev1_rule",
-      "expected": 0.166,
+      "expected": 0.167,
       "observed": 0.167,
       "tol": 0.005,
       "pass": true,
