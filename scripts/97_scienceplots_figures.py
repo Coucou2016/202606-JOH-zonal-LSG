@@ -142,6 +142,7 @@ def fig03_mode_budget(cb: dict):
     ax.set_xlabel("Mode budget $B$")
     ax.set_ylabel("Area-weighted RMSE (m)")
     ax.set_xticks(Bs)
+    ax.set_ylim(0, 1.30 * max(g + r + k + [lf]))
     ax.legend(frameon=False, fontsize=7)
     ax.annotate("7 modes\nrealized", (8, g[2]), textcoords="offset points",
                 xytext=(8, 10), fontsize=6, color="0.35", ha="center")
@@ -155,6 +156,8 @@ def fig03_mode_budget(cb: dict):
     ax.set_xlabel("Mode budget $B$")
     ax.set_ylabel("Area-weighted CSI")
     ax.set_xticks(Bs)
+    _csi_all = [cb["budgets"][str(b)][m]["csi_area"] for b in Bs for m in ("global", "rule", "kmeans")]
+    ax.set_ylim(0, 1.08 * max(_csi_all + [cb["lf_only"]["csi_area"]]))
     ax.legend(frameon=False, fontsize=7)
     ax.annotate("7 modes\nrealized", (8, cb["budgets"]["8"]["global"]["csi_area"]),
                 textcoords="offset points", xytext=(8, 10), fontsize=6,

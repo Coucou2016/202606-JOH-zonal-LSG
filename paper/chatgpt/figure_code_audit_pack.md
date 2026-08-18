@@ -1,7 +1,7 @@
 # Figure ↔ Code Correspondence Audit Pack (for ChatGPT visual + code review)
 
 **Repo:** https://github.com/Coucou2016/202606-JOH-zonal-LSG
-**Commit under review:** `0f9dc22`
+**Commit under review:** `bbdb46d` (latest master; figures + numbers as of R13 sync)
 **Manuscript:** https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/paper/manuscript.md
 
 This pack pairs every manuscript figure with (a) the figure image, (b) the exact
@@ -21,6 +21,23 @@ Figures are embedded below as raw GitHub image URLs (ChatGPT can render these
 inline). The generating code lives in `scripts/97_scienceplots_figures.py`
 (statistical figures) and `scripts/97b_spatial_maps.py` (spatial maps).
 
+> **Important — manuscript figure number ≠ PNG file name.** The manuscript uses
+> sequential Figure 1…17, but the PNG files keep their internal (pre-renumbering)
+> names. Use this quick-reference map so you review the *right* image for each
+> manuscript figure:
+>
+> | Manuscript | PNG file | Manuscript | PNG file |
+> |---|---|---|---|
+> | Fig 1 | `fig01_workflow.png` | Fig 10 | `figA3_residuals_carlisle_ev1.png` |
+> | Fig 2 | `fig03_mode_budget.png` | Fig 11 | `figA4_zones_overlay_carlisle_ev1.png` |
+> | Fig 3 | `fig09_csi_budget.png` | Fig 12 | `figA5_obs_vs_pred_carlisle_ev1.png` |
+> | Fig 4 | `fig13_mae_bias.png` | Fig 13 | `fig10_burnett_loocv.png` |
+> | Fig 5 | `fig08_per_event_bootstrap.png` | Fig 14 | `fig04_three_case.png` |
+> | Fig 6 | `fig11_loocv_scatter.png` | Fig 15 | `fig14_eoi.png` |
+> | Fig 7 | `fig12_stat_ci.png` | Fig 16 | `fig15_eoi_vs_delta.png` |
+> | Fig 8 | `figA1_inundation_maps_carlisle_ev1.png` | Fig 17 | `fig17_lf_degradation.png` |
+> | Fig 9 | `figA2_csi_hitmiss_carlisle_ev1.png` | | |
+
 ---
 
 ## Figure 1 — Workflow schematic
@@ -37,10 +54,18 @@ primary comparisons.
 ```python
 def fig01_workflow():
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(W2, 3.15))
-    steps_g = ["LF interpolate to HF grid", "Global EOF",
-               "GP: LF coeffs → HF coeffs", "Reconstruct max. inundation"]
-    steps_z = ["Hydrodynamic zoning (train only)", "Zonal EOF",
-               "Zonal GP mapping", "Stitch zonal max. surfaces"]
+    steps_g = [
+        "LF interpolate to HF grid",
+        "Global EOF",
+        "GP: LF coeffs → HF coeffs",
+        "Reconstruct max. inundation",
+    ]
+    steps_z = [
+        "LF interpolate to HF grid",
+        "Hydrodynamic zoning (train only)",
+        "Zonal EOF + zonal GP mapping",
+        "Stitch zonal max. surfaces",
+    ]
     yg = [0.82, 0.58, 0.34, 0.10]
     for ax, title, steps, fc, ec in (
         (ax1, "Global LSG-Max (baseline)", steps_g, "#d9e8f5", "#2c5d8c"),
@@ -186,7 +211,7 @@ depth scale.
 
 ![Figure 8](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/figA1_inundation_maps_carlisle_ev1.png)
 
-**Code** (`fig_inundation` in `97b_spatial_maps.py`): 2×2 panels — (a) HF truth,
+**Code** (`fig_inundation` in `97b_spatial_maps.py`, lines 297–326): 2×2 panels — (a) HF truth,
 (b) LF input, (c) Global LSG-Max, (d) Rule zonal; shared `Blues` colormap,
 shared `vmax = 99th percentile of wet depth`.
 
@@ -199,7 +224,7 @@ predictions using the 0.03 m wet-depth threshold.
 
 ![Figure 9](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/figA2_csi_hitmiss_carlisle_ev1.png)
 
-**Code** (`fig_csi_spatial`): classes 0=correct dry (grey), 1=hit (green),
+**Code** (`fig_csi_spatial`, lines 338–377): classes 0=correct dry (grey), 1=hit (green),
 2=miss (blue), 3=false alarm (red). CSI Global=0.591, Rule=0.816.
 
 ---
@@ -211,7 +236,7 @@ corresponding change in absolute error.
 
 ![Figure 10](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/figA3_residuals_carlisle_ev1.png)
 
-**Code** (`fig_residuals`): (a) Global−HF, (b) Rule−HF, (c) |G−HF|−|R−HF|;
+**Code** (`fig_residuals`, lines 388–422): (a) Global−HF, (b) Rule−HF, (c) |G−HF|−|R−HF|;
 symmetric limits from 98th percentile of wet residuals (lim = 1.54 m).
 
 ---
@@ -223,7 +248,7 @@ relation to the HF depth field.
 
 ![Figure 11](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/figA4_zones_overlay_carlisle_ev1.png)
 
-**Code** (`fig_zones_overlay`): (a) zone-id map, (b) HF depth + zone contours.
+**Code** (`fig_zones_overlay`, lines 432–489): (a) zone-id map, (b) HF depth + zone contours.
 
 ---
 
@@ -234,7 +259,7 @@ the held-out Carlisle Run2 event.
 
 ![Figure 12](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/figA5_obs_vs_pred_carlisle_ev1.png)
 
-**Code** (`fig_obs_pred_scatter`): subsample ≤40k wet cells; color-coded Global
+**Code** (`fig_obs_pred_scatter`, lines 494–530): subsample ≤40k wet cells; color-coded Global
 (#2c7bb6) vs Rule (#d7191c); 1:1 reference line; RMSE annotated in title.
 
 ---
