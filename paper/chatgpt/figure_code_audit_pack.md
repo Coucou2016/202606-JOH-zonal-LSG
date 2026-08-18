@@ -1,14 +1,16 @@
 # Figure ↔ Code Correspondence Audit Pack (for ChatGPT visual + code review)
 
 **Repo:** https://github.com/Coucou2016/202606-JOH-zonal-LSG
-**Figure/manuscript baseline:** `60b2e18` (the commit containing the R19 figures + numbers)
-**Audit-pack revision:** `4dd8800` (this pack body; links below pin to the baseline)
+**Figure/data baseline:** `60b2e18` (figures + numbers, unchanged since R19)
+**Manuscript revision:** this commit (R21 wording)
+**Audit-pack revision:** this commit (R21 pack body)
 **Manuscript:** https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/60b2e18/paper/manuscript.md
 
 This pack pairs every manuscript figure with (a) the figure image, (b) the exact
 generating code, and (c) the underlying data values, so you can do a **visual
-review** and a **code review** simultaneously. All links below are pinned to
-commit `60b2e18` (not the drifting `master`). Please check each figure for:
+review** and a **code review** simultaneously. All figure/data links below are
+pinned to commit `60b2e18` (not the drifting `master`). Please check each figure
+for:
 
 1. **Internal consistency** — does the figure match the caption and the numbers
    quoted in the manuscript text?
@@ -202,13 +204,14 @@ ax.set_aspect("equal", adjustable="box")
 
 ## Figure 7 — Bootstrap CI for mean ΔRMSE
 
-**Caption:** 95% bootstrap confidence intervals for the mean paired
+**Caption:** 95% bootstrap intervals for the mean paired
 \(\Delta\mathrm{RMSE}\) in Carlisle and Burnett. Positive values favour zoning.
 The Carlisle \(B{=}4\) and \(B{=}6\) LOOCV intervals and the Burnett interval are
-bootstrapped over folds (nine, nine, and thirty, respectively); the Carlisle
-official 2-fold interval is a descriptive event-level bootstrap over its four
-held-out events (two per fold), which share each fitted fold model and therefore
-do not provide an independent-sample confidence interval.
+fold-bootstrap confidence intervals (nine, nine, and thirty folds,
+respectively); the Carlisle official 2-fold interval is a descriptive
+event-level interval bootstrapped over its four held-out events (two per fold),
+which share each fitted fold model and therefore do not provide an
+independent-sample confidence interval.
 
 ![Figure 7](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/60b2e18/outputs/figures/fig12_stat_ci.png)
 
@@ -316,9 +319,10 @@ Burnett 2.2323/1.6117/1.6122.
 ## Figure 15 — Max-surface EOI
 
 **Caption:** Max-surface error-organization index (EOI) for Carlisle, Burnett, and
-Chowilla. EOI is the ratio of the unweighted across-zone-mean residual variance
-to the cellwise residual variance and is not by construction bounded by [0,1].
-The pooled values are computed over all available events (Carlisle \(n=9\),
+Chowilla. EOI is the ratio of the unweighted variance across zone means of the
+event-averaged absolute-residual field \(\bar{r}_i(S)\) to its spatial variance
+over active cells, and is not by construction bounded by [0,1]. The pooled
+values are computed over all available events (Carlisle \(n=9\),
 Burnett \(n=30\), Chowilla \(n=29\)) on the residual-free hydrodynamic rule (up
 to four active classes).
 

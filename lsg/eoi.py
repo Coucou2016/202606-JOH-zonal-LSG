@@ -1,7 +1,12 @@
 """Error Organisation Index (EOI) — residual-organisation diagnostic.
 
 EOI = Var(zone-mean |LF−HF|) / Var(cell |LF−HF|) on the active wet mask of the
-chosen event set (all events pooled, or a train-only subset).
+chosen event set (all events pooled, or a train-only subset). Precisely: for a
+chosen event set S define the event-averaged absolute residual
+``r̄ᵢ(S) = mean_e |LF_e,i − HF_e,i|``; then
+``EOI = Var_k(mean_{i∈zone k} r̄ᵢ(S)) / Var_i(r̄ᵢ(S))``, where the active mask
+is the set of cells that are wet in at least one HF event of S (depth ≥ 0.03 m)
+AND exhibit non-zero across-event depth variation.
 The numerator is the **unweighted** variance across active-zone means (each zone
 weighted equally regardless of cell count), so EOI is not by construction
 confined to [0, 1].
