@@ -1,4 +1,4 @@
-"""Error Organisation Index (EOI) — training-data residual-organisation diagnostic.
+"""Error Organisation Index (EOI) — residual-organisation diagnostic.
 
 EOI = Var(zone-mean |LF−HF|) / Var(cell |LF−HF|) on the training wet mask.
 The numerator is the **unweighted** variance across active-zone means (each zone
@@ -112,7 +112,8 @@ def eoi_from_max_surfaces(
     active = wet_cell_mask(hf, wet_threshold)
     labels = rule_based_zones(max_depth, inund_freq, active_mask=active)
     result = compute_eoi(mean_resid, labels, active)
-    result["n_train_events"] = int(hf.shape[0])
+    result["n_events_used"] = int(hf.shape[0])
+    result["scope"] = "train_only" if event_index is not None else "all_event_pooled"
     result["n_cells"] = int(hf.shape[1])
     result["mean_abs_residual_domain"] = float(np.mean(mean_resid[active])) if active.any() else float("nan")
     return result

@@ -39,7 +39,8 @@ def test_eoi_from_max_surfaces_shape():
     lf = hf + rng.normal(0, 0.05, hf.shape)
     lf[:, :20] += 0.4
     rec = eoi_from_max_surfaces(hf, lf)
-    assert rec["n_train_events"] == 6
+    assert rec["n_events_used"] == 6
+    assert rec["scope"] == "all_event_pooled"
     assert 0.0 <= rec["eoi"] <= 1.0 + 1e-6
 
 
