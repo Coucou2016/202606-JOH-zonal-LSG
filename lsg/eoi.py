@@ -1,6 +1,9 @@
 """Error Organisation Index (EOI) — training-data residual-organisation diagnostic.
 
 EOI = Var(zone-mean |LF−HF|) / Var(cell |LF−HF|) on the training wet mask.
+The numerator is the **unweighted** variance across active-zone means (each zone
+weighted equally regardless of cell count), so EOI is not by construction
+confined to [0, 1].
 High EOI indicates stronger between-zone organisation of LF–HF residual magnitude
 relative to total cell-scale variance. It does **not** imply that zoning will
 improve downstream LSG skill (Track B falsifies EOI-as-switch).

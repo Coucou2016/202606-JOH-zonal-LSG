@@ -174,13 +174,33 @@ def fig04_three_case(cb: dict, ch: dict, vs: dict):
     w = 0.26
     fig, ax = plt.subplots(figsize=(W2, 2.8))
     colors = ["#abd9e9", "#2c7bb6", "#d7191c"]  # Nature-style: LF, Global, Zonal
-    ax.bar(x - w, lf, w, label="LF only", color=colors[0])
-    ax.bar(x, glob, w, label="Global LSG-Max", color=colors[1])
-    ax.bar(x + w, zonal, w, label="Rule zonal $B{=}4$", color=colors[2])
+    bars_lf = ax.bar(x - w, lf, w, label="LF only", color=colors[0])
+    bars_g = ax.bar(x, glob, w, label="Global LSG-Max", color=colors[1])
+    bars_z = ax.bar(x + w, zonal, w, label="Rule zonal $B{=}4$", color=colors[2])
+    for bars in (bars_lf, bars_g, bars_z):
+        for b in bars:
+            ax.text(b.get_x() + b.get_width() / 2, b.get_height(), f"{b.get_height():.3f}",
+                    ha="center", va="bottom", fontsize=5.5, rotation=90)
     ax.set_xticks(x)
     ax.set_xticklabels(labels)
     ax.set_ylabel("Area-weighted RMSE (m)")
-    ax.legend(frameon=False, ncol=1, fontsize=7, loc="upper left")
+    ax.legend(frameon=False, ncol=3, fontsize=7, loc="upper center", bbox_to_anchor=(0.5, -0.14))
+
+    # Carlisle inset (magnified) to resolve the zonal-vs-global difference
+    axins = ax.inset_axes([0.08, 0.50, 0.32, 0.42])
+    ci = ["LF only", "Global", "Rule zonal"]
+    cv = [lf[0], glob[0], zonal[0]]
+    ib = axins.bar(np.arange(len(ci)), cv, 0.55, color=colors)
+    for b, v in zip(ib, cv):
+        axins.text(b.get_x() + b.get_width() / 2, v, f"{v:.3f}",
+                   ha="center", va="bottom", fontsize=6)
+    axins.set_xticks(np.arange(len(ci)))
+    axins.set_xticklabels(ci, fontsize=6, rotation=20)
+    axins.set_ylim(0, max(cv) * 1.25)
+    axins.set_ylabel("RMSE (m)", fontsize=6)
+    axins.set_title("Carlisle (magnified)", fontsize=7)
+    axins.tick_params(labelsize=6)
+
     save(fig, "fig04_three_case.png")
 
 
@@ -190,8 +210,10 @@ def fig_carlisle_loocv(loocv: dict):
     g = [e["global_rmse"] for e in items]
     z = [e["zonal_rmse"] for e in items]
     fig, ax = plt.subplots(figsize=(W2, 2.7))
-    ax.plot(folds, g, "o-", label="Global $B{=}4$")
-    ax.plot(folds, z, "s--", label="Rule zonal $B{=}4$")
+    for xi, gv, zv in zip(folds, g, z):
+        ax.plot([xi, xi], [gv, zv], color="0.6", lw=0.7, zorder=1)
+    ax.scatter(folds, g, s=28, marker="o", zorder=3, label="Global $B{=}4$")
+    ax.scatter(folds, z, s=28, marker="s", zorder=3, label="Rule zonal $B{=}4$")
     ax.set_xlabel("Held-out event index")
     ax.set_ylabel("Area-weighted RMSE (m)")
     ax.set_xticks(folds)
@@ -214,8 +236,10 @@ def fig_burnett_loocv(bloo: dict):
     g = [e["global"]["rmse_area"] for e in events]
     z = [e["rule"]["rmse_area"] for e in events]
     fig, ax = plt.subplots(figsize=(W2, 2.7))
-    ax.plot(x, g, "o-", label="Global $B{=}4$", markersize=3)
-    ax.plot(x, z, "s--", label="Rule zonal $B{=}4$", markersize=3)
+    for xi, gv, zv in zip(x, g, z):
+        ax.plot([xi, xi], [gv, zv], color="0.6", lw=0.5, zorder=1)
+    ax.scatter(x, g, s=16, marker="o", zorder=3, label="Global $B{=}4$")
+    ax.scatter(x, z, s=16, marker="s", zorder=3, label="Rule zonal $B{=}4$")
     ax.set_xlabel("Held-out event index")
     ax.set_ylabel("Area-weighted RMSE (m)")
     ax.legend(frameon=False)
@@ -231,7 +255,7 @@ def fig_runtime(cb: dict):
         k = cb["budgets"][B]["kmeans"]
         lab_g = "Global" if B == "4" else None
         lab_r = "Rule zonal" if B == "4" else None
-        lab_k = "KMeans" if B == "4" else None
+        lab_k = "KMeans zonal" if B == "4" else None
         ax.scatter(g["time_s"], g["rmse_area"], marker=mk, label=lab_g)
         ax.scatter(r["time_s"], r["rmse_area"], marker=mk, label=lab_r)
         ax.scatter(k["time_s"], k["rmse_area"], marker=mk, label=lab_k)
@@ -253,26 +277,32 @@ def fig_stat_ci(car_b4, car_b6, official: dict, burn: dict):
     xerr = np.vstack([np.array(means) - np.array(lo), np.array(hi) - np.array(means)])
     ax.errorbar(means, y, xerr=xerr, fmt="o", capsize=2.5, markersize=4)
     ax.axvline(0.0, color="0.4", lw=0.7, ls="--")
+    for yy, m, l, h in zip(y, means, lo, hi):
+        ax.text(m, yy, f"  {m:+.3f}  [{l:+.3f}, {h:+.3f}]",
+                va="center", ha="left", fontsize=6, color="0.25")
     ax.set_yticks(y)
     ax.set_yticklabels(names)
     ax.set_xlabel(r"Mean $\Delta$RMSE (m)  (global $-$ zonal; $>0$ zonal better)")
+    xmax = 1.15 * max(abs(v) for v in means + lo + hi)
+    ax.set_xlim(-xmax, xmax)
     save(fig, "fig12_stat_ci.png")
 
 
 def fig_mae_bias(cb: dict):
     Bs = [4, 6, 8]
     fig, axes = plt.subplots(1, 2, figsize=(W2, 2.55))
-    for ax, key, ylab in (
-        (axes[0], "mae_area", "Area-weighted MAE (m)"),
-        (axes[1], "bias_area", "Area-weighted bias (m)"),
+    for ax, key, ylab, tag in (
+        (axes[0], "mae_area", "Area-weighted MAE (m)", "(a)"),
+        (axes[1], "bias_area", "Area-weighted bias (m)", "(b)"),
     ):
         ax.plot(Bs, [cb["budgets"][str(b)]["global"][key] for b in Bs], "o-", label="Global")
         ax.plot(Bs, [cb["budgets"][str(b)]["rule"][key] for b in Bs], "s--", label="Rule zonal")
-        ax.plot(Bs, [cb["budgets"][str(b)]["kmeans"][key] for b in Bs], "^:", label="KMeans")
+        ax.plot(Bs, [cb["budgets"][str(b)]["kmeans"][key] for b in Bs], "^:", label="KMeans zonal")
         ax.axhline(cb["lf_only"][key], color="0.45", ls="-.", lw=0.8, label="LF only")
         ax.set_xlabel("Mode budget $B$")
         ax.set_ylabel(ylab)
         ax.set_xticks(Bs)
+        ax.set_title(tag, fontsize=9, loc="left")
         if key == "bias_area":
             ax.axhline(0.0, color="0.6", lw=0.5)
     axes[0].legend(frameon=False, fontsize=6)
@@ -287,9 +317,13 @@ def fig_eoi(eoi_all: dict):
         rec = eoi_all.get("cases", {}).get(c)
         vals.append(np.nan if rec is None else rec["pooled"]["eoi"])
     fig, ax = plt.subplots(figsize=(W1, 2.4))
-    ax.bar(labels, vals, color="#4d6a8f", edgecolor="0.2", lw=0.4)
+    bars = ax.bar(labels, vals, color="#4d6a8f", edgecolor="0.2", lw=0.4)
+    for b, v in zip(bars, vals):
+        if np.isfinite(v):
+            ax.text(b.get_x() + b.get_width() / 2, v, f"{v:.3f}",
+                    ha="center", va="bottom", fontsize=6)
     ax.set_ylabel("Error organization index (EOI)")
-    ax.set_ylim(0, 1.05)
+    ax.set_ylim(0, None)
     save(fig, "fig14_eoi.png")
 
 

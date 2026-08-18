@@ -60,7 +60,7 @@ First, an error-organization index (EOI) measures how strongly the magnitude of 
 \mathrm{EOI} = \frac{\mathrm{Var}_k(\bar{r}_k)}{\mathrm{Var}_i(|h_{\mathrm{LF},i} - h_{\mathrm{HF},i}|)},
 \]
 
-where \(\bar{r}_k\) is the mean absolute residual in zone \(k\) and the denominator is the variance of cellwise absolute residuals over the training wet mask. A high value indicates that residual magnitude is more strongly separated by the chosen zones. EOI is evaluated as an exploratory training-data diagnostic; it is not calibrated as a prospective decision threshold.
+where \(\bar{r}_k\) is the mean absolute residual in zone \(k\), \(\mathrm{Var}_k\) is the unweighted variance across active-zone means (each zone is weighted equally regardless of its cell count), and the denominator is the variance of cellwise absolute residuals over the training wet mask. Because the numerator is not a cell-count-weighted between-group variance, EOI is not by construction confined to the unit interval. A high value indicates that residual magnitude is more strongly separated by the chosen zones. EOI is evaluated as an exploratory training-data diagnostic; it is not calibrated as a prospective decision threshold.
 
 Second, a pure-EOF reconstruction experiment removes the GP mapping and reconstructs the HF fields directly using global or zonal EOFs under the same total mode budget. This provides an oracle-like test of whether the zonal basis alone gives a more efficient HF reconstruction. Oracle RMSE is calculated both with and without area weighting. Carlisle and Burnett have uniform cell areas, so the two calculations coincide. Chowilla has variable cell areas and therefore provides an explicit check on whether weighting changes the direction of the comparison. A second-order diagnostic, the zone-global explained-variance gap (ZGG), compares the variance explained by local EOF modes with the variance explained by the same number of restricted global EOF modes at the same local rank. Formally, \(\mathrm{ZGG}_k = V_k^{\mathrm{local}} - V_k^{\mathrm{global}}\), where \(V_k\) is the fraction of within-zone variance explained by the \(k\)-th mode, and the mean ZGG is reported.
 
@@ -149,7 +149,7 @@ The official two-fold analysis gives a smaller and more uncertain difference. It
 
 ![Figure 6. Carlisle held-out RMSE for Global and Rule LSG-Max at \(B=4\). Points below the 1:1 line favour Rule zoning.](../outputs/figures/fig11_loocv_scatter.png)
 
-![Figure 7. 95% bootstrap confidence intervals for the mean paired \(\Delta\mathrm{RMSE}\) in Carlisle and Burnett. Positive values favour zoning.](../outputs/figures/fig12_stat_ci.png)
+![Figure 7. 95% bootstrap confidence intervals for the mean paired \(\Delta\mathrm{RMSE}\) in Carlisle and Burnett. Positive values favour zoning. The Carlisle \(B{=}4\) and \(B{=}6\) LOOCV intervals and the Burnett interval are bootstrapped over folds (nine, nine, and thirty, respectively); the Carlisle official 2-fold interval is bootstrapped over its four held-out events (two per fold).](../outputs/figures/fig12_stat_ci.png)
 
 The largest global error occurs when Carlisle event index 1 (Run2) is held out. On this fold, area-weighted RMSE is 0.233 m for LF-only, 0.695 m for Global LSG-Max, and 0.167 m for Rule zoning. The maximum-depth maps show that the global reconstruction produces broad depth errors across the floodplain, whereas the Rule prediction remains closer to the HF field (Figure 8).
 
@@ -163,7 +163,7 @@ The wet-dry comparison for the same fold gives CSI values of 0.591 for Global an
 
 ![Figure 11. Train-only Rule zones for the Carlisle Run2 fold and their spatial relation to the HF depth field.](../outputs/figures/figA4_zones_overlay_carlisle_ev1.png)
 
-![Figure 12. Wet-cell observed and predicted depths for Global and Rule LSG-Max on the held-out Carlisle Run2 event.](../outputs/figures/figA5_obs_vs_pred_carlisle_ev1.png)
+![Figure 12. Wet-cell observed and predicted depths for Global and Rule LSG-Max on the held-out Carlisle Run2 event. Points are a seed-42 random subsample of the wet cells (at most 40,000); the RMSE quoted in each panel title is the canonical LOOCV all-cell area-weighted value, not a statistic of the displayed subsample.](../outputs/figures/figA5_obs_vs_pred_carlisle_ev1.png)
 
 A less extreme Carlisle fold, event 0 (Run1), gives RMSE values of approximately 0.074, 0.072, and 0.057 m for LF-only, Global, and Rule, respectively. The spatial differences are correspondingly smaller. The same qualitative map checks were also applied to the transfer cases: Burnett event 0 shows little separation between Global and Rule, while Chowilla event 0 shows both LSG predictions farther from HF than the LF field alone.
 
@@ -233,7 +233,7 @@ Several secondary analyses were used to check whether the primary Carlisle resul
 
 LF coarsening and channel-distance zoning were also examined as secondary robustness probes. The coarsening experiment retains the separation between Global and Rule over the tested LF grid factors (Figure 17). Adding channel-distance information changes the zonal result only modestly relative to the primary Rule partition (Table 6). These analyses support the interpretation of the Carlisle result as a spatial-representation effect under the tested settings, but they are not used to extend the main claim beyond the matched-capacity comparisons.
 
-![Figure 17. Carlisle LF-grid coarsening sensitivity for LF-only, Global LSG, and Rule zonal LSG. The factor-1 point is an independently refitted uncoarsened baseline.](../outputs/figures/fig17_lf_degradation.png)
+![Figure 17. Carlisle LF-grid coarsening sensitivity for LF-only, Global LSG, and Rule zonal LSG, evaluated on the random 7/2 train-test split (seed 42). The factor-1 point is an independently refitted uncoarsened baseline.](../outputs/figures/fig17_lf_degradation.png)
 
 **Table 6.** Carlisle channel-distance zoning sensitivity at \(B=4\). Rule+channel dist. and KMeans+dist. include distance to the main channel as an additional zoning feature. The Rule and Global values are the primary \(B=4\) matched-capacity results.
 

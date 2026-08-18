@@ -459,6 +459,7 @@ def fig_zones_overlay(pack: dict, pred: dict, event_idx: int, tag: str) -> str:
     axes[0].set_title("(a) Rule zones (train-fit)", fontsize=9)
     axes[0].set_xlabel("Easting (m)")
     axes[0].set_ylabel("Northing (m)")
+    axes[0].ticklabel_format(style="sci", axis="both", scilimits=(0, 0))
     cb0 = fig.colorbar(im0, ax=axes[0], fraction=0.046, pad=0.04, ticks=range(n_z))
     cb0.set_label("Zone id")
 
