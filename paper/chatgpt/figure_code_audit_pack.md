@@ -1,12 +1,13 @@
 # Figure ↔ Code Correspondence Audit Pack (for ChatGPT visual + code review)
 
 **Repo:** https://github.com/Coucou2016/202606-JOH-zonal-LSG
-**Commit under review:** `bcf1fcb` (the commit containing the R17 figures + numbers)
-**Manuscript:** https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/paper/manuscript.md
+**Commit under review:** `9e5887d` (the commit containing the R18 figures + numbers)
+**Manuscript:** https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/9e5887d/paper/manuscript.md
 
 This pack pairs every manuscript figure with (a) the figure image, (b) the exact
 generating code, and (c) the underlying data values, so you can do a **visual
-review** and a **code review** simultaneously. Please check each figure for:
+review** and a **code review** simultaneously. All links below are pinned to
+commit `9e5887d` (not the drifting `master`). Please check each figure for:
 
 1. **Internal consistency** — does the figure match the caption and the numbers
    quoted in the manuscript text?
@@ -17,8 +18,8 @@ review** and a **code review** simultaneously. Please check each figure for:
 4. **Statistical presentation** — confidence intervals, error bars, 1:1 lines,
    baseline lines drawn correctly?
 
-Figures are embedded below as raw GitHub image URLs (ChatGPT can render these
-inline). The generating code lives in `scripts/97_scienceplots_figures.py`
+Figures are embedded below as pinned raw GitHub image URLs (ChatGPT can render
+these inline). The generating code lives in `scripts/97_scienceplots_figures.py`
 (statistical figures) and `scripts/97b_spatial_maps.py` (spatial maps).
 
 > **Important — manuscript figure number ≠ PNG file name.** The manuscript uses
@@ -47,7 +48,7 @@ LF-to-HF sequence, but the zonal model partitions the wet domain before EOF
 reduction and GP mapping. The total retained-mode budget is matched in the
 primary comparisons.
 
-![Figure 1](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/fig01_workflow.png)
+![Figure 1](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/9e5887d/outputs/figures/fig01_workflow.png)
 
 **Generating code** (`fig01_workflow` in `97_scienceplots_figures.py`):
 
@@ -67,11 +68,7 @@ def fig01_workflow():
         "Stitch zonal max. surfaces",
     ]
     yg = [0.82, 0.58, 0.34, 0.10]
-    for ax, title, steps, fc, ec in (
-        (ax1, "Global LSG-Max (baseline)", steps_g, "#d9e8f5", "#2c5d8c"),
-        (ax2, "Zonal LSG-Max (this work)", steps_z, "#dcefe4", "#1e7a4a"),
-    ):
-        ...
+    ...
 ```
 
 **Data:** none (schematic).
@@ -85,7 +82,7 @@ budget for Global, Rule, and KMeans LSG-Max. The comparisons at \(B=4\) and
 \(B=6\) have matched total retained-mode capacity. The nominal \(B=8\) global
 point realized seven modes and is shown only as a capacity audit.
 
-![Figure 2](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/fig03_mode_budget.png)
+![Figure 2](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/9e5887d/outputs/figures/fig03_mode_budget.png)
 
 **Generating code** (`fig03_mode_budget`):
 
@@ -119,9 +116,10 @@ def fig03_mode_budget(cb: dict):
 ## Figure 3 — Carlisle CSI vs mode budget
 
 **Caption:** Carlisle area-weighted CSI versus retained-mode budget using a
-0.03 m wet-depth threshold.
+0.03 m wet-depth threshold. As in Figure 2, the nominal \(B=8\) global point
+realized seven modes.
 
-![Figure 3](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/fig09_csi_budget.png)
+![Figure 3](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/9e5887d/outputs/figures/fig09_csi_budget.png)
 
 **Code:** second half of `fig03_mode_budget` (same as Fig 2 but `csi_area`).
 
@@ -131,9 +129,10 @@ def fig03_mode_budget(cb: dict):
 
 ## Figure 4 — Carlisle MAE and bias vs mode budget
 
-**Caption:** Carlisle area-weighted MAE and bias versus retained-mode budget.
+**Caption:** Carlisle area-weighted (a) MAE and (b) bias versus retained-mode
+budget. As in Figure 2, the nominal \(B=8\) global point realized seven modes.
 
-![Figure 4](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/fig13_mae_bias.png)
+![Figure 4](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/9e5887d/outputs/figures/fig13_mae_bias.png)
 
 **Generating code** (`fig_mae_bias`):
 
@@ -141,15 +140,18 @@ def fig03_mode_budget(cb: dict):
 def fig_mae_bias(cb: dict):
     Bs = [4, 6, 8]
     fig, axes = plt.subplots(1, 2, figsize=(W2, 2.55))
-    for ax, key, ylab in (
-        (axes[0], "mae_area", "Area-weighted MAE (m)"),
-        (axes[1], "bias_area", "Area-weighted bias (m)"),
+    for ax, key, ylab, tag in (
+        (axes[0], "mae_area", "Area-weighted MAE (m)", "(a)"),
+        (axes[1], "bias_area", "Area-weighted bias (m)", "(b)"),
     ):
         ax.plot(Bs, [cb["budgets"][str(b)]["global"][key] for b in Bs], "o-", label="Global")
         ax.plot(Bs, [cb["budgets"][str(b)]["rule"][key] for b in Bs], "s--", label="Rule zonal")
-        ax.plot(Bs, [cb["budgets"][str(b)]["kmeans"][key] for b in Bs], "^:", label="KMeans")
+        ax.plot(Bs, [cb["budgets"][str(b)]["kmeans"][key] for b in Bs], "^:", label="KMeans zonal")
         ax.axhline(cb["lf_only"][key], color="0.45", ls="-.", lw=0.8, label="LF only")
-        ax.set_xlabel("Mode budget $B$"); ax.set_ylabel(ylab); ax.set_xticks(Bs)
+        ax.set_xlabel("Mode budget $B$")
+        ax.set_ylabel(ylab)
+        ax.set_xticks(Bs)
+        ax.set_title(tag, fontsize=9, loc="left")
         if key == "bias_area":
             ax.axhline(0.0, color="0.6", lw=0.5)
     axes[0].legend(frameon=False, fontsize=6)
@@ -162,12 +164,19 @@ def fig_mae_bias(cb: dict):
 ## Figure 5 — Carlisle per-event RMSE (B=4 LOOCV)
 
 **Caption:** Carlisle event-level Global and Rule RMSE under \(B=4\) leave-one-out
-cross-validation.
+cross-validation. Events are plotted as paired Global↔Rule dumbbells (a vertical
+stem plus two markers); no connecting line is drawn across event indices.
 
-![Figure 5](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/fig08_per_event_bootstrap.png)
+![Figure 5](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/9e5887d/outputs/figures/fig08_per_event_bootstrap.png)
 
-**Code** (`fig_carlisle_loocv`, first figure): plots `global_rmse` vs `zonal_rmse`
-against held-out event index for `B=4`.
+**Code** (`fig_carlisle_loocv`, first figure):
+
+```python
+for xi, gv, zv in zip(folds, g, z):
+    ax.plot([xi, xi], [gv, zv], color="0.6", lw=0.7, zorder=1)
+ax.scatter(folds, g, s=28, marker="o", zorder=3, label="Global $B{=}4$")
+ax.scatter(folds, z, s=28, marker="s", zorder=3, label="Rule zonal $B{=}4$")
+```
 
 ---
 
@@ -176,7 +185,7 @@ against held-out event index for `B=4`.
 **Caption:** Carlisle held-out RMSE for Global and Rule LSG-Max at \(B=4\). Points
 below the 1:1 line favour Rule zoning.
 
-![Figure 6](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/fig11_loocv_scatter.png)
+![Figure 6](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/9e5887d/outputs/figures/fig11_loocv_scatter.png)
 
 **Code** (`fig_carlisle_loocv`, second figure):
 
@@ -192,14 +201,20 @@ ax.set_aspect("equal", adjustable="box")
 
 ## Figure 7 — Bootstrap CI for mean ΔRMSE
 
-**Caption:** Bootstrap confidence intervals for the mean paired \(\Delta\mathrm{RMSE}\)
-in Carlisle and Burnett. Positive values favour zoning.
+**Caption:** 95% bootstrap confidence intervals for the mean paired
+\(\Delta\mathrm{RMSE}\) in Carlisle and Burnett. Positive values favour zoning.
+The Carlisle \(B{=}4\) and \(B{=}6\) LOOCV intervals and the Burnett interval are
+bootstrapped over folds (nine, nine, and thirty, respectively); the Carlisle
+official 2-fold interval is bootstrapped over its four held-out events (two per
+fold).
 
-![Figure 7](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/fig12_stat_ci.png)
+![Figure 7](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/9e5887d/outputs/figures/fig12_stat_ci.png)
 
 **Data:** Carlisle B=4 mean 0.0821 CI [0.0155, 0.1987]; B=6 mean 0.0606 CI
 [0.0032, 0.1618]; official 2-fold mean 0.0045 CI [−0.0073, 0.0134]; Burnett
-30-fold mean −0.0972 CI [−0.2249, +0.0014].
+30-fold mean −0.0972 CI [−0.2249, +0.0014]. Each row carries an explicit
+`mean [lo, hi]` label offset above its marker (R17) so the labels do not sit on
+the whiskers.
 
 ---
 
@@ -209,7 +224,7 @@ in Carlisle and Burnett. Positive values favour zoning.
 LSG-Max, and Rule zonal LSG-Max under \(B=4\) LOOCV. All panels use a common
 depth scale.
 
-![Figure 8](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/figA1_inundation_maps_carlisle_ev1.png)
+![Figure 8](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/9e5887d/outputs/figures/figA1_inundation_maps_carlisle_ev1.png)
 
 **Code** (`fig_inundation` in `97b_spatial_maps.py`, lines 297–326): 2×2 panels — (a) HF truth,
 (b) LF input, (c) Global LSG-Max, (d) Rule zonal; shared `Blues` colormap,
@@ -222,7 +237,7 @@ shared `vmax = 99th percentile of wet depth`.
 **Caption:** Carlisle Run2 hit, miss, and false-alarm maps for Global and Rule
 predictions using the 0.03 m wet-depth threshold.
 
-![Figure 9](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/figA2_csi_hitmiss_carlisle_ev1.png)
+![Figure 9](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/9e5887d/outputs/figures/figA2_csi_hitmiss_carlisle_ev1.png)
 
 **Code** (`fig_csi_spatial`, lines 338–377): classes 0=correct dry (grey), 1=hit (green),
 2=miss (blue), 3=false alarm (red). CSI Global=0.591, Rule=0.816.
@@ -231,10 +246,12 @@ predictions using the 0.03 m wet-depth threshold.
 
 ## Figure 10 — Carlisle Run2 residual fields
 
-**Caption:** Carlisle Run2 residual fields for Global and Rule predictions and the
-corresponding change in absolute error.
+**Caption:** Carlisle Run2 residual fields for Global and Rule predictions (a, b)
+and the change in absolute error \(|G-HF| - |R-HF|\) (c), where positive values
+indicate that the Rule absolute error is smaller; colour limits are symmetric and
+capped at the 98th percentile of wet-cell absolute residual magnitude.
 
-![Figure 10](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/figA3_residuals_carlisle_ev1.png)
+![Figure 10](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/9e5887d/outputs/figures/figA3_residuals_carlisle_ev1.png)
 
 **Code** (`fig_residuals`, lines 388–422): (a) Global−HF, (b) Rule−HF, (c) |G−HF|−|R−HF|;
 symmetric limits from 98th percentile of wet residuals (lim = 1.54 m).
@@ -246,29 +263,35 @@ symmetric limits from 98th percentile of wet residuals (lim = 1.54 m).
 **Caption:** Train-only Rule zones for the Carlisle Run2 fold and their spatial
 relation to the HF depth field.
 
-![Figure 11](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/figA4_zones_overlay_carlisle_ev1.png)
+![Figure 11](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/9e5887d/outputs/figures/figA4_zones_overlay_carlisle_ev1.png)
 
-**Code** (`fig_zones_overlay`, lines 432–489): (a) zone-id map, (b) HF depth + zone contours.
+**Code** (`fig_zones_overlay`, lines 432–489): (a) zone-id map with integer colorbar ticks,
+(b) HF depth + zone contours; both panels use scientific tick formatting.
 
 ---
 
 ## Figure 12 — Carlisle Run2 obs-vs-pred scatter
 
 **Caption:** Wet-cell observed and predicted depths for Global and Rule LSG-Max on
-the held-out Carlisle Run2 event.
+the held-out Carlisle Run2 event. Points are a seed-42 random subsample of the HF
+wet cells (depth \(\ge 0.03\) m, at most 40,000); the RMSE quoted in each panel
+title is the canonical LOOCV all-cell area-weighted value, not a statistic of the
+displayed subsample.
 
-![Figure 12](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/figA5_obs_vs_pred_carlisle_ev1.png)
+![Figure 12](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/9e5887d/outputs/figures/figA5_obs_vs_pred_carlisle_ev1.png)
 
-**Code** (`fig_obs_pred_scatter`, lines 494–530): subsample ≤40k wet cells; color-coded Global
-(#2c7bb6) vs Rule (#d7191c); 1:1 reference line; RMSE annotated in title.
+**Code** (`fig_obs_pred_scatter`, lines 494–530): subsample ≤40k HF wet cells; color-coded
+Global (#2c7bb6) vs Rule (#d7191c); 1:1 reference line; RMSE annotated in title.
 
 ---
 
 ## Figure 13 — Burnett 30-fold LOOCV RMSE
 
 **Caption:** Burnett 30-fold LOOCV RMSE for Global and Rule LSG-Max at \(B=4\).
+Events are plotted as paired Global↔Rule dumbbells; no connecting line is drawn
+across event indices.
 
-![Figure 13](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/fig10_burnett_loocv.png)
+![Figure 13](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/9e5887d/outputs/figures/fig10_burnett_loocv.png)
 
 **Data:** mean Global 1.7192, mean Rule 1.8164, Δ = −0.0972, 13/30 folds improved.
 
@@ -278,9 +301,10 @@ the held-out Carlisle Run2 event.
 
 **Caption:** Three-case area-weighted RMSE at \(B=4\) for LF-only, Global LSG-Max,
 and Rule zonal LSG-Max. The Burnett values use the 12-event fixed split and are
-separate from the 30-fold LOOCV analysis in Figure 13.
+separate from the 30-fold LOOCV analysis in Figure 13. The inset magnifies the
+Carlisle bars to resolve the smaller between-model differences.
 
-![Figure 14](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/fig04_three_case.png)
+![Figure 14](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/9e5887d/outputs/figures/fig04_three_case.png)
 
 **Data:** Carlisle LF 0.1602/Global 0.1464/Rule 0.0964; Chowilla 0.3926/2.5606/2.5614;
 Burnett 2.2323/1.6117/1.6122.
@@ -289,33 +313,44 @@ Burnett 2.2323/1.6117/1.6122.
 
 ## Figure 15 — Max-surface EOI
 
-**Caption:** Max-surface error-organization index for Carlisle, Burnett, and Chowilla.
+**Caption:** Max-surface error-organization index (EOI) for Carlisle, Burnett, and
+Chowilla. EOI is the ratio of the unweighted across-zone-mean residual variance
+to the cellwise residual variance and is not by construction bounded by [0,1].
+The pooled values are computed over all available events (Carlisle \(n=9\),
+Burnett \(n=30\), Chowilla \(n=29\)) on the residual-free four-class hydrodynamic
+partition.
 
-![Figure 15](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/fig14_eoi.png)
+![Figure 15](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/9e5887d/outputs/figures/fig14_eoi.png)
 
 **Data:** Carlisle 0.057, Chowilla 0.116, Burnett 0.957. Bars use a uniform
-colour; EOI is presented as an exploratory diagnostic with no calibrated
-threshold (the 0.15/0.30 reference lines were removed).
+colour; each bar carries its value label; EOI is presented as an exploratory
+diagnostic with no calibrated threshold. The zone partition is the residual-free
+four-class hydrodynamic partition (maximum depth + inundation frequency, no
+residual-error hotspot override), so it is independent of the residual being
+measured.
 
 ---
 
 ## Figure 16 — EOI vs ΔRMSE (per fold)
 
-**Caption:** In-fold training EOI and matched-capacity zoning \(\Delta\mathrm{RMSE}\)
-for Carlisle and Burnett folds. Positive \(\Delta\mathrm{RMSE}\) favours zoning.
+**Caption:** In-fold train-only EOI (residual-free four-class hydrodynamic
+partition) and matched-capacity zoning \(\Delta\mathrm{RMSE}\) for Carlisle and
+Burnett folds. Positive \(\Delta\mathrm{RMSE}\) favours zoning.
 
-![Figure 16](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/fig15_eoi_vs_delta.png)
+![Figure 16](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/9e5887d/outputs/figures/fig15_eoi_vs_delta.png)
 
-**Data:** Carlisle corr(EOI, ΔRMSE) = −0.578; Burnett corr = −0.425.
+**Data:** Carlisle corr(EOI, ΔRMSE) = −0.578 (n=9); Burnett corr = −0.224 (n=30).
+Markers are hollow (edge-only) so the dense Burnett cluster near EOI ≈ 0.90–0.97
+remains readable.
 
 ---
 
 ## Figure 17 — Carlisle LF-grid coarsening
 
 **Caption:** Carlisle LF-grid coarsening sensitivity for LF-only, Global LSG, and
-Rule zonal LSG.
+Rule zonal LSG, evaluated on the random 7/2 train-test split (seed 42).
 
-![Figure 17](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/master/outputs/figures/fig17_lf_degradation.png)
+![Figure 17](https://raw.githubusercontent.com/Coucou2016/202606-JOH-zonal-LSG/9e5887d/outputs/figures/fig17_lf_degradation.png)
 
 **Code** (`fig_degradation`): RMSE vs coarsening factor for LF-only/Global/Rule.
 
